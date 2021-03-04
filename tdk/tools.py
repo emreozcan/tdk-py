@@ -79,7 +79,7 @@ def lowercase(word: str, alphabet: str = ALPHABET) -> str:
         elif letter in ["â", "Â"]:
             reconstructed_word = f"{reconstructed_word}a"
         elif letter in ["î", "Î"]:
-            reconstructed_word = f"{reconstructed_word}ı"
+            reconstructed_word = f"{reconstructed_word}i"
         elif letter in ["û", "Û"]:
             reconstructed_word = f"{reconstructed_word}u"
         elif (lower_letter := letter.lower()) in alphabet:
@@ -87,7 +87,7 @@ def lowercase(word: str, alphabet: str = ALPHABET) -> str:
     return reconstructed_word
 
 
-def alphabetic_radix(word: str, alphabet=ALPHABET, alphabet_length=29, magnitude=0) -> float:
+def alphabetic_radix(word: str, alphabet=ALPHABET, alphabet_length=29) -> float:
     """
     >>> alphabetic_radix("algarina") < alphabetic_radix("zamansızlık")
     True
@@ -100,7 +100,7 @@ def alphabetic_radix(word: str, alphabet=ALPHABET, alphabet_length=29, magnitude
         alphabet_length = len(alphabet)
     return sum(
         map(
-            lambda x: alphabet_length ** (magnitude-x[0]) * (alphabet.index(x[1]) + 1),
+            lambda x: alphabet_length ** -x[0] * (alphabet.index(x[1])),
             enumerate(lowercase(word))
         )
     )
