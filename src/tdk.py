@@ -1,8 +1,8 @@
 import json
 import urllib.request
 
-import remote_paths
-from parsers import parse_autocomplete_index
+from . import remote_paths
+from .parsers import parse_autocomplete_index
 
 
 def get_index() -> list:

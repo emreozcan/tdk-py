@@ -1,4 +1,4 @@
-from tools import alphabetic_radix
+from .tools import alphabetic_radix
 
 
 def parse_autocomplete_index(autocomplete_index):
