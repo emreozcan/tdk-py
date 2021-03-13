@@ -1,4 +1,4 @@
-from ..tools import alphabetic_radix
+from ..tools import dictionary_order
 
 
 def parse_index(raw_index):
@@ -10,5 +10,5 @@ def parse_index(raw_index):
     return distinct(
         sorted(
             [entry["madde"] for entry in raw_index],
-            key=alphabetic_radix)
+            key=dictionary_order)
     )

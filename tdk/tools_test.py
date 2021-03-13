@@ -1,5 +1,4 @@
-from .alphabet import ALPHABET
-from .tools import hecele, lowercase, alphabetic_radix, counter, simplify, streaks, annotate
+from .tools import hecele, lowercase, dictionary_order, counter, simplify, streaks, annotate
 
 
 class TestHecele:
@@ -63,22 +62,9 @@ class TestLowercase:
 
 
 class TestAlphabeticRadix:
-    def test_single_letter(self):
-        for i, v in enumerate(ALPHABET):
-            assert i == alphabetic_radix(v)
-
-    def test_two_letters(self):
-        assert alphabetic_radix("ab") == 29 ** 0 * 0 + 29 ** -1 * 1
-        assert alphabetic_radix("ıç") == 29 ** 0 * 10 + 29 ** -1 * 3
-        assert alphabetic_radix("za") == 29 ** 0 * 28 + 29 ** -1 * 0
-        assert alphabetic_radix("fh") == 29 ** 0 * 6 + 29 ** -1 * 9
-
     def test_dictionary_order(self):
-        assert alphabetic_radix("algarina") < alphabetic_radix("zamansızlık")
-        assert alphabetic_radix("beşik") < alphabetic_radix("yumuşaklık")
-
-    def test_length_insignificancy(self):
-        assert alphabetic_radix("b") > alphabetic_radix(f"a{'z' * 10}")
+        assert dictionary_order("algarina") < dictionary_order("zamansızlık")
+        assert dictionary_order("beşik") < dictionary_order("yumuşaklık")
 
 
 class TestCounter:

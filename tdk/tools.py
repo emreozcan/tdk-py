@@ -87,23 +87,14 @@ def lowercase(word: str, alphabet: str = ALPHABET) -> str:
     return reconstructed_word
 
 
-def alphabetic_radix(word: str, alphabet=ALPHABET, alphabet_length=29) -> float:
+def dictionary_order(word: str, alphabet=ALPHABET) -> list:
     """
-    >>> alphabetic_radix("algarina") < alphabetic_radix("zamansızlık")
+    >>> dictionary_order("algarina") < dictionary_order("zamansızlık")
     True
-    >>> alphabetic_radix("yumuşaklık") < alphabetic_radix("beşik")
+    >>> dictionary_order("yumuşaklık") < dictionary_order("beşik")
     False
-
-    :return: A float which is higher for words later in the dictionary.
     """
-    if alphabet_length is None:
-        alphabet_length = len(alphabet)
-    return sum(
-        map(
-            lambda x: alphabet_length ** -x[0] * (alphabet.index(x[1])),
-            enumerate(lowercase(word))
-        )
-    )
+    return list(map(alphabet.index, word))
 
 
 def counter(word: str, targets=VOWELS) -> int:
