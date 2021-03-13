@@ -50,12 +50,12 @@ def hecele(text: str) -> List[str]:
         elif (
                 not are_there_letters_between(text, current_vowel_index,
                                               next_vowel_index)):  # There are two neighbor vowels (sa/at)
-            _returnUntil = next_vowel_index
+            syllable_stop_index = next_vowel_index
         else:
-            _returnUntil = previous_letter(text, next_vowel_index)
+            syllable_stop_index = previous_letter(text, next_vowel_index)
 
-        syllables.append(text[last_syllable_index:_returnUntil])
-        last_syllable_index = _returnUntil
+        syllables.append(text[last_syllable_index:syllable_stop_index])
+        last_syllable_index = syllable_stop_index
 
         current_vowel_index = next_vowel_index
 

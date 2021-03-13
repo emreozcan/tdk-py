@@ -1,7 +1,7 @@
-from .tools import alphabetic_radix
+from ..tools import alphabetic_radix
 
 
-def parse_autocomplete_index(autocomplete_index):
+def parse_index(raw_index):
     def distinct(seq) -> list:
         seen = set()
         seen_add = seen.add
@@ -9,6 +9,6 @@ def parse_autocomplete_index(autocomplete_index):
 
     return distinct(
         sorted(
-            [entry["madde"] for entry in autocomplete_index],
+            [entry["madde"] for entry in raw_index],
             key=alphabetic_radix)
     )
