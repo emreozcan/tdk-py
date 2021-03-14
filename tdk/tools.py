@@ -184,3 +184,10 @@ def annotate(items, fn, sort_fn=None, reverse=True):
     if sort_fn is None:
         sort_fn = fn
     return {k: fn(k) for k in sorted(items, key=sort_fn, reverse=reverse)}
+
+
+def distinct(seq) -> list:
+    """Returns the sequence with each element appearing once without creating a set (and thus preserving order)."""
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
