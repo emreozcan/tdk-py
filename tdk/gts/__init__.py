@@ -3,6 +3,8 @@ import urllib.request
 
 from . import remote_paths
 from .parsers import parse_index
+from ..exceptions import TdkIdLookupErrorException, TdkIdLookupUnexpectedResponseException, \
+    TdkSearchUnexpectedResponseException, TdkSearchErrorException
 
 
 def get_index() -> list:
@@ -16,9 +18,9 @@ def search(query: str) -> list:
         words = json.loads(response.read())
         if not isinstance(words, list):
             if "error" in words:
-                raise Exception(words["error"])
+                raise TdkSearchErrorException(f'{words["error"]} ({query})')
             else:
-                raise Exception(json.dumps(words))
+                raise TdkSearchUnexpectedResponseException(json.dumps(words))
         else:
             return words
 
@@ -28,9 +30,9 @@ def get_with_id(_id: int) -> dict:
         word = json.loads(response.read())
         if not isinstance(word, list):
             if "error" in word:
-                raise Exception(word["error"])
+                raise TdkIdLookupErrorException(f'{word["error"]} ({_id})')
             else:
-                raise Exception(json.dumps(word))
+                raise TdkIdLookupUnexpectedResponseException(json.dumps(word))
         else:
             return word[0]
 
