@@ -1,4 +1,4 @@
-from .tools import hecele, lowercase, dictionary_order, counter, simplify, streaks, annotate
+from tdk.tools import hecele, lowercase, dictionary_order, counter, simplify, streaks, annotate
 
 
 class TestHecele:
