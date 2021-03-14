@@ -94,7 +94,7 @@ def dictionary_order(word: str, alphabet=ALPHABET) -> list:
     >>> dictionary_order("yumuşaklık") < dictionary_order("beşik")
     False
     """
-    return list(map(alphabet.index, word))
+    return list(map(alphabet.index, lowercase(word)))
 
 
 def counter(word: str, targets=VOWELS) -> int:
