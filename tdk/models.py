@@ -1,7 +1,7 @@
 from typing import List
 
 from .classifications import OriginLanguage
-from .classifications.meaning_properties import MeaningProperties
+from .classifications.meaning_properties import MeaningProperty
 
 
 class Writer:
@@ -49,6 +49,11 @@ class Proverb:
     proverb: str
     prefix: str or None
 
+    def __init__(self, tdk_id: int, proverb: str, prefix: str or None = None):
+        self.tdk_id = tdk_id
+        self.proverb = proverb
+        self.prefix = prefix
+
     def __str__(self):
         return self.proverb
 
@@ -63,10 +68,10 @@ class Meaning:
     is_verb: bool
     entry_id: int
     examples: List[MeaningExample]
-    properties: List[MeaningProperties]
+    properties: List[MeaningProperty]
 
     def __init__(self, meaning: str, tdk_id: int, order: int, is_verb: bool, gos: int, entry_id: int,
-                 examples: List[MeaningExample], properties: List[MeaningProperties], tipkes: int):
+                 examples: List[MeaningExample], properties: List[MeaningProperty], tipkes: int):
         self.meaning = meaning
         self.tdk_id = tdk_id
         self.order = order
@@ -97,8 +102,8 @@ class Entry:
     suffix: str or None
 
     def __init__(self, tdk_id: int, entry: str, plural: bool, proper: bool, origin_language: OriginLanguage,
-                 original: str, entry_normalized: str or None, pronunciation: str or None, prefix: str or None,
-                 suffix: str or None):
+                 original: str, entry_normalized: str or None = None, pronunciation: str or None = None,
+                 prefix: str or None = None, suffix: str or None = None):
         self.tdk_id = tdk_id
         self.entry = entry
         self.plural = plural
