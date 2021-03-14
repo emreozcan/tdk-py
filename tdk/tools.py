@@ -62,7 +62,7 @@ def hecele(text: str) -> List[str]:
     return syllables
 
 
-def lowercase(word: str, alphabet: str = ALPHABET) -> str:
+def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=True) -> str:
     """Removes all whitespace and punctuation from word and lowercase it.
 
     >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)")
@@ -82,7 +82,7 @@ def lowercase(word: str, alphabet: str = ALPHABET) -> str:
             reconstructed_word = f"{reconstructed_word}i"
         elif letter in ["û", "Û"]:
             reconstructed_word = f"{reconstructed_word}u"
-        elif (lower_letter := letter.lower()) in alphabet:
+        elif (lower_letter := letter.lower()) in alphabet or not remove_unknown_characters:
             reconstructed_word = f"{reconstructed_word}{lower_letter}"
     return reconstructed_word
 

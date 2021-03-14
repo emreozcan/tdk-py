@@ -5,6 +5,7 @@ from . import remote_paths
 from .parsers import parse_index
 from ..exceptions import TdkIdLookupErrorException, TdkIdLookupUnexpectedResponseException, \
     TdkSearchUnexpectedResponseException, TdkSearchErrorException
+from ..tools import lowercase
 
 
 def get_index() -> list:
@@ -14,6 +15,7 @@ def get_index() -> list:
 
 
 def search(query: str) -> list:
+    query = lowercase(query, remove_unknown_characters=False)
     with urllib.request.urlopen(url=remote_paths.general_search(query)) as response:
         words = json.loads(response.read())
         if not isinstance(words, list):
