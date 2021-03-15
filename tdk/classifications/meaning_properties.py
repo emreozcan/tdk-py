@@ -82,6 +82,8 @@ class MeaningProperty(Enum):
 
     @staticmethod
     def get(arg):
+        if isinstance(arg, dict):
+            return _lookup_table[int(arg["ozellik_id"])]
         return _lookup_table[arg]
 
 
