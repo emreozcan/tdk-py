@@ -136,6 +136,7 @@ def test_meaning_parser():
 def test_entry_parser():
     standard_entry = Entry(
         tdk_id=1,
+        order=6,
         entry="Girdi",
         plural=False,
         proper=True,
@@ -154,6 +155,7 @@ def test_entry_parser():
     )
     serialized_entry = {
         "madde_id": "1",
+        "kac": "6",
         "madde": "Girdi",
         "cogul_mu": "0",
         "ozel_mi": "1",
