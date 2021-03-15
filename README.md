@@ -40,8 +40,9 @@ Let's see the distribution of entries by the number of maximum consecutive conso
 ```python
 >>> from tdk.tools import max_streak
 >>> from tdk.alphabet import CONSONANTS
->>> for i in range(6):
-...     print(i, len(list(filter(lambda x: max_streak(word=x, targets=CONSONANTS)==i, tdk.gts.get_index()))))
+>>> annotated_list = [max_streak(word=x, targets=CONSONANTS) for x in tdk.gts.get_index()]
+>>> for i in set(annotated_list):
+...     print(i, annotated_list.count(i))
 0 19
 1 15199
 2 73511
