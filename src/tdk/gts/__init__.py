@@ -16,7 +16,7 @@ def get_index() -> List[str]:
         return parse_index(autocomplete_index)
 
 
-def search(query: str) -> Iterator[Entry]:
+def search(query: str) -> List[Entry]:
     query = lowercase(query, remove_unknown_characters=False)
     with urllib.request.urlopen(url=remote_paths.general_search(query)) as response:
         words = json.loads(response.read())
@@ -27,7 +27,7 @@ def search(query: str) -> Iterator[Entry]:
                 raise TdkSearchUnexpectedResponseException(json.dumps(words))
         else:
             entry_parser = Entry.parse
-            return map(entry_parser, words)
+            return list(map(entry_parser, words))
 
 
 def get_with_id(_id: int) -> Entry:

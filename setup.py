@@ -5,7 +5,7 @@ with open("README.rst", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="tdk-py",
-    version="0.1.0",
+    version="0.1.1",
     author="Emre Özcan",
     author_email="justsomechars@gmail.com",
     description="Python API for the Turkish Language Foundation",
