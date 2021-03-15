@@ -1,4 +1,4 @@
-from tdk.tools import hecele, lowercase, dictionary_order, counter, simplify, streaks, annotate
+from tdk.tools import hecele, lowercase, dictionary_order, counter, simplify, streaks, annotate, distinct
 
 
 class TestHecele:
@@ -61,10 +61,9 @@ class TestLowercase:
         assert lowercase("Ô") == ""
 
 
-class TestAlphabeticRadix:
-    def test_dictionary_order(self):
-        assert dictionary_order("algarina") < dictionary_order("zamansızlık")
-        assert dictionary_order("beşik") < dictionary_order("yumuşaklık")
+def test_dictionary_order():
+    assert dictionary_order("algarina") < dictionary_order("zamansızlık")
+    assert dictionary_order("beşik") < dictionary_order("yumuşaklık")
 
 
 class TestCounter:
@@ -134,7 +133,11 @@ class TestStreaks:
         assert streaks("aeıb") == [0, 0, 0, 1]
 
 
-class TestAnnotate:
-    def test_annotation(self):
-        example_list = [1, 2, 3, 4]
-        assert {1: 1, 2: 4, 3: 9, 4: 16} == annotate(example_list, fn=lambda x: x**2, reverse=False)
+def test_annotation():
+    example_list = [1, 2, 3, 4]
+    assert {1: 1, 2: 4, 3: 9, 4: 16} == annotate(example_list, fn=lambda x: x**2, reverse=False)
+
+
+def test_dictinct():
+    example_list = [1, 2, 3, 1, 4, 5, 6, 2, 7, 8, 9, 3, 10]
+    assert [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] == distinct(example_list)
