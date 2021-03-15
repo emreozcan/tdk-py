@@ -39,9 +39,9 @@ class MeaningExample(TdkModel):
     meaning_id: int
     order: int
     example: str
-    writer: Writer
+    writer: Writer or None
 
-    def __init__(self, tdk_id: int, meaning_id: int, order: int, example: str, writer: Writer):
+    def __init__(self, tdk_id: int, meaning_id: int, order: int, example: str, writer: Writer or None = None):
         self.tdk_id = tdk_id
         self.meaning_id = meaning_id
         self.order = order
@@ -62,7 +62,7 @@ class MeaningExample(TdkModel):
             meaning_id=int(example["anlam_id"]),
             order=int(example["ornek_sira"]),
             example=example["ornek"],
-            writer=writer_parser(example["yazar"][0]),
+            writer=writer_parser(example["yazar"][0]) if "yazar" in example else None,
         )
 
 
@@ -133,6 +133,7 @@ class Meaning(TdkModel):
 
 class Entry(TdkModel):
     tdk_id: int
+    order: int
     entry: str
     plural: bool
     proper: bool
@@ -145,7 +146,7 @@ class Entry(TdkModel):
     prefix: str or None
     suffix: str or None
 
-    def __init__(self, tdk_id: int, entry: str, plural: bool, proper: bool, origin_language: OriginLanguage,
+    def __init__(self, tdk_id: int, order: int, entry: str, plural: bool, proper: bool, origin_language: OriginLanguage,
                  original: str, entry_normalized: str or None = None, meanings=None,
                  proverbs=None, pronunciation: str or None = None, prefix: str or None = None,
                  suffix: str or None = None):
@@ -154,6 +155,7 @@ class Entry(TdkModel):
         if proverbs is None:
             proverbs = []
         self.tdk_id = tdk_id
+        self.order = order
         self.entry = entry
         self.plural = plural
         self.proper = proper
@@ -178,6 +180,7 @@ class Entry(TdkModel):
         proverb_parser = Proverb.parse
         return Entry(
             tdk_id=int(entry["madde_id"]),
+            order=int(entry["kac"]),
             entry=entry["madde"],
             plural=bool(int(entry["cogul_mu"])),
             proper=bool(int(entry["ozel_mi"])),
