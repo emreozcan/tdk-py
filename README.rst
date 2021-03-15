@@ -8,6 +8,19 @@ tdk-py aims to be easy to use and internally queries the TDK and parses its resp
 .. _Turkish dictionaries: https://sozluk.gov.tr
 .. _TDK: https://www.tdk.gov.tr
 
+Installation
+============
+
+tdk-py is supported on Python 3.6+. The recommended way to install is via *pip* which comes with Python.
+
+::
+
+    pip install tdk-py
+
+If your machine doesn't have Python and pip installed you can download it from `The Python Software Foundation's website`_.
+
+.. _The Python Software Foundation's website: https://www.python.org/downloads/
+
 Sample usage
 ============
 ``tdk.gts`` is used to access TDK's GTS, the up-to-date Turkish dictionary (Güncel Türkçe Sözlük).
