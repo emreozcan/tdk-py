@@ -17,7 +17,15 @@ class TdkErrorException(TdkPyException):
         return f"{self.responsible_endpoint} responded with an error."
 
 
-class TdkUnexpectedResponseException(TdkErrorException):
+class TdkUnexpectedResponseException(TdkPyException):
+    responsible_endpoint = "TDK"
+
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+
     def __str__(self) -> str:
         if self.message is not None:
             return f"Unexpected or malformed response from {self.responsible_endpoint}: {self.message}"
