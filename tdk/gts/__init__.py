@@ -30,7 +30,7 @@ def search(query: str) -> Iterator[Entry]:
             return map(entry_parser, words)
 
 
-def get_with_id(_id: int) -> Iterator[Entry]:
+def get_with_id(_id: int) -> Entry:
     with urllib.request.urlopen(url=remote_paths.get_with_id(_id)) as response:
         word = json.loads(response.read())
         if not isinstance(word, list):
@@ -40,7 +40,7 @@ def get_with_id(_id: int) -> Iterator[Entry]:
                 raise TdkIdLookupUnexpectedResponseException(json.dumps(word))
         else:
             entry_parser = Entry.parse
-            return map(entry_parser, word)
+            return list(map(entry_parser, word))[0]
 
 
 def get_suggestions(query: str) -> List[str]:
