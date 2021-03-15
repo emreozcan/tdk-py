@@ -72,6 +72,7 @@ def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=Tru
     """
     reconstructed_word = ""
     for letter in word:
+        lower_letter = letter.lower()
         if letter == "I":
             reconstructed_word = f"{reconstructed_word}ı"
         elif letter == "İ":
@@ -82,7 +83,7 @@ def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=Tru
             reconstructed_word = f"{reconstructed_word}i"
         elif letter in ["û", "Û"]:
             reconstructed_word = f"{reconstructed_word}u"
-        elif (lower_letter := letter.lower()) in alphabet or not remove_unknown_characters:
+        elif lower_letter in alphabet or not remove_unknown_characters:
             reconstructed_word = f"{reconstructed_word}{lower_letter}"
     return reconstructed_word
 
