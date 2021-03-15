@@ -1,20 +1,22 @@
 import json
 import urllib.request
+from typing import List, Iterator
 
 from . import remote_paths
 from .parsers import parse_index
 from ..exceptions import TdkIdLookupErrorException, TdkIdLookupUnexpectedResponseException, \
     TdkSearchUnexpectedResponseException, TdkSearchErrorException
+from ..models import Entry
 from ..tools import lowercase
 
 
-def get_index() -> list:
+def get_index() -> List[str]:
     with urllib.request.urlopen(url=remote_paths.autocomplete_index()) as response:
         autocomplete_index = json.loads(response.read())
         return parse_index(autocomplete_index)
 
 
-def search(query: str) -> list:
+def search(query: str) -> Iterator[Entry]:
     query = lowercase(query, remove_unknown_characters=False)
     with urllib.request.urlopen(url=remote_paths.general_search(query)) as response:
         words = json.loads(response.read())
@@ -24,10 +26,11 @@ def search(query: str) -> list:
             else:
                 raise TdkSearchUnexpectedResponseException(json.dumps(words))
         else:
-            return words
+            entry_parser = Entry.parse
+            return map(entry_parser, words)
 
 
-def get_with_id(_id: int) -> dict:
+def get_with_id(_id: int) -> Iterator[Entry]:
     with urllib.request.urlopen(url=remote_paths.get_with_id(_id)) as response:
         word = json.loads(response.read())
         if not isinstance(word, list):
@@ -36,10 +39,11 @@ def get_with_id(_id: int) -> dict:
             else:
                 raise TdkIdLookupUnexpectedResponseException(json.dumps(word))
         else:
-            return word[0]
+            entry_parser = Entry.parse
+            return map(entry_parser, word)
 
 
-def get_suggestions(query: str) -> list:
+def get_suggestions(query: str) -> List[str]:
     with urllib.request.urlopen(url=remote_paths.suggest(query)) as response:
         index = json.loads(response.read())
         return parse_index(index)
