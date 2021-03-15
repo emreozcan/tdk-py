@@ -1,6 +1,6 @@
-from tdk.classifications import OriginLanguage
-from tdk.classifications.meaning_properties import MeaningProperty
-from tdk.models import Writer, Proverb, MeaningExample, Meaning, Entry, TdkModel
+from src.tdk.classifications import OriginLanguage
+from src.tdk.classifications.meaning_properties import MeaningProperty
+from src.tdk.models import Writer, Proverb, MeaningExample, Meaning, Entry, TdkModel
 
 
 def test_tdkmodel_equality():

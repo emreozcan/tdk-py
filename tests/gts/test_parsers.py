@@ -1,4 +1,4 @@
-from tdk.gts.parsers import parse_index
+from src.tdk.gts.parsers import parse_index
 
 
 class TestAutocompleteIndexParser:
