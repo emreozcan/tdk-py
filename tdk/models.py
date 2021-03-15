@@ -4,7 +4,12 @@ from .classifications import OriginLanguage
 from .classifications.meaning_properties import MeaningProperty
 
 
-class Writer:
+class TdkModel:
+    def __eq__(self, other: object) -> bool:
+        return self.__dict__ == other.__dict__
+
+
+class Writer(TdkModel):
     tdk_id: int
     full_name: str
     short_name: str
@@ -29,7 +34,7 @@ class Writer:
         )
 
 
-class MeaningExample:
+class MeaningExample(TdkModel):
     tdk_id: int
     meaning_id: int
     order: int
@@ -61,7 +66,7 @@ class MeaningExample:
         )
 
 
-class Proverb:
+class Proverb(TdkModel):
     tdk_id: int
     proverb: str
     prefix: str or None
@@ -86,7 +91,7 @@ class Proverb:
         )
 
 
-class Meaning:
+class Meaning(TdkModel):
     meaning: str
     tdk_id: int
     order: int
@@ -126,7 +131,7 @@ class Meaning:
         )
 
 
-class Entry:
+class Entry(TdkModel):
     tdk_id: int
     entry: str
     plural: bool
