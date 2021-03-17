@@ -10,6 +10,7 @@ setuptools.setup(
     author_email="justsomechars@gmail.com",
     description="Python API for the Turkish Language Foundation",
     long_description=long_description,
+    long_description_content_type="text/x-rst",
     url="https://github.com/EmreOzcan/tdk-py",
     project_urls={
         "Issue Tracker": "https://github.com/EmreOzcan/tdk-py/issues",

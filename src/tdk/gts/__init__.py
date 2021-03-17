@@ -1,6 +1,6 @@
 import json
 import urllib.request
-from typing import List, Iterator
+from typing import List
 
 from . import remote_paths
 from .parsers import parse_index
