@@ -76,7 +76,7 @@ class MeaningProperty(Enum):
     TELEVISION = MeaningProperties(87, MeaningPropertyKind.FIELD, "televizyon", "TV", 325)
     RELIGION = MeaningProperties(88, MeaningPropertyKind.FIELD, "din bilgisi", "din b.", 326)
     MINING = MeaningProperties(96, MeaningPropertyKind.FIELD, "madencilik", "mdn.", 364)
-    IT = MeaningProperties(98, MeaningPropertyKind.FIELD, "bilişim", "bl.", 368)
+    I_T = MeaningProperties(98, MeaningPropertyKind.FIELD, "bilişim", "bl.", 368)
     MYTHOLOGY = MeaningProperties(99, MeaningPropertyKind.FIELD, "mit.", "mit.", 376)
     ANTHROPOLOGY = MeaningProperties(105, MeaningPropertyKind.FIELD, "antropoloji", "ant.", 404)
 

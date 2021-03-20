@@ -1,7 +1,9 @@
 from typing import List, Iterator
 from string import punctuation
 
-from .alphabet import VOWELS, ALPHABET, CONSONANTS
+from .alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
+from .classifications.letter_types import LetterType
+from .classifications.syllable_types import SyllableType
 
 
 def hecele(text: str) -> List[str]:
@@ -62,7 +64,39 @@ def hecele(text: str) -> List[str]:
     return syllables
 
 
-def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=True) -> str:
+def get_syllable_type(syllable: str) -> SyllableType:
+    letters = lowercase(syllable, remove_circumflex=False)
+    cv_map = list(map(get_letter_type, letters))
+    if cv_map in [
+        [LetterType.LONG_VOWEL, LetterType.CONSONANT],
+        [LetterType.CONSONANT, LetterType.LONG_VOWEL, LetterType.CONSONANT],
+        [LetterType.SHORT_VOWEL, LetterType.CONSONANT, LetterType.CONSONANT],
+        [LetterType.CONSONANT, LetterType.SHORT_VOWEL, LetterType.CONSONANT, LetterType.CONSONANT],
+    ]:
+        return SyllableType.MEDLI
+    elif get_letter_type(letters[-1]) == LetterType.SHORT_VOWEL:
+        return SyllableType.OPEN
+    else:
+        return SyllableType.CLOSED
+
+
+def get_letter_type(letter: str) -> LetterType:
+    ch = lowercase(letter, remove_circumflex=False)
+    if len(ch) != 1 or (ch not in ALPHABET and ch not in LONG_VOWELS):
+        raise ValueError(f"Argument of value \"{letter}\" is not a valid letter.")
+    if ch in VOWELS:
+        return LetterType.SHORT_VOWEL
+    elif ch in LONG_VOWELS:
+        return LetterType.LONG_VOWEL
+    elif ch in CONSONANTS:
+        return LetterType.CONSONANT
+    elif ch in ALPHABET:
+        raise RuntimeError(
+            f"Sanity check fail: \"{letter}\" is not a long or short vowel or consonant, but in the alphabet."
+        )
+
+
+def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=True, remove_circumflex=True) -> str:
     """Removes all whitespace and punctuation from word and lowercase it.
 
     >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)")
@@ -70,6 +104,11 @@ def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=Tru
 
     :return: A lowercase string without any whitespace or punctuation.
     """
+
+    a_circumflex_replacement = "a" if remove_circumflex else "â"
+    i_circumflex_replacement = "i" if remove_circumflex else "î"
+    u_circumflex_replacement = "u" if remove_circumflex else "û"
+
     reconstructed_word = ""
     for letter in word:
         lower_letter = letter.lower()
@@ -78,11 +117,11 @@ def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=Tru
         elif letter == "İ":
             reconstructed_word = f"{reconstructed_word}i"
         elif letter in ["â", "Â"]:
-            reconstructed_word = f"{reconstructed_word}a"
+            reconstructed_word = f"{reconstructed_word}{a_circumflex_replacement}"
         elif letter in ["î", "Î"]:
-            reconstructed_word = f"{reconstructed_word}i"
+            reconstructed_word = f"{reconstructed_word}{i_circumflex_replacement}"
         elif letter in ["û", "Û"]:
-            reconstructed_word = f"{reconstructed_word}u"
+            reconstructed_word = f"{reconstructed_word}{u_circumflex_replacement}"
         elif lower_letter in alphabet or not remove_unknown_characters:
             reconstructed_word = f"{reconstructed_word}{lower_letter}"
     return reconstructed_word
@@ -116,27 +155,6 @@ def counter(word: str, targets=VOWELS) -> int:
     """
     safe_word = lowercase(word)
     return sum(safe_word.count(x) for x in targets)
-
-
-def simplify(word: str, targets=VOWELS) -> Iterator[bool]:
-    """Search each letter of a string in a list.
-
-    >>> list(simplify("aaaaaBBBc", targets="a"))
-    [True, True, True, True, True, False, False, False, False]
-    >>> list(simplify("aaaaaBBBc", targets="ab"))
-    [True, True, True, True, True, True, True, True, False]
-    >>> list(simplify("aaaaaBBBc", targets="bc"))
-    [False, False, False, False, False, True, True, True, True]
-
-    The word is sanitized using `lowercase()`.
-
-    >>> list(simplify(word="aaaaaBBBc", targets="B"))
-    [False, False, False, False, False, False, False, False, False]
-
-    :param word: The string to search through
-    :param targets: List to check against
-    """
-    return map(lambda x: x in targets, lowercase(word))
 
 
 def streaks(word: str, targets=CONSONANTS) -> List[int]:

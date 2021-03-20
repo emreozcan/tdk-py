@@ -6,7 +6,7 @@ name: Test Python package
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
     strategy:

@@ -1,4 +1,10 @@
-from src.tdk.tools import hecele, lowercase, dictionary_order, counter, simplify, streaks, annotate, distinct
+import pytest
+
+from src.tdk import alphabet
+from src.tdk.classifications.letter_types import LetterType
+from src.tdk.classifications.syllable_types import SyllableType
+from src.tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, annotate, distinct, get_syllable_type, \
+    get_letter_type
 
 
 class TestHecele:
@@ -39,6 +45,49 @@ class TestHecele:
         assert hecele("bacçed") == ["bac", "çed"]
 
 
+class TestSyllableTypeGetter:
+    def test_open(self):
+        assert get_syllable_type("ba") == SyllableType.OPEN
+
+    def test_closed(self):
+        assert get_syllable_type("bac") == SyllableType.CLOSED
+        assert get_syllable_type("bâ") == SyllableType.CLOSED
+
+    def test_medli(self):
+        assert get_syllable_type("âb") == SyllableType.MEDLI
+        assert get_syllable_type("bâc") == SyllableType.MEDLI
+        assert get_syllable_type("abc") == SyllableType.MEDLI
+        assert get_syllable_type("bacç") == SyllableType.MEDLI
+
+
+class TestLetterTypeGetter:
+    def test_short_vowels(self):
+        for short_vowel in alphabet.VOWELS:
+            assert get_letter_type(short_vowel) == LetterType.SHORT_VOWEL
+            assert get_letter_type(short_vowel.upper()) == LetterType.SHORT_VOWEL
+        assert get_letter_type("İ") == LetterType.SHORT_VOWEL
+
+    def test_long_vowels(self):
+        for long_vowel in alphabet.LONG_VOWELS:
+            assert get_letter_type(long_vowel) == LetterType.LONG_VOWEL
+            assert get_letter_type(long_vowel.upper()) == LetterType.LONG_VOWEL
+
+    def test_consonants(self):
+        for consonant in alphabet.CONSONANTS:
+            assert get_letter_type(consonant) == LetterType.CONSONANT
+            assert get_letter_type(consonant.upper()) == LetterType.CONSONANT
+
+    def test_invalid_letter(self):
+        with pytest.raises(ValueError):
+            get_letter_type("ba")
+        with pytest.raises(ValueError):
+            get_letter_type("ab")
+        with pytest.raises(ValueError):
+            get_letter_type("")
+        with pytest.raises(ValueError):
+            get_letter_type("x")
+
+
 class TestLowercase:
     def test_lowercasing(self):
         assert lowercase("ABCÇDEF") == "abcçdef"
@@ -49,9 +98,6 @@ class TestLowercase:
     def test_romanization_and_lowercasing(self):
         assert lowercase("ÂÎÛ") == "aiu"
 
-    def test_punctuation(self):
-        assert lowercase("subh'u dem") == "subhudem"
-
     def test_circumflex_e_rejection(self):
         assert lowercase("ê") == ""
         assert lowercase("Ê") == ""
@@ -59,6 +105,14 @@ class TestLowercase:
     def test_circumflex_o_rejection(self):
         assert lowercase("ô") == ""
         assert lowercase("Ô") == ""
+
+    def test_unknown_character_rejection(self):
+        assert lowercase("SÛBH'U DEM", remove_unknown_characters=True) == "subhudem"
+        assert lowercase("SÛBH'U DEM", remove_unknown_characters=False) == "subh'u dem"
+
+    def test_circumflex_removal(self):
+        assert lowercase("SÛBH'U DEM", remove_circumflex=True) == "subhudem"
+        assert lowercase("SÛBH'U DEM", remove_circumflex=False) == "sûbhudem"
 
 
 def test_dictionary_order():
@@ -81,23 +135,6 @@ class TestCounter:
 
     def test_not_lowercasing_targets(self):
         assert counter(word="a", targets="A") == 0
-
-
-class TestSimplify:
-    def test_type(self):
-        assert type(simplify(word="", targets="")) is map
-
-    def test_basic(self):
-        assert list(simplify(word="abacç", targets="a")) == list(map(lambda x: x == 1, [1, 0, 1, 0, 0]))
-        assert list(simplify(word="abacç", targets="b")) == list(map(lambda x: x == 1, [0, 1, 0, 0, 0]))
-        assert list(simplify(word="abacç", targets="c")) == list(map(lambda x: x == 1, [0, 0, 0, 1, 0]))
-        assert list(simplify(word="abacç", targets="ç")) == list(map(lambda x: x == 1, [0, 0, 0, 0, 1]))
-
-    def test_lowercasing(self):
-        assert list(simplify(word="ABacç", targets="a")) == list(map(lambda x: x == 1, [1, 0, 1, 0, 0]))
-
-    def test_not_lowercasing_targets(self):
-        assert list(simplify(word="ABacç", targets="A")) == [*[False] * 5]
 
 
 class TestStreaks:

@@ -52,7 +52,7 @@ class MeaningExample(TdkModel):
         return self.example
 
     def __repr__(self):
-        return f"<MeaningExample for {self.meaning_id}: {self.tdk_id} ({self.example} - {self.writer.full_name})>"
+        return f"<MeaningExample for {self.meaning_id}: {self.tdk_id} ({self.example})>"
 
     @staticmethod
     def parse(example: dict) -> "MeaningExample":
