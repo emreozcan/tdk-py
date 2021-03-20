@@ -5,7 +5,7 @@ with open("README.rst", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="tdk-py",
-    version="0.2.0",
+    version="1.0.0",
     author="Emre Özcan",
     author_email="justsomechars@gmail.com",
     description="Python API for the Turkish Language Foundation",
@@ -16,7 +16,8 @@ setuptools.setup(
         "Issue Tracker": "https://github.com/EmreOzcan/tdk-py/issues",
     },
     classifiers=[
-        "Development Status :: 4 - Beta",
+        # https://pypi.org/classifiers/
+        "Development Status:: 5 - Production / Stable",
         "Environment :: Console",
         "Intended Audience :: Developers",
         "Intended Audience :: Education",

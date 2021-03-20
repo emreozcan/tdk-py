@@ -46,9 +46,9 @@ Sample usage
 
 You can query suggestions for misspelt words or for other similar words.
 
->>> tdk.gts.get_suggestions("feldispat")
+>>> tdk.gts.suggest("feldispat")
 ['feldspat', 'felekiyat', 'ispat']
->>> tdk.gts.get_suggestions("feldspat")
+>>> tdk.gts.suggest("feldspat")
 ['espas', 'felah', 'felaket', 'felekiyat', 'fellah', 'felsefe', 'felsefi']
 
 You can perform complex analyses very easily.
@@ -56,7 +56,7 @@ Let's see the distribution of entries by the number of maximum consecutive conso
 
 >>> from tdk.tools import max_streak
 >>> from tdk.alphabet import CONSONANTS
->>> annotated_list = [max_streak(word=x, targets=CONSONANTS) for x in tdk.gts.get_index()]
+>>> annotated_list = [max_streak(word=x, targets=CONSONANTS) for x in tdk.gts.index()]
 >>> for i in set(annotated_list):
 ...     print(i, annotated_list.count(i))
 ...

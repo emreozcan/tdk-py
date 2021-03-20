@@ -10,7 +10,7 @@ from ..models import Entry
 from ..tools import lowercase
 
 
-def get_index() -> List[str]:
+def index() -> List[str]:
     with urllib.request.urlopen(url=remote_paths.autocomplete_index()) as response:
         autocomplete_index = json.loads(response.read())
         return parse_index(autocomplete_index)
@@ -30,7 +30,7 @@ def search(query: str) -> List[Entry]:
             return list(map(entry_parser, words))
 
 
-def get_with_id(_id: int) -> Entry:
+def get(_id: int) -> Entry:
     with urllib.request.urlopen(url=remote_paths.get_with_id(_id)) as response:
         word = json.loads(response.read())
         if not isinstance(word, list):
@@ -43,7 +43,7 @@ def get_with_id(_id: int) -> Entry:
             return list(map(entry_parser, word))[0]
 
 
-def get_suggestions(query: str) -> List[str]:
+def suggest(query: str) -> List[str]:
     with urllib.request.urlopen(url=remote_paths.suggest(query)) as response:
         index = json.loads(response.read())
         return parse_index(index)
