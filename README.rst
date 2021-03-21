@@ -5,8 +5,10 @@ Python API for the Turkish Language Foundation
 tdk-py is a Python package that allows for simple access to `Turkish dictionaries`_ made available by the TDK_, the Turkish Language Society.
 tdk-py aims to be easy to use and internally queries the TDK and parses its response into easy to use Python class objects.
 
-.. _Turkish dictionaries: https://sozluk.gov.tr
-.. _TDK: https://www.tdk.gov.tr
+.. _Turkish dictionaries:
+  https://sozluk.gov.tr
+.. _TDK:
+  https://www.tdk.gov.tr
 
 Installation
 ============
@@ -19,7 +21,8 @@ tdk-py is supported on Python 3.6+. The recommended way to install is via *pip* 
 
 If your machine doesn't have Python and pip installed you can download it from `The Python Software Foundation's website`_.
 
-.. _The Python Software Foundation's website: https://www.python.org/downloads/
+.. _The Python Software Foundation's website:
+  https://www.python.org/downloads/
 
 Sample usage
 ============
@@ -56,9 +59,15 @@ Let's see the distribution of entries by the number of maximum consecutive conso
 
 >>> from tdk.tools import max_streak
 >>> from tdk.alphabet import CONSONANTS
->>> annotated_list = [max_streak(word=x, targets=CONSONANTS) for x in tdk.gts.index()]
->>> for i in set(annotated_list):
-...     print(i, annotated_list.count(i))
+>>> annotated_dict = {}
+>>> for entry in tdk.gts.index():
+...     streaks = max_streak(entry)
+...     if streaks not in annotated_dict:
+...         annotated_dict[streaks] = [entry]
+...     else:
+...         annotated_dict[streaks].append(entry)
+>>> for i in set(annotated_dict):
+...     print(i, len(annotated_dict[i]))
 ...
 0 19
 1 15199
@@ -73,4 +82,5 @@ tdk-py's source code is provided under the `MIT License`_.
 
 Copyright © 2021 Emre Özcan
 
-.. _MIT License: LICENSE
+.. _MIT License:
+  https://github.com/EmreOzcan/tdk-py/blob/master/LICENSE

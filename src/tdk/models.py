@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import List
 
 from .classifications import OriginLanguage
@@ -7,6 +8,21 @@ from .classifications.meaning_properties import MeaningProperty
 class TdkModel:
     def __eq__(self, other: object) -> bool:
         return self.__dict__ == other.__dict__
+
+    def as_dict(self):
+        def serialize(obj):
+            if isinstance(obj, list):
+                if len(obj) == 0:
+                    return []
+                return list(map(serialize, obj))
+            elif isinstance(obj, TdkModel):
+                return serialize(obj.as_dict())
+            elif isinstance(obj, MeaningProperty):
+                return serialize(obj.value.id)
+            elif isinstance(obj, Enum):
+                return serialize(obj.value)
+            return obj
+        return {k: serialize(v) for k, v in self.__dict__.items()}
 
 
 class Writer(TdkModel):
