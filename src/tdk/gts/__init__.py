@@ -1,5 +1,4 @@
 import json
-import urllib.request
 from typing import List
 
 from . import remote_paths
@@ -7,18 +6,19 @@ from .parsers import parse_index
 from ..exceptions import TdkIdLookupErrorException, TdkIdLookupUnexpectedResponseException, \
     TdkSearchUnexpectedResponseException, TdkSearchErrorException
 from ..models import Entry
+from ..networking import make_request
 from ..tools import lowercase
 
 
 def index() -> List[str]:
-    with urllib.request.urlopen(url=remote_paths.autocomplete_index()) as response:
+    with make_request(url=remote_paths.autocomplete_index()) as response:
         autocomplete_index = json.loads(response.read())
         return parse_index(autocomplete_index)
 
 
 def search(query: str) -> List[Entry]:
     query = lowercase(query, remove_unknown_characters=False)
-    with urllib.request.urlopen(url=remote_paths.general_search(query)) as response:
+    with make_request(url=remote_paths.general_search(query)) as response:
         words = json.loads(response.read())
         if not isinstance(words, list):
             if "error" in words:
@@ -31,7 +31,7 @@ def search(query: str) -> List[Entry]:
 
 
 def get(_id: int) -> Entry:
-    with urllib.request.urlopen(url=remote_paths.get_with_id(_id)) as response:
+    with make_request(url=remote_paths.get_with_id(_id)) as response:
         word = json.loads(response.read())
         if not isinstance(word, list):
             if "error" in word:
@@ -44,6 +44,6 @@ def get(_id: int) -> Entry:
 
 
 def suggest(query: str) -> List[str]:
-    with urllib.request.urlopen(url=remote_paths.suggest(query)) as response:
+    with make_request(url=remote_paths.suggest(query)) as response:
         index = json.loads(response.read())
         return parse_index(index)
