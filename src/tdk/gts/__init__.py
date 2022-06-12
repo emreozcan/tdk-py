@@ -4,7 +4,7 @@ from typing import List
 from . import remote_paths
 from .parsers import parse_index
 from ..exceptions import TdkIdLookupErrorException, TdkIdLookupUnexpectedResponseException, \
-    TdkSearchUnexpectedResponseException, TdkSearchErrorException
+    TdkSearchUnexpectedResponseException, TdkSearchErrorException, TdkSuggestUnexpectedResponseException
 from ..models import Entry
 from ..networking import make_request
 from ..tools import lowercase
@@ -45,5 +45,7 @@ def get(_id: int) -> Entry:
 
 def suggest(query: str) -> List[str]:
     with make_request(url=remote_paths.suggest(query)) as response:
-        index = json.loads(response.read())
-        return parse_index(index)
+        response_bytes = response.read()
+        if not response_bytes:
+            raise TdkSuggestUnexpectedResponseException()
+        return parse_index(json.loads(response_bytes))

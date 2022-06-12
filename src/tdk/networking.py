@@ -1,3 +1,4 @@
+import http.client
 import urllib.request
 
 _http_headers = {
@@ -11,7 +12,7 @@ _http_headers = {
 }
 
 
-def make_request(*args, **kwargs):
+def make_request(*args, **kwargs) -> http.client.HTTPResponse:
     """
     Helper function to add default headers to a urllib request.
 

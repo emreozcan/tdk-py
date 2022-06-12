@@ -49,10 +49,9 @@ Sample usage
 
 You can query suggestions for misspelt words or for other similar words.
 
->>> tdk.gts.suggest("feldispat")
-['feldspat', 'felekiyat', 'ispat']
->>> tdk.gts.suggest("feldspat")
-['espas', 'felah', 'felaket', 'felekiyat', 'fellah', 'felsefe', 'felsefi']
+>>> from difflib import get_close_matches
+>>> get_close_matches("feldispat", tdk.gts.index())
+['feldspat', 'ispat', 'fesat']
 
 You can perform complex analyses very easily.
 Let's see the distribution of entries by the number of maximum consecutive consonants.

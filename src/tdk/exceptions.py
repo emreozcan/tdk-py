@@ -37,7 +37,7 @@ class TdkSearchErrorException(TdkErrorException):
 
 
 class TdkSearchUnexpectedResponseException(TdkUnexpectedResponseException):
-    responsible_endpoint = TdkSearchErrorException.responsible_endpoint
+    responsible_endpoint = "TDK GTS Search"
 
 
 class TdkIdLookupErrorException(TdkErrorException):
@@ -45,4 +45,14 @@ class TdkIdLookupErrorException(TdkErrorException):
 
 
 class TdkIdLookupUnexpectedResponseException(TdkUnexpectedResponseException):
-    responsible_endpoint = TdkIdLookupErrorException.responsible_endpoint
+    responsible_endpoint = "TDK GTS Reverse ID Lookup"
+
+
+class TdkSuggestUnexpectedResponseException(TdkUnexpectedResponseException):
+    responsible_endpoint = "TDK Suggest"
+
+    def __str__(self) -> str:
+        return super().__str__() \
+               + f"\n\n    Check out https://github.com/emreozcan/tdk-py/issues/2#issuecomment-1153257967 for an " \
+                 f"alternative to this function. "
+
