@@ -6,6 +6,35 @@ from .classifications.letter_types import LetterType
 from .classifications.syllable_types import SyllableType
 
 
+def _next_vowel(text: str, cur: int) -> int:
+    index = cur
+    while True:
+        if index + 1 >= len(text):
+            return cur
+        if text[index + 1] in f"{VOWELS}{LONG_VOWELS}":
+            return index + 1
+        index += 1
+
+
+def _are_there_letters_between(text, start, end, alphabet=ALPHABET):
+    part = text[start + 1: end]
+    for character in part:
+        if character in alphabet:
+            return True
+    return False
+
+
+def _previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
+    index = end - 1
+    while True:
+        if text[index] in stop_characters:
+            break
+        index -= 1
+        if index <= 0:
+            break
+    return index
+
+
 def hecele(text: str) -> List[str]:
     """Syllabifies the specified text.
 
@@ -15,46 +44,19 @@ def hecele(text: str) -> List[str]:
     ["or", "ta", "o", "kul"]
     """
 
-    def next_vowel(text: str, cur: int) -> int:
-        index = cur
-        while True:
-            if index + 1 >= len(text):
-                return cur
-            if text[index + 1] in VOWELS:
-                return index + 1
-            index += 1
-
-    def are_there_letters_between(text, start, end, alphabet=ALPHABET):
-        part = text[start + 1: end]
-        for character in part:
-            if character in alphabet:
-                return True
-        return False
-
-    def previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
-        index = end - 1
-        while True:
-            if text[index] in stop_characters:
-                break
-            index -= 1
-            if index <= 0:
-                break
-        return index
-
-    current_vowel_index = next_vowel(text, -1)
+    current_vowel_index = _next_vowel(text, -1)
     syllables = []
     last_syllable_index = 0
     while True:
-        next_vowel_index = next_vowel(text, current_vowel_index)
+        next_vowel_index = _next_vowel(text, current_vowel_index)
         if next_vowel_index == current_vowel_index:  # This is the last vowel
             syllables.append(text[last_syllable_index:])
             break
-        elif (
-                not are_there_letters_between(text, current_vowel_index,
-                                              next_vowel_index)):  # There are two neighbor vowels (sa/at)
+        elif (not _are_there_letters_between(text, current_vowel_index,
+                                             next_vowel_index)):  # There are two neighbor vowels (sa/at)
             syllable_stop_index = next_vowel_index
         else:
-            syllable_stop_index = previous_letter(text, next_vowel_index)
+            syllable_stop_index = _previous_letter(text, next_vowel_index)
 
         syllables.append(text[last_syllable_index:syllable_stop_index])
         last_syllable_index = syllable_stop_index
