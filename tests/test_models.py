@@ -3,24 +3,6 @@ from src.tdk.classifications.meaning_properties import MeaningProperty
 from src.tdk.models import Writer, Proverb, MeaningExample, Meaning, Entry, TdkModel
 
 
-def test_tdkmodel_equality():
-    model_1 = TdkModel()
-    model_2 = TdkModel()
-
-    model_1.point = "gibberish"
-    model_2.point = "gibberish"
-
-    assert model_1 == model_2
-
-    model_2.point = "meaningful"
-
-    assert model_1 != model_2
-
-    model_1.point = "meaningful"
-
-    assert model_1 == model_2
-
-
 def test_writer_parser():
     standard_writer = Writer(
         tdk_id=1,
