@@ -79,7 +79,7 @@ License
 =======
 tdk-py's source code is provided under the `MIT License`_.
 
-Copyright © 2021 Emre Özcan
+Copyright © 2021-2023 Emre Özcan
 
 .. _MIT License:
   https://github.com/EmreOzcan/tdk-py/blob/master/LICENSE
