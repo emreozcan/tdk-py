@@ -155,8 +155,7 @@ def counter(word: str, targets=VOWELS) -> int:
 
     :return: The total number of occurrences of each element in targets.
     """
-    safe_word = lowercase(word)
-    return sum(safe_word.count(x) for x in targets)
+    return sum(lowercase(word).count(x) for x in targets)
 
 
 def streaks(word: str, targets=CONSONANTS) -> List[int]:
