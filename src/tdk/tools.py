@@ -1,4 +1,4 @@
-from typing import List, Iterator
+from typing import List
 from string import punctuation
 
 from .alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
@@ -189,7 +189,7 @@ def streaks(word: str, targets=CONSONANTS) -> List[int]:
 
 
 def max_streak(word: str, targets=CONSONANTS) -> int:
-    """:return: The maximum combo of consecutive characters that are also in targets, in word."""
+    """:return: The maximum combo of consecutive characters in word that are also in targets."""
     return max(streaks(word=word, targets=targets))
 
 
