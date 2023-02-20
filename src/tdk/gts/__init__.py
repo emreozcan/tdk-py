@@ -19,7 +19,9 @@ def search(query: str) -> List[Entry]:
     with make_request(url=remote_paths.general_search(query)) as response:
         words = json.loads(response.read())
         if not isinstance(words, list):
-            if "error" in words:
+            if isinstance(words, dict) and "error" in words:
+                if words["error"] == "Sonuç bulunamadı":  # No results
+                    return []
                 raise RuntimeError(f'The server responded with an error: {words["error"]} ({query})')
             else:
                 raise RuntimeError(f"Invalid response type {type(words).__name__} received. (expected list)")
