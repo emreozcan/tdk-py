@@ -4,6 +4,7 @@ from pydantic import TypeAdapter
 from tdk.models import Entry
 from tdk.http import with_http_session
 from tdk.tools import lowercase, dictionary_order
+from tdk.utils import make_sync
 
 
 __all__ = [
@@ -28,10 +29,14 @@ async def get_index(*, http_session: aiohttp.ClientSession) -> list[str]:
         )
 
 
+@make_sync(get_index)
+def get_index_sync(): ...
+
+
 @with_http_session
 async def search(query: str, /, *, http_session: aiohttp.ClientSession) \
         -> list[Entry]:
-    query = lowercase(query, remove_unknown_characters=False)
+    query = lowercase(query, keep_unknown_characters=False)
     async with http_session.get(
         "https://sozluk.gov.tr/gts",
         params={"ara": query}
@@ -44,6 +49,8 @@ async def search(query: str, /, *, http_session: aiohttp.ClientSession) \
         return TypeAdapter(list[Entry]).validate_python(words)
 
 
+@make_sync(search)
+def search_sync(): ...
 
 
 @with_http_session
@@ -65,3 +72,7 @@ async def get_suggestion(query: str, /, *, http_session: aiohttp.ClientSession) 
                 "https://github.com/emreozcan/tdk-py/issues/2"
                 "#issuecomment-1153257967"
             ) from e
+
+
+@make_sync(get_suggestion)
+def get_suggestion_sync(): ...
