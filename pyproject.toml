@@ -1,7 +1,80 @@
-[build-system]
-requires = [
-    "setuptools",
-    "wheel"
+[tool.poetry]
+name = "tdk-py"
+version = "0.0.0"
+description = "Python API for the Turkish Language Foundation"
+authors = ["Emre Özcan <emre@emreis.com>"]
+readme = "README.md"
+license = "MIT"
+keywords = ["tdk", "turkish", "language", "nlp", "api"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+include = ["LICENSE"]
+repository = "https://github.com/emreozcan/tdk-py"
+packages = [
+    { include = "tdk", from = "src", to = "tdk" },
 ]
 
-build-backend = "setuptools.build_meta"
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^2.9.2"
+aiohttp = "^3.10.10"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+coverage = "^7.6.4"
+mypy = "^1.13.0"
+pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+Sphinx = "^8.1.3"
+furo = "^2024.8.6"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+
+[tool.poetry-dynamic-versioning.substitution]
+folders = [
+    { path = "src/tdk" }
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib --cov=tdk --cov-report html --cov-report xml --junitxml=junit.xml -o junit_family=legacy"
+pythonpath = "src"
+testpaths = "tests"
+
+[tool.black]
+line-length = 80
+
+[tool.mypy]
+python_version = "3.9"

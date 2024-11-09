@@ -1,39 +1,42 @@
-tdk-py
-######
+# tdk-py
+
 Python API for the Turkish Language Foundation
 
-tdk-py is a Python package that allows for simple access to `Turkish dictionaries`_ made available by the TDK_, the Turkish Language Society.
-tdk-py aims to be easy to use and internally queries the TDK and parses its response into easy to use Python class objects.
+tdk-py is a Python package that allows for simple access to
+[Turkish dictionaries] made available by
+the [TDK], the Turkish Language Society.
+tdk-py aims to be easy to use and internally queries the TDK and parses its
+response into easy to use Python class objects.
 
-.. _Turkish dictionaries:
-  https://sozluk.gov.tr
-.. _TDK:
-  https://www.tdk.gov.tr
+[Turkish dictionaries]: https://sozluk.gov.tr
+[TDK]: https://www.tdk.gov.tr
 
-Installation
-============
+## Installation
 
-tdk-py is supported on Python 3.6+. The recommended way to install is via *pip* which comes with Python.
-
-::
+tdk-py is supported on Python 3.6+. The recommended way to install is
+via *pip* which comes with Python.
 
     pip install tdk-py
 
-If your machine doesn't have Python and pip installed you can download it from `The Python Software Foundation's website`_.
+If your machine doesn't have Python and pip installed you can download
+it from [The Python Software Foundation's
+website](https://www.python.org/downloads/).
 
-.. _The Python Software Foundation's website:
-  https://www.python.org/downloads/
+## Sample usage
 
-Sample usage
-============
-``tdk.gts`` is used to access TDK's GTS, the up-to-date Turkish dictionary (Güncel Türkçe Sözlük).
+`tdk.gts` is used to access TDK's GTS, the up-to-date Turkish dictionary
+(Güncel Türkçe Sözlük).
 
+```python-repl
 >>> import tdk.gts
 >>> tdk.gts.search("merkeziyetçilik")
 [<Entry 41635 (merkeziyetçilik)>]
+```
 
-``tsk.gts.search`` returns a list because it is possible for there to be more than one word with the exact same spelling.
+`tsk.gts.search` returns a list because it is possible for there to be
+more than one word with the exact same spelling.
 
+```python-repl
 >>> for number, entry in enumerate(tdk.gts.search("bar")):
 ...     for meaning in entry.meanings:
 ...         print(number+1, entry.entry, meaning.meaning)
@@ -46,16 +49,20 @@ Sample usage
 4 bar Ateşten, mide bozukluğundan, ağızda, dil ve dişlerde meydana gelen acılık, pas
 5 bar Halter sporunda ağırlığı oluşturan kiloları birbirine bağlayan metal çubuk
 >>> # 5 different words! One of them (#2) has multiple meanings!
+```
 
 You can query suggestions for misspelt words or for other similar words.
 
+```python-repl
 >>> from difflib import get_close_matches
 >>> get_close_matches("feldispat", tdk.gts.index())
 ['feldspat', 'ispat', 'fesat']
+```
 
-You can perform complex analyses very easily.
-Let's see the distribution of entries by the number of maximum consecutive consonants.
+You can perform complex analyses very easily. Let's see the distribution
+of entries by the number of maximum consecutive consonants.
 
+```python-repl
 >>> from tdk.tools import max_streak
 >>> from tdk.alphabet import CONSONANTS
 >>> annotated_dict = {}
@@ -74,12 +81,12 @@ Let's see the distribution of entries by the number of maximum consecutive conso
 3 3605
 4 68
 5 5
+```
 
-License
-=======
-tdk-py's source code is provided under the `MIT License`_.
+## License
+
+tdk-py's source code is provided under the [MIT License]
+
+[MIT License]: https://github.com/EmreOzcan/tdk-py/blob/master/LICENSE
 
 Copyright © 2021-2023 Emre Özcan
-
-.. _MIT License:
-  https://github.com/EmreOzcan/tdk-py/blob/master/LICENSE
