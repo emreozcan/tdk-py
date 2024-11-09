@@ -1,9 +1,10 @@
 from collections.abc import Sequence
+from io import StringIO, SEEK_SET
 from typing import TypeVar
 from string import punctuation
 
 from tdk.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
-from tdk.enums import LetterType, SyllableType
+from tdk.enums import LetterType as _Ltr, SyllableType
 
 
 def _next_vowel_index(text: str, cur: int) -> int:
@@ -22,11 +23,10 @@ def _are_there_letters_between(
         end: int,
         alphabet=ALPHABET
 ) -> bool:
-    part = text[start + 1: end]
-    for character in part:
-        if character in alphabet:
-            return True
-    return False
+    return any(
+        character in alphabet
+        for character in text[start + 1: end]
+    )
 
 
 def _previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
@@ -71,36 +71,59 @@ def hecele(text: str, /) -> list[str]:
     return syllables
 
 
+_MEDLI_PATTERNS = (
+    (_Ltr.LONG_VOWEL, _Ltr.CONSONANT),
+    (_Ltr.CONSONANT, _Ltr.LONG_VOWEL, _Ltr.CONSONANT),
+    (_Ltr.SHORT_VOWEL, _Ltr.CONSONANT, _Ltr.CONSONANT),
+    (_Ltr.CONSONANT, _Ltr.SHORT_VOWEL, _Ltr.CONSONANT, _Ltr.CONSONANT),
+)
+
+
 def get_syllable_type(syllable: str, /) -> SyllableType:
-    letters = lowercase(syllable, remove_circumflex=False)
-    cv_map = list(map(get_letter_type, letters))
-    if cv_map in [
-        [LetterType.LONG_VOWEL, LetterType.CONSONANT],
-        [LetterType.CONSONANT, LetterType.LONG_VOWEL, LetterType.CONSONANT],
-        [LetterType.SHORT_VOWEL, LetterType.CONSONANT, LetterType.CONSONANT],
-        [LetterType.CONSONANT, LetterType.SHORT_VOWEL, LetterType.CONSONANT, LetterType.CONSONANT],
-    ]:
+    """Determine the type of the syllable.
+
+    The type of the syllable is defined as follows,
+    where C is a consonant, V is a short vowel, and L is a long vowel:
+
+    * If the syllable is of the form LC, CLC, VCC, CVCC, it is MEDLI.
+    * If the syllable ends with a short vowel, it is OPEN.
+    * Otherwise, it is CLOSED.
+
+    :param syllable:
+    :return:
+    """
+    letters = lowercase(syllable, remove_circumflexes=False)
+    cv_map = tuple(get_letter_type(letter) for letter in letters)
+
+    if cv_map in _MEDLI_PATTERNS:
         return SyllableType.MEDLI
-    elif get_letter_type(letters[-1]) == LetterType.SHORT_VOWEL:
+    elif cv_map[-1] == _Ltr.SHORT_VOWEL:
         return SyllableType.OPEN
     else:
         return SyllableType.CLOSED
 
 
-def get_letter_type(letter: str, /) -> LetterType:
-    ch = lowercase(letter, remove_circumflex=False)
-    if len(ch) != 1 or (ch not in ALPHABET and ch not in LONG_VOWELS):
-        raise ValueError(f"Argument of value \"{letter}\" is not a valid letter.")
+def get_letter_type(letter: str, /) -> _Ltr:
+    ch = lowercase(letter, remove_circumflexes=False)
+    if not ch:
+        raise ValueError(f"Empty string is not a valid letter.")
     if ch in VOWELS:
-        return LetterType.SHORT_VOWEL
+        return _Ltr.SHORT_VOWEL
     elif ch in LONG_VOWELS:
-        return LetterType.LONG_VOWEL
+        return _Ltr.LONG_VOWEL
     elif ch in CONSONANTS:
-        return LetterType.CONSONANT
+        return _Ltr.CONSONANT
     raise ValueError(f"Unknown letter {ch!r}")
 
 
-def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=True, remove_circumflex=True) -> str:
+def lowercase(
+        word: str,
+        /,
+        *,
+        alphabet: str = ALPHABET,
+        keep_unknown_characters=False,
+        remove_circumflexes=True,
+) -> str:
     """Removes all whitespace and punctuation from word and lowercase it.
 
     >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)")
@@ -109,39 +132,43 @@ def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=Tru
     :return: A lowercase string without any whitespace or punctuation.
     """
 
-    a_circumflex_replacement = "a" if remove_circumflex else "â"
-    i_circumflex_replacement = "i" if remove_circumflex else "î"
-    u_circumflex_replacement = "u" if remove_circumflex else "û"
+    a_circumflex_replacement = "a" if remove_circumflexes else "â"
+    i_circumflex_replacement = "i" if remove_circumflexes else "î"
+    u_circumflex_replacement = "u" if remove_circumflexes else "û"
 
-    reconstructed_word = ""
-    for letter in word:
-        lower_letter = letter.lower()
-        if letter == "I":
-            reconstructed_word = f"{reconstructed_word}ı"
-        elif letter == "İ":
-            reconstructed_word = f"{reconstructed_word}i"
-        elif letter in ["â", "Â"]:
-            reconstructed_word = f"{reconstructed_word}{a_circumflex_replacement}"
-        elif letter in ["î", "Î"]:
-            reconstructed_word = f"{reconstructed_word}{i_circumflex_replacement}"
-        elif letter in ["û", "Û"]:
-            reconstructed_word = f"{reconstructed_word}{u_circumflex_replacement}"
-        elif lower_letter in alphabet or not remove_unknown_characters:
-            reconstructed_word = f"{reconstructed_word}{lower_letter}"
-    return reconstructed_word
+    with StringIO() as word_io:
+        for letter in word:
+            lower_letter = letter.lower()
+            if letter == "I":
+                word_io.write("ı")
+            elif letter == "İ":
+                word_io.write("i")
+            elif letter in ["â", "Â"]:
+                word_io.write(a_circumflex_replacement)
+            elif letter in ["î", "Î"]:
+                word_io.write(i_circumflex_replacement)
+            elif letter in ["û", "Û"]:
+                word_io.write(u_circumflex_replacement)
+            elif lower_letter in alphabet or keep_unknown_characters:
+                word_io.write(lower_letter)
+        word_io.seek(0, SEEK_SET)
+        return word_io.read()
 
 
-def dictionary_order(word: str, alphabet=ALPHABET) -> list:
+def dictionary_order(word: str, /, *, alphabet=ALPHABET) -> tuple[int]:
     """
     >>> dictionary_order("algarina") < dictionary_order("zamansızlık")
     True
     >>> dictionary_order("yumuşaklık") < dictionary_order("beşik")
     False
     """
-    return list(map(alphabet.index, lowercase(word)))
+    return tuple(
+        alphabet.index(letter)
+        for letter in lowercase(word)
+    )
 
 
-def counter(word: str, targets=VOWELS) -> int:
+def counter(word: str, *, targets=VOWELS) -> int:
     """
     >>> counter(word="aaaaaBBBc", targets="c")
     1
@@ -157,10 +184,11 @@ def counter(word: str, targets=VOWELS) -> int:
 
     :return: The total number of occurrences of each element in targets.
     """
-    return sum(lowercase(word).count(x) for x in targets)
+    word = lowercase(word)
+    return sum(word.count(x) for x in targets)
 
 
-def streaks(word: str, targets=CONSONANTS) -> list[int]:
+def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
     """
     Accumulate the number of characters in word which are also in targets.
     When a character in word isn't in targets, break the streak and append it to the return list.
@@ -190,8 +218,8 @@ def streaks(word: str, targets=CONSONANTS) -> list[int]:
     return streaks_found
 
 
-def max_streak(word: str, targets=CONSONANTS) -> int:
-    """:return: The maximum combo of consecutive characters in word that are also in targets."""
+def max_streak(word: str, *, targets=CONSONANTS) -> int:
+    """The maximum consecutive targets in word."""
     return max(streaks(word=word, targets=targets))
 
 
@@ -199,7 +227,7 @@ T = TypeVar("T")
 
 
 def distinct(seq: Sequence[T]) -> list[T]:
-    """Returns the sequence with each element appearing once without creating a set (and thus preserving order)."""
+    """Returns the sequence with each element appearing once with order."""
     seen: set[T] = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
