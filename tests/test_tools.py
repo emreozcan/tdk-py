@@ -1,9 +1,9 @@
 import pytest
 
-from src.tdk import alphabet
-from src.tdk.classifications.letter_types import LetterType
-from src.tdk.classifications.syllable_types import SyllableType
-from src.tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, annotate, distinct, get_syllable_type, \
+from tdk import alphabet
+from tdk.classifications.letter_types import LetterType
+from tdk.classifications.syllable_types import SyllableType
+from tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, annotate, distinct, get_syllable_type, \
     get_letter_type
 
 
