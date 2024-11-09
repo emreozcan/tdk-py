@@ -1,8 +1,8 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.http import with_http_session
-from tdk.utils import IntOrNone, make_sync
+from tdk.internal.http import with_http_session
+from tdk.internal.utils import IntOrNone, make_sync
 
 
 class TermDictionary(BaseModel):
