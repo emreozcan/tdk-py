@@ -77,4 +77,4 @@ testpaths = "tests"
 line-length = 80
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"

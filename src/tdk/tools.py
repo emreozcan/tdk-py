@@ -1,4 +1,5 @@
-from typing import List
+from collections.abc import Sequence
+from typing import List, TypeVar
 from string import punctuation
 
 from tdk.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
@@ -92,10 +93,7 @@ def get_letter_type(letter: str) -> LetterType:
         return LetterType.LONG_VOWEL
     elif ch in CONSONANTS:
         return LetterType.CONSONANT
-    elif ch in ALPHABET:
-        raise RuntimeError(
-            f"Sanity check fail: \"{letter}\" is not a long or short vowel or consonant, but in the alphabet."
-        )
+    raise ValueError(f"Unknown letter {ch!r}")
 
 
 def lowercase(word: str, alphabet: str = ALPHABET, remove_unknown_characters=True, remove_circumflex=True) -> str:
@@ -206,8 +204,11 @@ def annotate(items, fn, sort_fn=None, reverse=True):
     return {k: fn(k) for k in sorted(items, key=sort_fn, reverse=reverse)}
 
 
-def distinct(seq) -> list:
+T = TypeVar("T")
+
+
+def distinct(seq: Sequence[T]) -> list[T]:
     """Returns the sequence with each element appearing once without creating a set (and thus preserving order)."""
-    seen = set()
+    seen: set[T] = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]

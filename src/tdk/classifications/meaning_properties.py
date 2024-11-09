@@ -101,7 +101,7 @@ def _validate_property(v, handler):
 ValidatedProperty = Annotated[MeaningProperty, WrapValidator(_validate_property)]
 
 
-_lookup_table = {}
+_lookup_table: dict[int | str, MeaningProperty] = {}
 
 
 for enum_value in MeaningProperty:
