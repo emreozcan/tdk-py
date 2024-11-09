@@ -2,28 +2,39 @@
 
 *Python API for the Turkish Language Foundation*
 
+---
+
 `tdk-py` is a Python package allowing access to
 [Turkish dictionaries] of the [TDK], the Turkish Language Society.
 
 `tdk-py` provides both synchronous and asynchronous interfaces to the TDK's
 APIs and parses their responses into Python class objects based on Pydantic,
 so you can do things like
-[`.model_dump_json()`][model_dump_json]
+[`.model_dump_json()`](<inv:#pydantic.BaseModel.model_dump_json>)
 them, or use them in your API endpoints and generate beautiful schemas.
 
 [Turkish dictionaries]: https://sozluk.gov.tr
 [TDK]: https://www.tdk.gov.tr
-[model_dump_json]: https://docs.pydantic.dev/2.9/api/base_model/#pydantic.BaseModel.model_dump_json
 
 ## Installation
 
 tdk-py is supported on Python 3.10+.
 
+:::{tab} poetry
 ```bash
 poetry add tdk-py
+```
+:::
+:::{tab} pipenv
+```bash
 pipenv install tdk-py
+```
+:::
+:::{tab} pip
+```bash
 pip install tdk-py
 ```
+:::
 
 ```python
 # in Python
@@ -43,6 +54,8 @@ results = tdk.gts.search_sync("merkeziyetçilik")
 print(results[0].meanings[0].meaning)
 ```
 ```{code-block}
+:caption: Output
+
 Otoritenin ve işin tek bir merkezde toplanmasını amaçlayan görüş; merkeziyet, merkezcilik
 ```
 
@@ -56,6 +69,8 @@ for number, entry in enumerate(tdk.gts.search_sync("bar")):
         print(number+1, entry.entry, meaning.meaning)
 ```
 ```{code-block}
+:caption: Output
+
 1 bar Anadolu'nun doğu ve kuzey bölgesinde, en çok Artvin ve Erzurum yörelerinde el ele tutuşularak oynanan, ağır ritimli bir halk oyunu
 2 bar Danslı, içkili eğlence yeri
 2 bar Ayaküstü içki içilen eğlence yeri
@@ -68,7 +83,7 @@ for number, entry in enumerate(tdk.gts.search_sync("bar")):
 ```
 
 5 different words! One of them (#2) has multiple meanings!
-
+z
 ### Generating suggestions
 
 You can query suggestions for misspelt words or for other similar words.
@@ -104,6 +119,8 @@ for i in set(annotated_dict):
     print(i, len(annotated_dict[i]))
 ```
 ```{code-block}
+:caption: Output
+
 0 19
 1 15199
 2 73511
@@ -112,10 +129,9 @@ for i in set(annotated_dict):
 5 5
 ```
 
-## License
+```{toctree}
+:maxdepth: 2
+:caption: Contents:
 
-tdk-py's source code is provided under the [MIT License]
-
-[MIT License]: https://github.com/EmreOzcan/tdk-py/blob/master/LICENSE
-
-Copyright © 2021-2024 Emre Özcan
+apidocs/index.rst
+```

@@ -1,4 +1,5 @@
-.pdm-python
+/docs/apidocs/
+/.pdm-python
 
 # Default name for profiling stat file
 profile.stats
