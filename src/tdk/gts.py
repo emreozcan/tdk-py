@@ -22,7 +22,7 @@ async def get_index(*, http_session: aiohttp.ClientSession) -> list[str]:
             [
                 entry["madde"]
                 for entry in
-                await response.json(content_type="text/html; charset=utf-8")
+                await response.json()
             ],
             key=dictionary_order
         )
