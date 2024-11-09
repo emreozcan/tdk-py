@@ -29,7 +29,10 @@ def _are_there_letters_between(
     )
 
 
-def _previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
+ALPHABET_PUNCTUATION = f"{ALPHABET}{punctuation}"
+
+
+def _previous_letter(text, end, stop_characters=ALPHABET_PUNCTUATION):
     index = end - 1
     while True:
         if text[index] in stop_characters:
