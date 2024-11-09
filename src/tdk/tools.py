@@ -1,12 +1,12 @@
 from collections.abc import Sequence
-from typing import List, TypeVar
+from typing import TypeVar
 from string import punctuation
 
 from tdk.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
-from tdk.classifications import LetterType, SyllableType
+from tdk.enums import LetterType, SyllableType
 
 
-def _next_vowel(text: str, cur: int) -> int:
+def _next_vowel_index(text: str, cur: int) -> int:
     index = cur
     while True:
         if index + 1 >= len(text):
@@ -16,7 +16,12 @@ def _next_vowel(text: str, cur: int) -> int:
         index += 1
 
 
-def _are_there_letters_between(text, start, end, alphabet=ALPHABET):
+def _are_there_letters_between(
+        text: str,
+        start: int,
+        end: int,
+        alphabet=ALPHABET
+) -> bool:
     part = text[start + 1: end]
     for character in part:
         if character in alphabet:
@@ -35,8 +40,8 @@ def _previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
     return index
 
 
-def hecele(text: str) -> List[str]:
-    """Syllabifies the specified text.
+def hecele(text: str, /) -> list[str]:
+    """Split the text into syllables.
 
     >>> hecele("merhaba")
     ["mer", "ha", ba"]
@@ -44,11 +49,11 @@ def hecele(text: str) -> List[str]:
     ["or", "ta", "o", "kul"]
     """
 
-    current_vowel_index = _next_vowel(text, -1)
+    current_vowel_index = _next_vowel_index(text, -1)
     syllables = []
     last_syllable_index = 0
     while True:
-        next_vowel_index = _next_vowel(text, current_vowel_index)
+        next_vowel_index = _next_vowel_index(text, current_vowel_index)
         if next_vowel_index == current_vowel_index:  # This is the last vowel
             syllables.append(text[last_syllable_index:])
             break
@@ -66,7 +71,7 @@ def hecele(text: str) -> List[str]:
     return syllables
 
 
-def get_syllable_type(syllable: str) -> SyllableType:
+def get_syllable_type(syllable: str, /) -> SyllableType:
     letters = lowercase(syllable, remove_circumflex=False)
     cv_map = list(map(get_letter_type, letters))
     if cv_map in [
@@ -82,7 +87,7 @@ def get_syllable_type(syllable: str) -> SyllableType:
         return SyllableType.CLOSED
 
 
-def get_letter_type(letter: str) -> LetterType:
+def get_letter_type(letter: str, /) -> LetterType:
     ch = lowercase(letter, remove_circumflex=False)
     if len(ch) != 1 or (ch not in ALPHABET and ch not in LONG_VOWELS):
         raise ValueError(f"Argument of value \"{letter}\" is not a valid letter.")
@@ -155,7 +160,7 @@ def counter(word: str, targets=VOWELS) -> int:
     return sum(lowercase(word).count(x) for x in targets)
 
 
-def streaks(word: str, targets=CONSONANTS) -> List[int]:
+def streaks(word: str, targets=CONSONANTS) -> list[int]:
     """
     Accumulate the number of characters in word which are also in targets.
     When a character in word isn't in targets, break the streak and append it to the return list.

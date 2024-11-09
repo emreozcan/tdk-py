@@ -1,3 +1,5 @@
+from typing import Optional
+
 import aiohttp
 
 _http_headers = {
@@ -13,3 +15,17 @@ _http_headers = {
 
 def session_maker() -> aiohttp.ClientSession:
     return aiohttp.ClientSession(headers=_http_headers)
+
+
+def with_http_session(func):
+    async def wrapper(*args, **kwargs):
+        if "http_session" in kwargs:
+            return await func(*args, **kwargs)
+        async with session_maker() as http_session:
+            return await func(*args, http_session=http_session, **kwargs)
+
+    # typing:
+    wrapper.__annotations__ = func.__annotations__.copy()
+    wrapper.__annotations__["http_session"] = Optional[aiohttp.ClientSession]
+
+    return wrapper

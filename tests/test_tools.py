@@ -1,8 +1,7 @@
 import pytest
 
 from tdk import alphabet
-from tdk.classifications.letter_types import LetterType
-from tdk.classifications.syllable_types import SyllableType
+from tdk.enums import LetterType, SyllableType
 from tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, annotate, distinct, get_syllable_type, \
     get_letter_type
 

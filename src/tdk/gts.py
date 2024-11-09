@@ -2,24 +2,19 @@ import aiohttp
 from pydantic import TypeAdapter
 
 from tdk.models import Entry
-from tdk.networking import session_maker
+from tdk.http import with_http_session
 from tdk.tools import lowercase, dictionary_order
 
 
-def _with_or_without_session(func):
-    async def wrapper(*args, **kwargs):
-        if "http_session" in kwargs:
-            return await func(*args, **kwargs)
-        async with session_maker() as http_session:
-            return await func(*args, http_session=http_session, **kwargs)
-
-    # typing:
-    wrapper.__annotations__ = func.__annotations__
-
-    return wrapper
+__all__ = [
+    "get_index",
+    "search",
+    "get_with_id",
+    "get_suggestion",
+]
 
 
-@_with_or_without_session
+@with_http_session
 async def get_index(*, http_session: aiohttp.ClientSession) -> list[str]:
     async with (http_session.get(
         "https://sozluk.gov.tr/autocomplete.json"
@@ -34,8 +29,8 @@ async def get_index(*, http_session: aiohttp.ClientSession) -> list[str]:
         )
 
 
-@_with_or_without_session
-async def search(query: str, *, http_session: aiohttp.ClientSession) \
+@with_http_session
+async def search(query: str, /, *, http_session: aiohttp.ClientSession) \
         -> list[Entry]:
     query = lowercase(query, remove_unknown_characters=False)
     async with http_session.get(
@@ -50,8 +45,9 @@ async def search(query: str, *, http_session: aiohttp.ClientSession) \
         return TypeAdapter(list[Entry]).validate_python(words)
 
 
-@_with_or_without_session
-async def get(id: int, *, http_session: aiohttp.ClientSession) -> Entry:
+@with_http_session
+async def get_with_id(id: int, /, *, http_session: aiohttp.ClientSession) \
+        -> Entry:
     async with http_session.get(
         "https://sozluk.gov.tr/gts_id",
         params={"id": id}
@@ -62,8 +58,8 @@ async def get(id: int, *, http_session: aiohttp.ClientSession) -> Entry:
         return Entry(**word[0])
 
 
-@_with_or_without_session
-async def get_suggestion(query: str, *, http_session: aiohttp.ClientSession) \
+@with_http_session
+async def get_suggestion(query: str, /, *, http_session: aiohttp.ClientSession) \
         -> list[str]:
     async with http_session.get(
         "https://sozluk.gov.tr/oneri",

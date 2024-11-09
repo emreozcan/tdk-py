@@ -2,7 +2,7 @@ from typing import List
 
 from pydantic import BaseModel, Field, AliasChoices
 
-from tdk.classifications import OriginLanguage, ValidatedProperty
+from tdk.enums import OriginLanguage, ValidatedProperty
 
 
 class Writer(BaseModel):
