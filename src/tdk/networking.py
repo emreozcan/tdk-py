@@ -1,5 +1,4 @@
-import http.client
-import urllib.request
+import aiohttp
 
 _http_headers = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
@@ -12,13 +11,5 @@ _http_headers = {
 }
 
 
-def make_request(*args, **kwargs) -> http.client.HTTPResponse:
-    """
-    Helper function to add default headers to a urllib request.
-
-    All arguments are passed down to urllib.request.Request,
-    Default headers are added if the "headers" keyword argument is not given.
-    """
-    if "headers" not in kwargs:
-        kwargs["headers"] = _http_headers
-    return urllib.request.urlopen(urllib.request.Request(*args, **kwargs))
+def session_maker() -> aiohttp.ClientSession:
+    return aiohttp.ClientSession(headers=_http_headers)

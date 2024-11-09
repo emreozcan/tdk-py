@@ -1,9 +1,9 @@
 from typing import List
 from string import punctuation
 
-from .alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
-from .classifications.letter_types import LetterType
-from .classifications.syllable_types import SyllableType
+from tdk.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
+from tdk.classifications.letter_types import LetterType
+from tdk.classifications.syllable_types import SyllableType
 
 
 def _next_vowel(text: str, cur: int) -> int:

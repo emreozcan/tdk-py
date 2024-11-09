@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class OriginLanguage(Enum):
+class OriginLanguage(IntEnum):
     ORIGINAL = 0
     COMPOUND = 19
 
