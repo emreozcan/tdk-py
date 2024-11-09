@@ -117,6 +117,23 @@ def search_sync(): ...
 
 
 @with_http_session
+async def search_proverbs_and_phrases(
+        query: str, /, *, http_session: ClientSession) -> list[Entry]:
+    query = lowercase(query, keep_unknown_characters=False)
+    async with http_session.get(
+        "https://sozluk.gov.tr/gtsAtasozDeyim",
+        params={"ara": query}
+    ) as response:
+        return TypeAdapter(list[Entry]).validate_python(
+            await response.json(content_type="text/html; charset=utf-8")
+        )
+
+
+@make_sync(search_proverbs_and_phrases)
+def search_proverbs_and_phrases_sync(): ...
+
+
+@with_http_session
 async def get_suggestions(query: str, /, *,
                           http_session: ClientSession) -> list[str]:
     async with http_session.get(
