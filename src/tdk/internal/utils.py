@@ -21,3 +21,12 @@ def int_or_none_as_str(value: str) -> int | None:
 
 
 IntOrNone = Annotated[int | None, BeforeValidator(int_or_none_as_str)]
+
+
+def str_or_none_as_str(value: str) -> str | None:
+    if not value:
+        return None
+    return value
+
+
+StrOrNone = Annotated[str | None, BeforeValidator(str_or_none_as_str)]
