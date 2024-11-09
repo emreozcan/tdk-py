@@ -39,7 +39,8 @@ import tdk
 
 ```python
 import tdk
-results = tdk.gts.search_sync("merkeziyetçilik")
+
+results = tdk.dictionaries.gts.search_gts_sync("merkeziyetçilik")
 print(results[0].meanings[0].meaning)
 ```
 ```{code-block}
@@ -51,9 +52,10 @@ is possible for there to be more than one word with the exact same spelling.
 
 ```python
 import tdk
-for number, entry in enumerate(tdk.gts.search_sync("bar")):
+
+for number, entry in enumerate(tdk.dictionaries.gts.search_gts_sync("bar")):
     for meaning in entry.meanings:
-        print(number+1, entry.entry, meaning.meaning)
+        print(number + 1, entry.entry, meaning.meaning)
 ```
 ```{code-block}
 1 bar Anadolu'nun doğu ve kuzey bölgesinde, en çok Artvin ve Erzurum yörelerinde el ele tutuşularak oynanan, ağır ritimli bir halk oyunu
@@ -78,12 +80,12 @@ from difflib import get_close_matches
 import tdk
 
 # Calculate suggestions locally using the index:
-suggestions = get_close_matches("feldispat", tdk.gts.get_index_sync())
-# assert suggestions == ['feldspat', 'ispat', 'fesat']
+words = get_close_matches("feldispat", tdk.dictionaries.gts.get_index_sync())
+assert words == ['feldspat', 'ispat', 'fesat']
 
 # Use the TDK API: (sometimes errors out)
-suggestions = tdk.gts.get_suggestions_sync("feldispat")
-# assert suggestions == ['feldspat', 'felekiyat', 'ispat']
+words = tdk.dictionaries.gts.get_gts_suggestions_sync("feldispat")
+assert words == ['feldspat', 'felekiyat', 'ispat']
 ```
 
 ### Performing complex analyses
@@ -94,7 +96,7 @@ of entries by the number of maximum consecutive consonants.
 ```python
 import tdk
 annotated_dict = {}
-for entry in tdk.gts.get_index_sync():
+for entry in tdk.dictionaries.gts.get_index_sync():
     streaks = tdk.etc.tools.max_streak(entry)
     if streaks not in annotated_dict:
         annotated_dict[streaks] = [entry]

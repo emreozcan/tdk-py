@@ -124,7 +124,7 @@ def get_circumflex_index_sync(): ...
 
 
 @with_http_session
-async def search(query: str, /, *, http_session: ClientSession) -> list[Entry]:
+async def search_gts(query: str, /, *, http_session: ClientSession) -> list[Entry]:
     query = lowercase(query, keep_unknown_characters=False)
     async with http_session.get(
         "https://sozluk.gov.tr/gts", params={"ara": query}
@@ -136,12 +136,12 @@ async def search(query: str, /, *, http_session: ClientSession) -> list[Entry]:
         return []
 
 
-@make_sync(search)
-def search_sync(): ...
+@make_sync(search_gts)
+def search_gts_sync(): ...
 
 
 @with_http_session
-async def search_proverbs_and_phrases(
+async def search_gts_proverbs_and_phrases(
     query: str, /, *, http_session: ClientSession
 ) -> list[Entry]:
     query = lowercase(query, keep_unknown_characters=False)
@@ -155,12 +155,12 @@ async def search_proverbs_and_phrases(
         return []
 
 
-@make_sync(search_proverbs_and_phrases)
-def search_proverbs_and_phrases_sync(): ...
+@make_sync(search_gts_proverbs_and_phrases)
+def search_gts_proverbs_and_phrases_sync(): ...
 
 
 @with_http_session
-async def get_suggestions(
+async def get_gts_suggestions(
     query: str, /, *, http_session: ClientSession
 ) -> list[str]:
     async with http_session.get(
@@ -181,5 +181,5 @@ async def get_suggestions(
             ) from e
 
 
-@make_sync(get_suggestions)
-def get_suggestions_sync(): ...
+@make_sync(get_gts_suggestions)
+def get_gts_suggestions_sync(): ...
