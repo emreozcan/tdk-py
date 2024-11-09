@@ -1,3 +1,4 @@
+from functools import wraps
 from typing import Optional
 
 import aiohttp
@@ -18,6 +19,7 @@ def session_maker() -> aiohttp.ClientSession:
 
 
 def with_http_session(func):
+    @wraps(func)
     async def wrapper(*args, **kwargs):
         if "http_session" in kwargs:
             return await func(*args, **kwargs)
