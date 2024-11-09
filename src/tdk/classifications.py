@@ -4,6 +4,51 @@ from typing import Annotated
 from pydantic import BaseModel, Field, AliasChoices, WrapValidator
 
 
+class LetterType(Enum):
+    SHORT_VOWEL = 0
+    LONG_VOWEL = 1
+    CONSONANT = 2
+
+
+class SyllableType(Enum):
+    OPEN = 0
+    CLOSED = 1
+    MEDLI = 2
+
+
+class OriginLanguage(IntEnum):
+    ORIGINAL = 0
+    COMPOUND = 19
+
+    ARABIC = 11
+    PERSIAN = 12
+    FRENCH = 13
+    ITALIAN = 14
+    GREEK = 15
+    LATIN = 16
+    ENGLISH = 18
+    SPANISH = 20
+    ARMENIAN = 21
+    RUSSIAN = 22
+    GERMAN = 23
+    SLAVIC = 24
+    HEBREW = 25
+    HUNGARIAN = 26
+    BULGARIAN = 27
+    PORTUGUESE = 28
+    JAPANESE = 346
+    ALBANIAN = 348
+
+    MONGOLIAN = 354
+    MONGOLIAN_2 = 153
+
+    FINNISH = 392
+    ROMAIC = 393
+    SOGDIAN = 395
+    SERBIAN = 486
+    KOREAN = 420
+
+
 class PropertyKind(IntEnum):
     FIELD = 1
     PART_OF_SPEECH = 3
@@ -88,8 +133,8 @@ class MeaningProperty(Enum):
     @staticmethod
     def get(arg):
         if isinstance(arg, dict):
-            return _lookup_table[int(arg["ozellik_id"])]
-        return _lookup_table[arg]
+            return _property_table[int(arg["ozellik_id"])]
+        return _property_table[arg]
 
 
 def _validate_property(v, handler):
@@ -99,14 +144,11 @@ def _validate_property(v, handler):
 
 
 ValidatedProperty = Annotated[MeaningProperty, WrapValidator(_validate_property)]
-
-
-_lookup_table: dict[int | str, MeaningProperty] = {}
-
+_property_table: dict[int | str, MeaningProperty] = {}
 
 for enum_value in MeaningProperty:
-    _lookup_table = {
-        **_lookup_table,
+    _property_table = {
+        **_property_table,
         enum_value.value.id: enum_value,
         enum_value.value.full_name: enum_value,
         enum_value.value.short_name: enum_value,
