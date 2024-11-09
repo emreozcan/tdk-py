@@ -2,7 +2,7 @@ import pytest
 
 from tdk import alphabet
 from tdk.enums import LetterType, SyllableType
-from tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, annotate, distinct, get_syllable_type, \
+from tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, distinct, get_syllable_type, \
     get_letter_type
 
 
@@ -167,11 +167,6 @@ class TestStreaks:
         assert streaks("abeı") == [0, 1, 0, 0]
         assert streaks("aebı") == [0, 0, 1, 0]
         assert streaks("aeıb") == [0, 0, 0, 1]
-
-
-def test_annotation():
-    example_list = [1, 2, 3, 4]
-    assert {1: 1, 2: 4, 3: 9, 4: 16} == annotate(example_list, fn=lambda x: x**2, reverse=False)
 
 
 def test_dictinct():

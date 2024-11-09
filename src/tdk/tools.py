@@ -195,19 +195,6 @@ def max_streak(word: str, targets=CONSONANTS) -> int:
     return max(streaks(word=word, targets=targets))
 
 
-def annotate(items, fn, sort_fn=None, reverse=True):
-    """Return a dict with elements of items as keys and their values under fn as their values,
-    sorted by their values under sort_fn. If sort_fn isn't specified, use fn by default.
-
-
-    >>> annotate([4, 3, 2, 1], fn=lambda x: x**2, sort_fn=lambda x: (-2)**x, reverse=False)
-    {3: 9, 1: 1, 2: 4, 4: 16}  # Sorted by odd numbers decreasing, then even numbers increasing.
-    """
-    if sort_fn is None:
-        sort_fn = fn
-    return {k: fn(k) for k in sorted(items, key=sort_fn, reverse=reverse)}
-
-
 T = TypeVar("T")
 
 
