@@ -9,7 +9,6 @@ from tdk.tools import lowercase, dictionary_order
 __all__ = [
     "get_index",
     "search",
-    "get_with_id",
     "get_suggestion",
 ]
 
@@ -45,17 +44,6 @@ async def search(query: str, /, *, http_session: aiohttp.ClientSession) \
         return TypeAdapter(list[Entry]).validate_python(words)
 
 
-@with_http_session
-async def get_with_id(id: int, /, *, http_session: aiohttp.ClientSession) \
-        -> Entry:
-    async with http_session.get(
-        "https://sozluk.gov.tr/gts_id",
-        params={"id": id}
-    ) as response:
-        word = await response.json(content_type="text/html; charset=utf-8")
-        if not isinstance(word, list):
-            raise RuntimeError(f'The server responded with an error: {word["error"]}')
-        return Entry(**word[0])
 
 
 @with_http_session
