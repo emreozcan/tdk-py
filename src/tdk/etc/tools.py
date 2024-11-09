@@ -18,15 +18,9 @@ def _next_vowel_index(text: str, cur: int) -> int:
 
 
 def _are_there_letters_between(
-        text: str,
-        start: int,
-        end: int,
-        alphabet=ALPHABET
+    text: str, start: int, end: int, alphabet=ALPHABET
 ) -> bool:
-    return any(
-        character in alphabet
-        for character in text[start + 1: end]
-    )
+    return any(character in alphabet for character in text[start + 1 : end])
 
 
 ALPHABET_PUNCTUATION = f"{ALPHABET}{punctuation}"
@@ -60,8 +54,9 @@ def hecele(text: str, /) -> list[str]:
         if next_vowel_index == current_vowel_index:  # This is the last vowel
             syllables.append(text[last_syllable_index:])
             break
-        elif (not _are_there_letters_between(text, current_vowel_index,
-                                             next_vowel_index)):  # There are two neighbor vowels (sa/at)
+        elif not _are_there_letters_between(
+            text, current_vowel_index, next_vowel_index
+        ):  # There are two neighbor vowels (sa/at)
             syllable_stop_index = next_vowel_index
         else:
             syllable_stop_index = _previous_letter(text, next_vowel_index)
@@ -120,12 +115,12 @@ def get_letter_type(letter: str, /) -> _Ltr:
 
 
 def lowercase(
-        word: str,
-        /,
-        *,
-        alphabet: str = ALPHABET,
-        keep_unknown_characters=False,
-        remove_circumflexes=True,
+    word: str,
+    /,
+    *,
+    alphabet: str = ALPHABET,
+    keep_unknown_characters=False,
+    remove_circumflexes=True,
 ) -> str:
     """Removes all whitespace and punctuation from word and lowercase it.
 
@@ -165,10 +160,7 @@ def dictionary_order(word: str, /, *, alphabet=ALPHABET) -> tuple[int]:
     >>> dictionary_order("yumuşaklık") < dictionary_order("beşik")
     False
     """
-    return tuple(
-        alphabet.index(letter)
-        for letter in lowercase(word)
-    )
+    return tuple(alphabet.index(letter) for letter in lowercase(word))
 
 
 def counter(word: str, *, targets=VOWELS) -> int:
