@@ -76,6 +76,23 @@ def get_index_sync(): ...
 
 
 @with_http_session
+async def get_circumflex_index(*, http_session: ClientSession) \
+        -> dict[str, str]:
+    """
+    :returns: A dictionary where the keys are entries without circumflex,
+              and the values are the entries with.
+    """
+    async with (http_session.get(
+        "https://sozluk.gov.tr/assets/js/autocompleteSapka.json"
+    ) as response):
+        return await response.json()
+
+
+@make_sync(get_circumflex_index)
+def get_circumflex_index_sync(): ...
+
+
+@with_http_session
 async def search(query: str, /, *, http_session: ClientSession) \
         -> list[Entry]:
     query = lowercase(query, keep_unknown_characters=False)
