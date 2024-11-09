@@ -76,6 +76,27 @@ def get_index_sync(): ...
 
 
 @with_http_session
+async def get_etms_index(query: str, /, *,
+                         http_session: ClientSession) -> list[str]:
+    async with http_session.get(
+        "https://sozluk.gov.tr/etmsAutoComp.json",
+        params={"ara": query}
+    ) as response:
+        return sorted(
+            [
+                entry["madde"]
+                for entry in
+                await response.json()
+            ],
+            key=dictionary_order
+        )
+
+
+@make_sync(get_etms_index)
+def get_etms_index_sync(): ...
+
+
+@with_http_session
 async def search(query: str, /, *, http_session: ClientSession) \
         -> list[Entry]:
     query = lowercase(query, keep_unknown_characters=False)
