@@ -1,5 +1,4 @@
 from json import JSONDecodeError
-from typing import List
 
 from aiohttp import ClientSession
 from pydantic import TypeAdapter, BaseModel, Field, AliasChoices
@@ -49,9 +48,9 @@ class Meaning(BaseModel):
     entry_id: int = Field(validation_alias=AliasChoices("entry_id", "madde_id"))
     examples: List[MeaningExample] = Field(
         default_factory=list,
-        validation_alias=AliasChoices("examples", "orneklerListe"),
+        validation_alias=AliasChoices("examples", "orneklerliste"),
     )
-    properties: List[ValidatedProperty] = Field(
+    properties: list[ValidatedProperty] = Field(
         default_factory=list,
         validation_alias=AliasChoices("properties", "ozelliklerListe"),
     )
@@ -70,11 +69,11 @@ class Entry(BaseModel):
     entry_normalized: str | None = Field(
         validation_alias=AliasChoices("entry_normalized", "madde_duz")
     )
-    meanings: List[Meaning] = Field(
+    meanings: list[Meaning] = Field(
         default_factory=list,
         validation_alias=AliasChoices("meanings", "anlamlarListe"),
     )
-    proverbs: List[Proverb] = Field(
+    proverbs: list[Proverb] = Field(
         default_factory=list,
         validation_alias=AliasChoices("proverbs", "atasozu"),
     )

@@ -1,5 +1,5 @@
-from collections.abc import Sequence
-from typing import NewType, Iterable
+from collections.abc import Iterable
+from typing import NewType
 
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter

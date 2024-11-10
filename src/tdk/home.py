@@ -1,4 +1,4 @@
-from typing import List, Annotated
+from typing import Annotated
 
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, BeforeValidator
@@ -49,26 +49,26 @@ class HomepageContent(BaseModel):
     counter: ValidatedCounter = Field(
         validation_alias=AliasChoices("sayac", "deger")
     )
-    mixups: List[HomepageMixup] = Field(
+    mixups: list[HomepageMixup] = Field(
         default_factory=list,
         validation_alias=AliasChoices("mixups", "karistirma"),
     )
-    proverbs: List[HomepageProverb] = Field(
+    proverbs: list[HomepageProverb] = Field(
         default_factory=list,
         validation_alias=AliasChoices("proverbs", "atasozu"),
     )
-    typos: List[HomepageFrequentTypos] = Field(
+    typos: list[HomepageFrequentTypos] = Field(
         default_factory=list,
         validation_alias=AliasChoices("frequent_typos", "syyd"),
     )
-    rules: List[HomepageRule] = Field(
+    rules: list[HomepageRule] = Field(
         default_factory=list, validation_alias=AliasChoices("rules", "kural")
     )
     loanword: LoanwordEntry = Field(
         default_factory=list,
         validation_alias=AliasChoices("loanword", "yabanci"),
     )
-    words: List[HomepageWord] = Field(
+    words: list[HomepageWord] = Field(
         default_factory=list, validation_alias=AliasChoices("words", "kelime")
     )
 

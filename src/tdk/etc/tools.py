@@ -129,7 +129,7 @@ def get_letter_type(letter: str, /) -> _Ltr:
     """
     ch = lowercase(letter, remove_circumflexes=False)
     if not ch:
-        raise ValueError(f"Empty string is not a valid letter.")
+        raise ValueError("Empty string is not a valid letter.")
     if len(ch) != 1:
         raise ValueError(f"Expected a single character, got {len(ch)}.")
     if ch in VOWELS:
@@ -248,8 +248,7 @@ def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
         else:
             streaks_found.append(accumulator)
             accumulator = 0
-    else:
-        streaks_found.append(accumulator)
+    streaks_found.append(accumulator)
     if len(streaks_found) == 0:
         return []
     return streaks_found
