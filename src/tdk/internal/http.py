@@ -7,7 +7,7 @@ from typing import Optional
 
 import aiohttp
 
-http_headers = {
+http_headers: dict[str, str] = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
     "Referer": "https://sozluk.gov.tr/",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -16,24 +16,25 @@ http_headers = {
     "Safari/537.36",
     "X-Requested-With": "XMLHttpRequest",
 }
+"""Default headers for HTTP requests."""
 
 
 def session_maker(**kwargs) -> aiohttp.ClientSession:
-    """Create a <inv:#ClientSession> with some default headers.
+    """Create a <inv:#aiohttp.ClientSession> with some default headers.
 
-    This is preferred over creating a base <inv:#ClientSession> because the TDK
-    servers block requests that do not have headers.
+    This is preferred over creating a base <inv:#aiohttp.ClientSession> because
+    the TDK servers block requests that do not have headers.
     """
     kwargs["headers"] = {**http_headers, **kwargs.get("headers", {})}
     return aiohttp.ClientSession(**kwargs)
 
 
 def with_http_session(func):
-    """Make <inv:#ClientSession> optional for a function that requires it.
+    """Make <inv:#aiohttp.ClientSession> optional for functions that require it.
 
     Creates a decorator
-    that provides a default <inv:#ClientSession>
-    created by <inv:#session_maker>
+    that provides a default <inv:#aiohttp.ClientSession>
+    created by <project:#session_maker>
     to the wrapped function.
     """
     @wraps(func)

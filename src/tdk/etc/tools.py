@@ -182,7 +182,7 @@ def lowercase(
         return word_io.read()
 
 
-def dictionary_order(word: str, /, *, alphabet=ALPHABET) -> tuple[int]:
+def dictionary_order(word: str, /, *, alphabet: str = ALPHABET) -> tuple[int]:
     """Returns a tuple of indices that can be used as orthographic order.
 
     ```python
@@ -200,7 +200,7 @@ def dictionary_order(word: str, /, *, alphabet=ALPHABET) -> tuple[int]:
     return tuple(alphabet.index(letter) for letter in lowercase(word))
 
 
-def counter(word: str, *, targets=VOWELS) -> int:
+def counter(word: str, *, targets: str = VOWELS) -> int:
     """Find total number of occurrences of each element in targets.
     ```pycon
     >>> counter(word="aaaaaBBBc", targets="c")
@@ -222,7 +222,7 @@ def counter(word: str, *, targets=VOWELS) -> int:
     return sum(word.count(x) for x in targets)
 
 
-def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
+def streaks(word: str, *, targets: str = CONSONANTS) -> list[int]:
     """
     Accumulate the number of characters in word which are also in targets.
     When a character in word isn't in targets,
@@ -254,16 +254,18 @@ def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
     return streaks_found
 
 
-def max_streak(word: str, *, targets=CONSONANTS) -> int:
+def max_streak(word: str, *, targets: str = CONSONANTS) -> int:
     """Find the maximum consecutive targets in word."""
     return max(streaks(word=word, targets=targets))
 
 
-T = TypeVar("T")
+_T = TypeVar("_T")
 
 
-def distinct(seq: Sequence[T]) -> list[T]:
-    """Returns the sequence with each element appearing once with FIFO order."""
-    seen: set[T] = set()
+def distinct(seq: Sequence[_T]) -> Sequence[_T]:
+    """
+    Get a copy of the sequence with each element appearing once in input order.
+    """
+    seen: set[_T] = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]

@@ -62,9 +62,9 @@ autodoc2_render_plugin = "myst"
 autodoc2_module_all_regexes = [
     # r'tdk\..*',
 ]
-autodoc2_hidden_objects = {"inherited", "undoc"}
+autodoc2_hidden_objects = {"inherited", "private"}
 autodoc2_replace_annotations = [
-    ("tdk.etc.tools.T", "T"),
+    ("tdk.etc.tools._T", "T"),
 ]
 
 # -- Options for intersphinx

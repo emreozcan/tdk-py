@@ -108,7 +108,8 @@ def get_index_sync(): ...
 async def get_circumflex_index(
     *, http_session: ClientSession
 ) -> dict[str, str]:
-    """
+    """Get the circumflex index.
+
     :returns: A dictionary where the keys are entries without circumflex,
               and the values are the entries with.
     """
