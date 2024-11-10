@@ -26,6 +26,7 @@ extensions = [
     'sphinx_copybutton',
     'autodoc2',
     'sphinx_inline_tabs',
+    'sphinx_tippy',
 ]
 
 templates_path = ['_templates']
@@ -60,6 +61,10 @@ autodoc2_packages = [
 autodoc2_render_plugin = "myst"
 autodoc2_module_all_regexes = [
     # r'tdk\..*',
+]
+autodoc2_hidden_objects = {"inherited", "undoc"}
+autodoc2_replace_annotations = [
+    ("tdk.etc.tools.T", "T"),
 ]
 
 # -- Options for intersphinx

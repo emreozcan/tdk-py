@@ -1,3 +1,7 @@
+"""
+This module provides helper functions for making HTTP requests.
+"""
+
 from functools import wraps
 from typing import Optional
 
@@ -14,11 +18,24 @@ http_headers = {
 }
 
 
-def session_maker() -> aiohttp.ClientSession:
-    return aiohttp.ClientSession(headers=http_headers)
+def session_maker(**kwargs) -> aiohttp.ClientSession:
+    """Create a <inv:#ClientSession> with some default headers.
+
+    This is preferred over creating a base <inv:#ClientSession> because the TDK
+    servers block requests that do not have headers.
+    """
+    kwargs["headers"] = {**http_headers, **kwargs.get("headers", {})}
+    return aiohttp.ClientSession(**kwargs)
 
 
 def with_http_session(func):
+    """Make <inv:#ClientSession> optional for a function that requires it.
+
+    Creates a decorator
+    that provides a default <inv:#ClientSession>
+    created by <inv:#session_maker>
+    to the wrapped function.
+    """
     @wraps(func)
     async def wrapper(*args, **kwargs):
         if "http_session" in kwargs:

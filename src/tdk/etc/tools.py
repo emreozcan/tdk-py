@@ -1,3 +1,7 @@
+"""
+This module contains various tools for working with strings.
+"""
+
 from collections.abc import Sequence
 from io import StringIO, SEEK_SET
 from typing import TypeVar
@@ -8,6 +12,7 @@ from tdk.etc.enums import LetterType as _Ltr, SyllableType
 
 
 def _next_vowel_index(text: str, cur: int) -> int:
+    """Find the next vowel index in the text."""
     index = cur
     while True:
         if index + 1 >= len(text):
@@ -20,13 +25,16 @@ def _next_vowel_index(text: str, cur: int) -> int:
 def _are_there_letters_between(
     text: str, start: int, end: int, alphabet=ALPHABET
 ) -> bool:
+    """Check if there are any letters between the start and end indices."""
     return any(character in alphabet for character in text[start + 1 : end])
 
 
 ALPHABET_PUNCTUATION = f"{ALPHABET}{punctuation}"
+"""The Turkish alphabet and common punctuation marks."""
 
 
 def _previous_letter(text, end, stop_characters=ALPHABET_PUNCTUATION):
+    """Find the previous letter index in the text."""
     index = end - 1
     while True:
         if text[index] in stop_characters:
@@ -40,10 +48,12 @@ def _previous_letter(text, end, stop_characters=ALPHABET_PUNCTUATION):
 def hecele(text: str, /) -> list[str]:
     """Split the text into syllables.
 
+    ```pycon
     >>> hecele("merhaba")
     ["mer", "ha", ba"]
     >>> hecele("ortaokul")
     ["or", "ta", "o", "kul"]
+    ```
     """
 
     current_vowel_index = _next_vowel_index(text, -1)
@@ -75,20 +85,23 @@ _MEDLI_PATTERNS = (
     (_Ltr.SHORT_VOWEL, _Ltr.CONSONANT, _Ltr.CONSONANT),
     (_Ltr.CONSONANT, _Ltr.SHORT_VOWEL, _Ltr.CONSONANT, _Ltr.CONSONANT),
 )
+"""Look-up table for medli syllable patterns.
+
+Used by <project:#get_syllable_type> when determining if the syllable is medli.
+"""
 
 
 def get_syllable_type(syllable: str, /) -> SyllableType:
-    """Determine the type of the syllable.
+    """Determine the type of the syllable according to aruz prosody rules.
 
     The type of the syllable is defined as follows,
-    where C is a consonant, V is a short vowel, and L is a long vowel:
+    where `C` is a consonant, `V` is a short vowel, and `L` is a long vowel:
 
-    * If the syllable is of the form LC, CLC, VCC, CVCC, it is MEDLI.
-    * If the syllable ends with a short vowel, it is OPEN.
-    * Otherwise, it is CLOSED.
-
-    :param syllable:
-    :return:
+    * If the syllable is of the form `LC`, `CLC`, `VCC`, or `CVCC`; it is
+      <project:#SyllableType.MEDLI>.
+    * If the syllable ends with a short vowel, it is
+      <project:#SyllableType.OPEN>.
+    * Otherwise, it is <project:#SyllableType.CLOSED>.
     """
     letters = lowercase(syllable, remove_circumflexes=False)
     cv_map = tuple(get_letter_type(letter) for letter in letters)
@@ -102,9 +115,23 @@ def get_syllable_type(syllable: str, /) -> SyllableType:
 
 
 def get_letter_type(letter: str, /) -> _Ltr:
+    """Determine the type of the letter.
+
+    * If the letter is a vowel without a circumflex, it is a
+      <project:#LetterType.SHORT_VOWEL>.
+    * If the letter is a vowel with a circumflex, it is a
+      <project:#LetterType.LONG_VOWEL>.
+    * If the letter is a consonant, it is a <project:#LetterType.CONSONANT>.
+
+    :raises ValueError: If the letter is not a valid letter in
+                        <project:#VOWELS>, <project:#LONG_VOWELS>,
+                        or <project:#CONSONANTS>.
+    """
     ch = lowercase(letter, remove_circumflexes=False)
     if not ch:
         raise ValueError(f"Empty string is not a valid letter.")
+    if len(ch) != 1:
+        raise ValueError(f"Expected a single character, got {len(ch)}.")
     if ch in VOWELS:
         return _Ltr.SHORT_VOWEL
     elif ch in LONG_VOWELS:
@@ -119,15 +146,17 @@ def lowercase(
     /,
     *,
     alphabet: str = ALPHABET,
-    keep_unknown_characters=False,
-    remove_circumflexes=True,
+    keep_unknown_characters: bool = False,
+    remove_circumflexes: bool = True,
 ) -> str:
     """Removes all whitespace and punctuation from word and lowercase it.
 
+    ```pycon
     >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)")
     "geçtiborunpazarısüreşeğininiğdeye"
+    ```
 
-    :return: A lowercase string without any whitespace or punctuation.
+    :returns: A lowercase string without any whitespace or punctuation.
     """
 
     a_circumflex_replacement = "a" if remove_circumflexes else "â"
@@ -154,30 +183,40 @@ def lowercase(
 
 
 def dictionary_order(word: str, /, *, alphabet=ALPHABET) -> tuple[int]:
-    """
-    >>> dictionary_order("algarina") < dictionary_order("zamansızlık")
-    True
-    >>> dictionary_order("yumuşaklık") < dictionary_order("beşik")
-    False
+    """Returns a tuple of indices that can be used as orthographic order.
+
+    ```python
+    assert dictionary_order("algarina") < dictionary_order("zamansızlık")
+    assert dictionary_order("yumuşaklık") > dictionary_order("beşik")
+    ```
+
+    :::{admonition} Invariant
+    :class: tip
+
+    If `B` comes after `A` in the dictionary,
+    `dictionary_order(B) > dictionary_order(A)`.
+    :::
     """
     return tuple(alphabet.index(letter) for letter in lowercase(word))
 
 
 def counter(word: str, *, targets=VOWELS) -> int:
-    """
+    """Find total number of occurrences of each element in targets.
+    ```pycon
     >>> counter(word="aaaaaBBBc", targets="c")
     1
     >>> counter(word="aaaaaBBBc", targets="b")
     3
     >>> counter(word="aaaaaBBBc", targets="cb")
     4
+    ```
 
-    The word is sanitized using `lowercase()`.
+    `word` is sanitized using `lowercase()`.
 
+    ```pycon
     >>> counter(word="aaaaaBBBc", targets="B")
     0
-
-    :return: The total number of occurrences of each element in targets.
+    ```
     """
     word = lowercase(word)
     return sum(word.count(x) for x in targets)
@@ -186,9 +225,11 @@ def counter(word: str, *, targets=VOWELS) -> int:
 def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
     """
     Accumulate the number of characters in word which are also in targets.
-    When a character in word isn't in targets, break the streak and append it to the return list.
-    (Even if the current streak is 0.)
+    When a character in word isn't in targets,
+    break the streak and append it to the return list,
+    even if the current streak is 0.
 
+    ```pycon
     >>> streaks("anapara")
     [0, 1, 1, 1, 0]  # /a N /a P /a R /a /
     >>> streaks("zorlanmak")
@@ -197,6 +238,7 @@ def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
     [1, 1, 2, 1, 1]  # Ç /ö Z /ü ML /e M /e K /
     >>> streaks("tasdikletmek")
     [1, 2, 2, 2, 1]  # T /a SD /i KL /e TM /e K /
+    ```
     """
     streaks_found = []
     accumulator = 0
@@ -214,7 +256,7 @@ def streaks(word: str, *, targets=CONSONANTS) -> list[int]:
 
 
 def max_streak(word: str, *, targets=CONSONANTS) -> int:
-    """The maximum consecutive targets in word."""
+    """Find the maximum consecutive targets in word."""
     return max(streaks(word=word, targets=targets))
 
 
@@ -222,7 +264,7 @@ T = TypeVar("T")
 
 
 def distinct(seq: Sequence[T]) -> list[T]:
-    """Returns the sequence with each element appearing once with order."""
+    """Returns the sequence with each element appearing once with FIFO order."""
     seen: set[T] = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
