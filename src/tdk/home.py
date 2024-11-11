@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, AliasChoices, BeforeValidator
 
 from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync
-from tdk.ysk import LoanwordEntry
+from tdk.dictionaries.ysk import LoanwordEntry
 
 
 class HomepageMixup(BaseModel):

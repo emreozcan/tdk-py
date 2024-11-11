@@ -11,7 +11,7 @@ from typing import Annotated, Any, Type
 
 from pydantic import BeforeValidator, AfterValidator
 
-from tdk.etc.enums import MeaningProperty
+from tdk.enums import MeaningProperty
 
 
 def make_sync(func_to_be_cloned, /):

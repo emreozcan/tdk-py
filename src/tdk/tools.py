@@ -7,8 +7,8 @@ from io import StringIO, SEEK_SET
 from typing import TypeVar
 from string import punctuation
 
-from tdk.etc.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
-from tdk.etc.enums import LetterType as _Ltr, SyllableType
+from tdk.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
+from tdk.enums import LetterType as _Ltr, SyllableType
 
 
 def _next_vowel_index(text: str, cur: int) -> int:

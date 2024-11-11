@@ -3,8 +3,8 @@ from json import JSONDecodeError
 from aiohttp import ClientSession
 from pydantic import TypeAdapter, BaseModel, Field, AliasChoices
 
-from tdk.etc.enums import OriginLanguage
-from tdk.etc.tools import lowercase, dictionary_order
+from tdk.enums import OriginLanguage
+from tdk.tools import lowercase, dictionary_order
 from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, assert_not_found, ValidatedProperty
 

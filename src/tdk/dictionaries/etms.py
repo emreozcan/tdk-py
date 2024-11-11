@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.etc.tools import dictionary_order
+from tdk.tools import dictionary_order
 from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, StrOrNone, assert_not_found
 

@@ -1,8 +1,8 @@
 import pytest
 
-from tdk.etc import alphabet
-from tdk.etc.enums import LetterType, SyllableType
-from tdk.etc.tools import hecele, lowercase, dictionary_order, counter, streaks, distinct, get_syllable_type, \
+from tdk import alphabet
+from tdk.enums import LetterType, SyllableType
+from tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, distinct, get_syllable_type, \
     get_letter_type
 
 
