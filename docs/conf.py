@@ -61,7 +61,7 @@ autodoc2_module_all_regexes = [
 ]
 autodoc2_hidden_objects = {"inherited", "private"}
 autodoc2_replace_annotations = [
-    ("tdk.etc.tools._T", "T"),
+    ("tdk.tools._T", "T"),
 ]
 
 # -- Options for intersphinx
