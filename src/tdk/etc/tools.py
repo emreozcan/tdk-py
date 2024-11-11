@@ -23,10 +23,10 @@ def _next_vowel_index(text: str, cur: int) -> int:
 
 
 def _are_there_letters_between(
-    text: str, start: int, end: int, alphabet=ALPHABET
+        text: str, start: int, end: int, alphabet=ALPHABET
 ) -> bool:
     """Check if there are any letters between the start and end indices."""
-    return any(character in alphabet for character in text[start + 1 : end])
+    return any(character in alphabet for character in text[start + 1: end])
 
 
 ALPHABET_PUNCTUATION = f"{ALPHABET}{punctuation}"
@@ -34,7 +34,7 @@ ALPHABET_PUNCTUATION = f"{ALPHABET}{punctuation}"
 
 
 def _previous_letter(text, end, stop_characters=ALPHABET_PUNCTUATION):
-    """Find the previous letter index in the text."""
+    """Find the previous letter index in text."""
     index = end - 1
     while True:
         if text[index] in stop_characters:
@@ -46,7 +46,7 @@ def _previous_letter(text, end, stop_characters=ALPHABET_PUNCTUATION):
 
 
 def hecele(text: str, /) -> list[str]:
-    """Split the text into syllables.
+    """Split text into syllables.
 
     ```pycon
     >>> hecele("merhaba")
@@ -65,7 +65,7 @@ def hecele(text: str, /) -> list[str]:
             syllables.append(text[last_syllable_index:])
             break
         elif not _are_there_letters_between(
-            text, current_vowel_index, next_vowel_index
+                text, current_vowel_index, next_vowel_index
         ):  # There are two neighbor vowels (sa/at)
             syllable_stop_index = next_vowel_index
         else:
@@ -92,7 +92,7 @@ Used by <project:#get_syllable_type> when determining if the syllable is medli.
 
 
 def get_syllable_type(syllable: str, /) -> SyllableType:
-    """Determine the type of the syllable according to aruz prosody rules.
+    """Determine the type of a syllable according to aruz prosody rules.
 
     The type of the syllable is defined as follows,
     where `C` is a consonant, `V` is a short vowel, and `L` is a long vowel:
@@ -103,7 +103,7 @@ def get_syllable_type(syllable: str, /) -> SyllableType:
       <project:#SyllableType.OPEN>.
     * Otherwise, it is <project:#SyllableType.CLOSED>.
     """
-    letters = lowercase(syllable, remove_circumflexes=False)
+    letters = lowercase(syllable, remove_hats=False)
     cv_map = tuple(get_letter_type(letter) for letter in letters)
 
     if cv_map in _MEDLI_PATTERNS:
@@ -115,7 +115,7 @@ def get_syllable_type(syllable: str, /) -> SyllableType:
 
 
 def get_letter_type(letter: str, /) -> _Ltr:
-    """Determine the type of the letter.
+    """Determine the type of a letter.
 
     * If the letter is a vowel without a circumflex, it is a
       <project:#LetterType.SHORT_VOWEL>.
@@ -127,7 +127,7 @@ def get_letter_type(letter: str, /) -> _Ltr:
                         <project:#VOWELS>, <project:#LONG_VOWELS>,
                         or <project:#CONSONANTS>.
     """
-    ch = lowercase(letter, remove_circumflexes=False)
+    ch = lowercase(letter, remove_hats=False)
     if not ch:
         raise ValueError("Empty string is not a valid letter.")
     if len(ch) != 1:
@@ -142,29 +142,57 @@ def get_letter_type(letter: str, /) -> _Ltr:
 
 
 def lowercase(
-    word: str,
-    /,
-    *,
-    alphabet: str = ALPHABET,
-    keep_unknown_characters: bool = False,
-    remove_circumflexes: bool = True,
+        text: str,
+        /,
+        *,
+        keep_nonletters: bool = False,
+        remove_hats: bool | None = None,
 ) -> str:
-    """Removes all whitespace and punctuation from word and lowercase it.
+    """Remove all whitespace and punctuation from text and lowercase it.
 
-    ```pycon
-    >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)")
-    "geçtiborunpazarısüreşeğininiğdeye"
-    ```
+    :param text:
+        The text to be lowercased.
+    :param keep_nonletters:
+        If <inv:#True>,
+        characters that are not in the Turkish alphabet will be kept.
+        This includes whitespace and punctuation.
+        ```pycon
+        >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)",
+        ...           keep_nonletters=False)  # The default
+        "geçtiborunpazarısüreşeğininiğdeye"
+        >>> lowercase("geçti Bor'un pazarı (sür eşeğini Niğde'ye)",
+        ...           keep_nonletters=True)
+        "geçti bor'un pazarı (sür eşeğini niğde'ye)"
+        ```
+    :param remove_hats:
+        -   If a truthy value,
+            characters with circumflexes will be replaced with their
+            non-circumflexed counterparts.
+            (e.g. "â" will be replaced with "a".)
+        -   If a falsy value,
+            characters with circumflexes will be kept as is.
+        -   If <inv:#None>,
+            the default is the inverse of `keep_unknown_characters`,
+            that parameter is usually used to keep punctuation and
+            circumflexes are considered to be punctuation in Turkish.
+        ```pycon
+        >>> lowercase("İKAMETGÂH", remove_hats=True)
+        "ikametgah"
+        >>> lowercase("İKAMETGÂH", remove_hats=False)
+        "ikametgâh"
+        ```
 
     :returns: A lowercase string without any whitespace or punctuation.
     """
+    if remove_hats is None:
+        remove_hats = not keep_nonletters
 
-    a_circumflex_replacement = "a" if remove_circumflexes else "â"
-    i_circumflex_replacement = "i" if remove_circumflexes else "î"
-    u_circumflex_replacement = "u" if remove_circumflexes else "û"
+    a_circumflex_replacement = "a" if remove_hats else "â"
+    i_circumflex_replacement = "i" if remove_hats else "î"
+    u_circumflex_replacement = "u" if remove_hats else "û"
 
     with StringIO() as word_io:
-        for letter in word:
+        for letter in text:
             lower_letter = letter.lower()
             if letter == "I":
                 word_io.write("ı")
@@ -176,14 +204,16 @@ def lowercase(
                 word_io.write(i_circumflex_replacement)
             elif letter in ["û", "Û"]:
                 word_io.write(u_circumflex_replacement)
-            elif lower_letter in alphabet or keep_unknown_characters:
+            elif lower_letter in ALPHABET or keep_nonletters:
                 word_io.write(lower_letter)
         word_io.seek(0, SEEK_SET)
         return word_io.read()
 
 
 def dictionary_order(word: str, /, *, alphabet: str = ALPHABET) -> tuple[int]:
-    """Returns a tuple of indices that can be used as orthographic order.
+    """Get a tuple of indices that can be used as orthographic order.
+
+    :returns: A tuple of numbers suitable to be used as a dictionary order.
 
     ```python
     assert dictionary_order("algarina") < dictionary_order("zamansızlık")
@@ -222,12 +252,8 @@ def counter(word: str, *, targets: str = VOWELS) -> int:
     return sum(word.count(x) for x in targets)
 
 
-def streaks(word: str, *, targets: str = CONSONANTS) -> list[int]:
-    """
-    Accumulate the number of characters in word which are also in targets.
-    When a character in word isn't in targets,
-    break the streak and append it to the return list,
-    even if the current streak is 0.
+def streaks(text: str, /, *, targets: str = CONSONANTS) -> list[int]:
+    """Find streaks of consecutive targets in text
 
     ```pycon
     >>> streaks("anapara")
@@ -242,7 +268,7 @@ def streaks(word: str, *, targets: str = CONSONANTS) -> list[int]:
     """
     streaks_found = []
     accumulator = 0
-    for letter in lowercase(word):
+    for letter in lowercase(text):
         if letter in targets:
             accumulator += 1
         else:
@@ -256,7 +282,7 @@ def streaks(word: str, *, targets: str = CONSONANTS) -> list[int]:
 
 def max_streak(word: str, *, targets: str = CONSONANTS) -> int:
     """Find the maximum consecutive targets in word."""
-    return max(streaks(word=word, targets=targets))
+    return max(streaks(text=word, targets=targets))
 
 
 _T = TypeVar("_T")

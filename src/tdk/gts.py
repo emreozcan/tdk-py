@@ -46,7 +46,7 @@ class Meaning(BaseModel):
     order: int = Field(validation_alias=AliasChoices("order", "anlam_sira"))
     is_verb: bool = Field(validation_alias=AliasChoices("is_verb", "fiil"))
     entry_id: int = Field(validation_alias=AliasChoices("entry_id", "madde_id"))
-    examples: List[MeaningExample] = Field(
+    examples: list[MeaningExample] = Field(
         default_factory=list,
         validation_alias=AliasChoices("examples", "orneklerliste"),
     )
@@ -125,7 +125,7 @@ def get_circumflex_index_sync(): ...
 
 @with_http_session
 async def search_gts(query: str, /, *, http_session: ClientSession) -> list[Entry]:
-    query = lowercase(query, keep_unknown_characters=False)
+    query = lowercase(query, keep_nonletters=False)
     async with http_session.get(
         "https://sozluk.gov.tr/gts", params={"ara": query}
     ) as response:
@@ -144,7 +144,7 @@ def search_gts_sync(): ...
 async def search_gts_proverbs_and_phrases(
     query: str, /, *, http_session: ClientSession
 ) -> list[Entry]:
-    query = lowercase(query, keep_unknown_characters=False)
+    query = lowercase(query, keep_nonletters=False)
     async with http_session.get(
         "https://sozluk.gov.tr/gtsAtasozDeyim", params={"ara": query}
     ) as res:

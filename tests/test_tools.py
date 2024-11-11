@@ -106,12 +106,12 @@ class TestLowercase:
         assert lowercase("Ô") == ""
 
     def test_unknown_character_rejection(self):
-        assert lowercase("SÛBH'U DEM", keep_unknown_characters=True) == "subh'u dem"
-        assert lowercase("SÛBH'U DEM", keep_unknown_characters=False) == "subhudem"
+        assert lowercase("SÛBH'U DEM", keep_nonletters=True) == "subh'u dem"
+        assert lowercase("SÛBH'U DEM", keep_nonletters=False) == "subhudem"
 
     def test_circumflex_removal(self):
-        assert lowercase("SÛBH'U DEM", remove_circumflexes=True) == "subhudem"
-        assert lowercase("SÛBH'U DEM", remove_circumflexes=False) == "sûbhudem"
+        assert lowercase("SÛBH'U DEM", remove_hats=True) == "subhudem"
+        assert lowercase("SÛBH'U DEM", remove_hats=False) == "sûbhudem"
 
 
 def test_dictionary_order():
