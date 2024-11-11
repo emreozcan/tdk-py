@@ -9,6 +9,8 @@ build:
     tools:
         python: "3.10"
     jobs:
+        post_checkout:
+            - git fetch --depth 2147483647
         post_create_environment: # Install poetry
             # https://python-poetry.org/docs/#installing-manually
             - pip install poetry
