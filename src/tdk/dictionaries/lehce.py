@@ -7,6 +7,14 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, assert_not_found
 
 
+__all__ = [
+    "Lehce",
+    "LehceEntry",
+    "search_lehce",
+    "search_lehce_sync",
+]
+
+
 class Lehce(IntEnum):
     AZERBAIJAN_TURKISH = 4
     BASHKIR_TURKISH = 6

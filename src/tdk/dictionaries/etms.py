@@ -6,6 +6,15 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, StrOrNone, assert_not_found
 
 
+__all__ = [
+    "ETMSEntry",
+    "get_etms_index",
+    "get_etms_index_sync",
+    "search_etms",
+    "search_etms_sync",
+]
+
+
 @with_http_session
 async def get_etms_index(*, http_session: ClientSession) -> list[str]:
     async with http_session.get(

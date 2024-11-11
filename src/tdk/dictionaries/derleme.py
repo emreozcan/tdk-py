@@ -5,6 +5,13 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import StrOrNone, make_sync, assert_not_found
 
 
+__all__ = [
+    "DerlemeEntry",
+    "search_derleme",
+    "search_derleme_sync",
+]
+
+
 class DerlemeEntry(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "madde_id"))
     masthead_id: int = Field(

@@ -6,6 +6,14 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, assert_not_found
 
 
+__all__ = [
+    "SayingType",
+    "SayingEntry",
+    "search_saying",
+    "search_saying_async",
+]
+
+
 class SayingType(Enum):
     PROVERB = "Atasözü"
     PHRASE = "Deyim"

@@ -9,6 +9,25 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, assert_not_found, ValidatedProperty
 
 
+__all__ = [
+    "GTSEntry",
+    "GTSMeaning",
+    "GTSMeaningExample",
+    "GTSProverb",
+    "GTSWriter",
+    "get_gts_index",
+    "get_gts_index_sync",
+    "get_gts_circumflex_index",
+    "get_gts_circumflex_index_sync",
+    "search_gts",
+    "search_gts_sync",
+    "search_gts_proverbs_and_phrases",
+    "search_gts_proverbs_and_phrases_sync",
+    "get_gts_suggestions",
+    "get_gts_suggestions_sync",
+]
+
+
 class GTSWriter(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "yazar_id"))
     full_name: str = Field(

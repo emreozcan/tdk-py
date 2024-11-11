@@ -5,6 +5,14 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import SoundURL, make_sync, assert_not_found
 
 
+__all__ = [
+    "SKSWord",
+    "SKSEntry",
+    "search_sks",
+    "search_sks_sync",
+]
+
+
 class SKSWord(BaseModel):
     word: str
     # eskelime: str?

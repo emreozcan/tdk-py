@@ -8,6 +8,16 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, adapt_input_to_enum, assert_not_found
 
 
+__all__ = [
+    "SearchGender",
+    "NameField",
+    "NameGender",
+    "Name",
+    "search_names",
+    "search_names_sync",
+]
+
+
 class SearchGender(IntEnum):
     FEMALE = 1
     MALE = 2

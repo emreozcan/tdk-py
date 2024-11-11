@@ -5,6 +5,13 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, SoundURL, assert_not_found
 
 
+__all__ = [
+    "SpellingEntry",
+    "search_spelling",
+    "search_spelling_sync",
+]
+
+
 class SpellingEntry(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "yazim_id"))
     phrase: str = Field(validation_alias=AliasChoices("name", "sozu"))

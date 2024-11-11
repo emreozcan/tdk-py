@@ -10,6 +10,16 @@ from tdk.internal.utils import IntOrNone, make_sync, StrOrNone, assert_not_found
 TermDictionaryName = NewType("TermDictionaryName", str)
 
 
+__all__ = [
+    "TermsDictionary",
+    "TermsEntry",
+    "get_terms_dictionaries",
+    "get_terms_dictionaries_sync",
+    "search_terms",
+    "search_terms_sync",
+]
+
+
 class TermsDictionary(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "eser_id"))
     name: TermDictionaryName = Field(

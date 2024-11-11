@@ -5,6 +5,14 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, assert_not_found
 
 
+__all__ = [
+    "TaramaScan",
+    "TaramaEntry",
+    "search_tarama",
+    "search_tarama_sync",
+]
+
+
 class TaramaScan(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "kelime_id"))
     word: str = Field(validation_alias=AliasChoices("word", "kelime"))

@@ -4,6 +4,13 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import SoundURL, make_sync
 
 
+__all__ = [
+    "SYYDEntry",
+    "search_syyd",
+    "search_syyd_sync",
+]
+
+
 class SYYDEntry(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "id"))
     incorrect: str = Field(
