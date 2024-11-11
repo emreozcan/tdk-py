@@ -29,11 +29,7 @@ def _are_there_letters_between(
     return any(character in alphabet for character in text[start + 1: end])
 
 
-ALPHABET_PUNCTUATION = f"{ALPHABET}{punctuation}"
-"""The Turkish alphabet and common punctuation marks."""
-
-
-def _previous_letter(text, end, stop_characters=ALPHABET_PUNCTUATION):
+def _previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
     """Find the previous letter index in text."""
     index = end - 1
     while True:
@@ -206,7 +202,8 @@ def lowercase(
         return word_io.read()
 
 
-def dictionary_order(word: str, /, *, alphabet: str = ALPHABET) -> tuple[int]:
+def dictionary_order(word: str, /) \
+        -> tuple[int, ...]:
     """Get a tuple of indices that can be used as orthographic order.
 
     :returns: A tuple of numbers suitable to be used as a dictionary order.
@@ -223,7 +220,7 @@ def dictionary_order(word: str, /, *, alphabet: str = ALPHABET) -> tuple[int]:
     `dictionary_order(B) > dictionary_order(A)`.
     :::
     """
-    return tuple(alphabet.index(letter) for letter in lowercase(word))
+    return tuple(ALPHABET.index(letter) for letter in lowercase(word))
 
 
 def counter(word: str, *, targets: str = VOWELS) -> int:
