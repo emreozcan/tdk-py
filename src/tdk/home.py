@@ -8,6 +8,18 @@ from tdk.internal.utils import make_sync
 from tdk.dictionaries.ysk import LoanwordEntry
 
 
+__all__ = [
+    "HomepageMixup",
+    "HomepageProverb",
+    "HomepageFrequentTypos",
+    "HomepageRule",
+    "HomepageWord",
+    "HomepageContent",
+    "get_homepage_content",
+    "get_homepage_content_sync",
+]
+
+
 class HomepageMixup(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "id"))
     incorrect: str = Field(validation_alias=AliasChoices("incorrect", "yanlis"))

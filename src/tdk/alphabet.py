@@ -1,5 +1,5 @@
 """
-This module containts constants about the Turkish alphabet.
+Constants about the Turkish alphabet.
 """
 
 VOWELS = "aeıioöuü"

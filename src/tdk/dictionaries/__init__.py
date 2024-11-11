@@ -1,4 +1,4 @@
-from tdk.dictionaries import (
+from . import (
     adlar,
     atasozu_deyim,
     bati,
@@ -15,17 +15,17 @@ from tdk.dictionaries import (
     ysk,
 )
 
-from tdk.dictionaries.adlar import *
-from tdk.dictionaries.atasozu_deyim import *
-from tdk.dictionaries.bati import *
-from tdk.dictionaries.derleme import *
-from tdk.dictionaries.etj import *
-from tdk.dictionaries.etms import *
-from tdk.dictionaries.gts import *
-from tdk.dictionaries.lehce import *
-from tdk.dictionaries.sks import *
-from tdk.dictionaries.syyd import *
-from tdk.dictionaries.tarama import *
-from tdk.dictionaries.terim import *
-from tdk.dictionaries.yazim import *
-from tdk.dictionaries.ysk import *
+from .adlar import *
+from .atasozu_deyim import *
+from .bati import *
+from .derleme import *
+from .etj import *
+from .etms import *
+from .gts import *
+from .lehce import *
+from .sks import *
+from .syyd import *
+from .tarama import *
+from .terim import *
+from .yazim import *
+from .ysk import *

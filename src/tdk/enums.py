@@ -1,5 +1,5 @@
 """
-This module containts enums and data classes used in the TDK package.
+Enums and data classes used in the package.
 """
 
 from __future__ import annotations
@@ -7,6 +7,16 @@ from __future__ import annotations
 from enum import Enum, IntEnum
 
 from pydantic import BaseModel, Field, AliasChoices
+
+
+__all__ = [
+    "LetterType",
+    "SyllableType",
+    "OriginLanguage",
+    "PropertyKind",
+    "PropertyData",
+    "MeaningProperty",
+]
 
 
 class LetterType(Enum):

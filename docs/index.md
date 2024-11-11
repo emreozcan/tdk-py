@@ -5,7 +5,7 @@
 ---
 
 `tdk-py` is a Python package allowing access to
-[Turkish dictionaries] of the [TDK], the Turkish Language Society.
+[Turkish dictionaries] of the [TDK], the Turkish Language Association.
 
 `tdk-py` provides both synchronous and asynchronous interfaces to the TDK's
 APIs and parses their responses into Python class objects based on Pydantic,
@@ -51,7 +51,7 @@ import tdk
 ```python
 import tdk
 
-results = tdk.dictionaries.gts.search_gts_sync("merkeziyetçilik")
+results = tdk.search_gts_sync("merkeziyetçilik")
 print(results[0].meanings[0].meaning)
 ```
 ```{code-block}
@@ -66,7 +66,7 @@ is possible for there to be more than one word with the exact same spelling.
 ```python
 import tdk
 
-for number, entry in enumerate(tdk.dictionaries.gts.search_gts_sync("bar")):
+for number, entry in enumerate(tdk.search_gts_sync("bar")):
     for meaning in entry.meanings:
         print(number + 1, entry.entry, meaning.meaning)
 ```
@@ -95,11 +95,12 @@ from difflib import get_close_matches
 import tdk
 
 # Calculate suggestions locally using the index:
-words = get_close_matches("feldispat", tdk.dictionaries.gts.get_index_sync())
+words = get_close_matches("feldispat",
+                          tdk.get_gts_index_sync())
 assert words == ['feldspat', 'ispat', 'fesat']
 
 # Use the TDK API: (sometimes errors out)
-words = tdk.dictionaries.gts.get_gts_suggestions_sync("feldispat")
+words = tdk.get_gts_suggestions_sync("feldispat")
 assert words == ['feldspat', 'felekiyat', 'ispat']
 ```
 
@@ -110,9 +111,10 @@ of entries by the number of maximum consecutive consonants.
 
 ```python
 import tdk
+
 annotated_dict = {}
-for entry in tdk.dictionaries.gts.get_index_sync():
-    streaks = tdk.etc.tools.max_streak(entry)
+for entry in tdk.get_gts_index_sync():
+    streaks = tdk.tools.max_streak(entry)
     if streaks not in annotated_dict:
         annotated_dict[streaks] = [entry]
     else:

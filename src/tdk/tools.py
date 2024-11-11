@@ -1,5 +1,5 @@
 """
-This module contains various tools for working with strings.
+Various tools for working with Turkish text.
 """
 
 from collections.abc import Sequence
@@ -9,6 +9,18 @@ from string import punctuation
 
 from tdk.alphabet import VOWELS, ALPHABET, CONSONANTS, LONG_VOWELS
 from tdk.enums import LetterType as _Ltr, SyllableType
+
+__all__ = [
+    "hecele",
+    "get_syllable_type",
+    "get_letter_type",
+    "lowercase",
+    "dictionary_order",
+    "counter",
+    "streaks",
+    "max_streak",
+    "distinct",
+]
 
 
 def _next_vowel_index(text: str, cur: int) -> int:
