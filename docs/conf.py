@@ -1,7 +1,4 @@
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path('..', 'src').resolve()))
+import dunamai
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -14,7 +11,7 @@ sys.path.insert(0, str(Path('..', 'src').resolve()))
 project = 'tdk-py'
 copyright = '2024, Emre Özcan'
 author = 'Emre Özcan'
-release = __import__('tdk').__version__
+release = dunamai.Version.from_git().serialize()
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
