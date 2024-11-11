@@ -17,11 +17,10 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Education",
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries",
@@ -35,7 +34,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">3.10"
 pydantic = "^2.9.2"
 aiohttp = "^3.10.10"
 
