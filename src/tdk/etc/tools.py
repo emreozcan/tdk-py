@@ -146,7 +146,7 @@ def lowercase(
         /,
         *,
         keep_nonletters: bool = False,
-        remove_hats: bool | None = None,
+        remove_hats: bool = True,
 ) -> str:
     """Remove all whitespace and punctuation from text and lowercase it.
 
@@ -171,10 +171,6 @@ def lowercase(
             (e.g. "â" will be replaced with "a".)
         -   If a falsy value,
             characters with circumflexes will be kept as is.
-        -   If <inv:#None>,
-            the default is the inverse of `keep_unknown_characters`,
-            that parameter is usually used to keep punctuation and
-            circumflexes are considered to be punctuation in Turkish.
         ```pycon
         >>> lowercase("İKAMETGÂH", remove_hats=True)
         "ikametgah"
