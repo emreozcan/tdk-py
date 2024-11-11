@@ -2,6 +2,17 @@
 
 *Python API for the Turkish Language Foundation*
 
+
+[![Latest version on PyPI](https://img.shields.io/pypi/v/tdk-py)](https://pypi.org/project/tdk-py/)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/tdk-py)](https://pypi.org/project/tdk-py/)
+
+[![Codacy Grade Badge](https://app.codacy.com/project/badge/Grade/5d4a5bd343274970b04ab86e05be1b29)](https://app.codacy.com/gh/EmreOzcan/tdk-py/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Coverage Badge](https://app.codacy.com/project/badge/Coverage/5d4a5bd343274970b04ab86e05be1b29)](https://app.codacy.com/gh/EmreOzcan/tdk-py/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
+[![checks/master](https://img.shields.io/github/check-runs/emreozcan/tdk-py/master?logo=github&label=checks%2Fmaster)](https://github.com/emreozcan/tdk-py/actions/workflows/test.yml)
+[![docs](https://readthedocs.org/projects/tdk-py/badge/?version=latest)](https://tdk-py.readthedocs.io/en/latest/?badge=latest)
+
+---
+
 `tdk-py` is a Python package allowing access to
 [Turkish dictionaries] of the [TDK], the Turkish Language Association.
 
