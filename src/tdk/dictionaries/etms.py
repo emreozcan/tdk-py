@@ -7,11 +7,9 @@ from tdk.internal.utils import make_sync, StrOrNone, assert_not_found
 
 
 @with_http_session
-async def get_etms_index(
-    query: str, /, *, http_session: ClientSession
-) -> list[str]:
+async def get_etms_index(*, http_session: ClientSession) -> list[str]:
     async with http_session.get(
-        "https://sozluk.gov.tr/etmsAutoComp.json", params={"ara": query}
+            "https://sozluk.gov.tr/etmsAutoComp.json"
     ) as response:
         return sorted(
             [entry["madde"] for entry in await response.json()],
