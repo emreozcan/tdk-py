@@ -9,23 +9,23 @@ from tdk.internal.utils import make_sync, adapt_input_to_enum, assert_not_found
 
 
 __all__ = [
-    "SearchGender",
-    "NameField",
+    "NameSearchGender",
+    "NameSearchField",
     "NameGender",
-    "Name",
+    "NameEntry",
     "search_names",
     "search_names_sync",
 ]
 
 
-class SearchGender(IntEnum):
+class NameSearchGender(IntEnum):
     FEMALE = 1
     MALE = 2
     UNISEX = 3
     EITHER = 4
 
 
-class NameField(IntEnum):
+class NameSearchField(IntEnum):
     NAME = 1
     MEANING = 2
 
@@ -36,7 +36,7 @@ class NameGender(IntEnum):
     UNISEX = 3
 
 
-class Name(BaseModel):
+class NameEntry(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "ad_id"))
     name: str = Field(validation_alias=AliasChoices("name", "ad"))
     meaning: str = Field(validation_alias=AliasChoices("meaning", "anlam"))
@@ -44,26 +44,26 @@ class Name(BaseModel):
     gender: NameGender = Field(validation_alias=AliasChoices("gender", "cins"))
 
 
-name_list_adapter = TypeAdapter(list[Name])
+name_list_adapter = TypeAdapter(list[NameEntry])
 
 
 @with_http_session
 async def search_names(
     query: str,
     *,
-    according_to: NameField | Literal[1, 2, "name", "meaning"],
+    according_to: NameSearchField | Literal["name", "meaning"],
     gender: (
-            SearchGender
-            | Literal[1, 2, 3, 4, "female", "male", "unisex", "either"]
+            NameSearchGender
+            | Literal["female", "male", "unisex", "either"]
     ),
     http_session: ClientSession,
-) -> list[Name]:
+) -> list[NameEntry]:
     async with http_session.get(
         "https://sozluk.gov.tr/adlar",
         params={
             "ara": query,
-            "gore": adapt_input_to_enum(according_to, NameField),
-            "cins": adapt_input_to_enum(gender, SearchGender),
+            "gore": adapt_input_to_enum(according_to, NameSearchField),
+            "cins": adapt_input_to_enum(gender, NameSearchGender),
         },
     ) as res:
         res_data = await res.json(content_type="text/html; charset=utf-8")
