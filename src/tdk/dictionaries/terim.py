@@ -10,7 +10,7 @@ from tdk.internal.utils import IntOrNone, make_sync, StrOrNone, assert_not_found
 TermDictionaryName = NewType("TermDictionaryName", str)
 
 
-class TermDictionary(BaseModel):
+class TermsDictionary(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "eser_id"))
     name: TermDictionaryName = Field(
         validation_alias=AliasChoices("name", "eser_ad")
@@ -21,20 +21,20 @@ class TermDictionary(BaseModel):
 
 
 @with_http_session
-async def get_term_dictionaries(
+async def get_terms_dictionaries(
     *, http_session: ClientSession
-) -> list[TermDictionary]:
+) -> list[TermsDictionary]:
     async with http_session.get("https://sozluk.gov.tr/terim?terim") as res:
-        return TypeAdapter(list[TermDictionary]).validate_python(
+        return TypeAdapter(list[TermsDictionary]).validate_python(
             await res.json(content_type="text/html; charset=utf-8")
         )
 
 
-@make_sync(get_term_dictionaries)
-def get_term_dictionaries_sync(): ...
+@make_sync(get_terms_dictionaries)
+def get_terms_dictionaries_sync(): ...
 
 
-class Term(BaseModel):
+class TermsEntry(BaseModel):
     tdk_id: int = Field(
         validation_alias=AliasChoices("tdk_id", "terim_id", "soz_id")
     )
@@ -68,7 +68,7 @@ class Term(BaseModel):
     )
 
 
-term_list_adapter = TypeAdapter(list[Term])
+term_list_adapter = TypeAdapter(list[TermsEntry])
 
 IETS = "İlaç ve Eczacılık Terimleri Sözlüğü"
 HTS = "Hemşirelik Terimleri Sözlüğü"
@@ -77,16 +77,16 @@ UMS = "Uluslararası Metroloji Sözlüğü"
 
 @with_http_session
 async def search_terms(
-    dictionaries: Iterable[TermDictionary | TermDictionaryName],
+    dictionaries: Iterable[TermsDictionary | TermDictionaryName],
     query: str,
     *,
     http_session: ClientSession
-) -> list[Term]:
+) -> list[TermsEntry]:
     # Doesn't search pharmaceutics and nursing dictionaries.
     dictionary_names: tuple[str, ...] = tuple(
-        d.name if isinstance(d, TermDictionary) else d for d in dictionaries
+        d.name if isinstance(d, TermsDictionary) else d for d in dictionaries
     )
-    terms: list[Term] = []
+    terms: list[TermsEntry] = []
     if IETS in dictionary_names:
         async with http_session.get(
             "https://sozluk.gov.tr/eczacilik", params={"ara": query}

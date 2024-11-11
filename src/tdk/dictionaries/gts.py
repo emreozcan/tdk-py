@@ -9,7 +9,7 @@ from tdk.internal.http import with_http_session
 from tdk.internal.utils import make_sync, assert_not_found, ValidatedProperty
 
 
-class Writer(BaseModel):
+class GTSWriter(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "yazar_id"))
     full_name: str = Field(
         validation_alias=AliasChoices("full_name", "tam_adi")
@@ -19,20 +19,20 @@ class Writer(BaseModel):
     )
 
 
-class MeaningExample(BaseModel):
+class GTSMeaningExample(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "ornek_id"))
     meaning_id: int = Field(
         validation_alias=AliasChoices("meaning_id", "anlam_id")
     )
     order: int = Field(validation_alias=AliasChoices("order", "ornek_sira"))
     example: str = Field(validation_alias=AliasChoices("example", "ornek"))
-    writers: list[Writer] = Field(
+    writers: list[GTSWriter] = Field(
         default_factory=lambda: [],
         validation_alias=AliasChoices("writer", "yazar"),
     )
 
 
-class Proverb(BaseModel):
+class GTSProverb(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "madde_id"))
     proverb: str = Field(validation_alias=AliasChoices("proverb", "madde"))
     prefix: str | None = Field(
@@ -40,13 +40,13 @@ class Proverb(BaseModel):
     )
 
 
-class Meaning(BaseModel):
+class GTSMeaning(BaseModel):
     meaning: str = Field(validation_alias=AliasChoices("meaning", "anlam"))
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "anlam_id"))
     order: int = Field(validation_alias=AliasChoices("order", "anlam_sira"))
     is_verb: bool = Field(validation_alias=AliasChoices("is_verb", "fiil"))
     entry_id: int = Field(validation_alias=AliasChoices("entry_id", "madde_id"))
-    examples: list[MeaningExample] = Field(
+    examples: list[GTSMeaningExample] = Field(
         default_factory=list,
         validation_alias=AliasChoices("examples", "orneklerliste"),
     )
@@ -56,7 +56,7 @@ class Meaning(BaseModel):
     )
 
 
-class Entry(BaseModel):
+class GTSEntry(BaseModel):
     tdk_id: int = Field(validation_alias=AliasChoices("tdk_id", "madde_id"))
     order: int = Field(validation_alias=AliasChoices("order", "kac"))
     entry: str = Field(validation_alias=AliasChoices("entry", "madde"))
@@ -69,11 +69,11 @@ class Entry(BaseModel):
     entry_normalized: str | None = Field(
         validation_alias=AliasChoices("entry_normalized", "madde_duz")
     )
-    meanings: list[Meaning] = Field(
+    meanings: list[GTSMeaning] = Field(
         default_factory=list,
         validation_alias=AliasChoices("meanings", "anlamlarListe"),
     )
-    proverbs: list[Proverb] = Field(
+    proverbs: list[GTSProverb] = Field(
         default_factory=list,
         validation_alias=AliasChoices("proverbs", "atasozu"),
     )
@@ -86,11 +86,11 @@ class Entry(BaseModel):
     suffix: str | None = Field(validation_alias=AliasChoices("suffix", "taki"))
 
 
-entry_list_adapter = TypeAdapter(list[Entry])
+entry_list_adapter = TypeAdapter(list[GTSEntry])
 
 
 @with_http_session
-async def get_index(*, http_session: ClientSession) -> list[str]:
+async def get_gts_index(*, http_session: ClientSession) -> list[str]:
     async with http_session.get(
         "https://sozluk.gov.tr/autocomplete.json"
     ) as response:
@@ -100,12 +100,12 @@ async def get_index(*, http_session: ClientSession) -> list[str]:
         )
 
 
-@make_sync(get_index)
-def get_index_sync(): ...
+@make_sync(get_gts_index)
+def get_gts_index_sync(): ...
 
 
 @with_http_session
-async def get_circumflex_index(
+async def get_gts_circumflex_index(
     *, http_session: ClientSession
 ) -> dict[str, str]:
     """Get the circumflex index.
@@ -119,12 +119,12 @@ async def get_circumflex_index(
         return await response.json()
 
 
-@make_sync(get_circumflex_index)
-def get_circumflex_index_sync(): ...
+@make_sync(get_gts_circumflex_index)
+def get_gts_circumflex_index_sync(): ...
 
 
 @with_http_session
-async def search_gts(query: str, /, *, http_session: ClientSession) -> list[Entry]:
+async def search_gts(query: str, /, *, http_session: ClientSession) -> list[GTSEntry]:
     query = lowercase(query, keep_nonletters=False)
     async with http_session.get(
         "https://sozluk.gov.tr/gts", params={"ara": query}
@@ -143,7 +143,7 @@ def search_gts_sync(): ...
 @with_http_session
 async def search_gts_proverbs_and_phrases(
     query: str, /, *, http_session: ClientSession
-) -> list[Entry]:
+) -> list[GTSEntry]:
     query = lowercase(query, keep_nonletters=False)
     async with http_session.get(
         "https://sozluk.gov.tr/gtsAtasozDeyim", params={"ara": query}

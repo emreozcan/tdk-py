@@ -20,7 +20,7 @@ western_entry_list_adapter = TypeAdapter(list[WesternEntry])
 
 
 @with_http_session
-async def search_bati(query: str, *, http_session) -> list[WesternEntry]:
+async def search_western(query: str, *, http_session) -> list[WesternEntry]:
     async with http_session.get(
         "https://sozluk.gov.tr/bati", params={"ara": query}
     ) as res:
@@ -31,5 +31,5 @@ async def search_bati(query: str, *, http_session) -> list[WesternEntry]:
         return []
 
 
-@make_sync(search_bati)
-def search_bati_sync(): ...
+@make_sync(search_western)
+def search_western_sync(): ...
