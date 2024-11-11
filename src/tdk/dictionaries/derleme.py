@@ -65,8 +65,8 @@ async def search_derleme(
     async with http_session.get(
         "https://sozluk.gov.tr/derleme", params={"ara": query}
     ) as res:
-        res_data = await res.json()
-        if isinstance(res_data, dict):
+        res_data = await res.json(content_type="text/html; charset=utf-8")
+        if isinstance(res_data, list):
             return derleme_entry_list_adapter.validate_python(res_data)
         assert_not_found(res_data)
         return []
