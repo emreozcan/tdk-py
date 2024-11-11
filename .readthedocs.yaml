@@ -18,6 +18,6 @@ build:
             # See https://github.com/readthedocs/readthedocs.org/pull/11152/
             - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --with docs
 sphinx:
-    configuration: docs/source/conf.py
+    configuration: docs/conf.py
     fail_on_warning: false
     builder: html
