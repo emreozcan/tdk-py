@@ -29,12 +29,12 @@ def session_maker(**kwargs) -> aiohttp.ClientSession:
     return aiohttp.ClientSession(**kwargs)
 
 
-def with_http_session(func):
-    """Make <inv:#aiohttp.ClientSession> optional for functions that require it.
+def make_http_session_optional(func):
+    """Make [](aiohttp.ClientSession) optional for functions that require it.
 
     Creates a decorator
-    that provides a default <inv:#aiohttp.ClientSession>
-    created by <project:#session_maker>
+    that provides a default [](aiohttp.ClientSession)
+    created by [](session_maker)
     to the wrapped function.
     """
     @wraps(func)

@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, assert_not_found
 
 
@@ -38,7 +38,7 @@ class TaramaEntry(BaseModel):
 tarama_entry_list_adapter = TypeAdapter(list[TaramaEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_tarama(
     query: str, /, *, http_session: ClientSession
 ) -> list[TaramaEntry]:
@@ -57,7 +57,7 @@ async def search_tarama(
 def search_tarama_sync(): ...
 
 
-@with_http_session
+@make_http_session_optional
 async def get_tarama_scans(
     tdk_id: int, /, *, http_session: ClientSession
 ) -> list[TaramaScan]:

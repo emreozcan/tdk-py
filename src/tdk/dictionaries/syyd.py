@@ -1,6 +1,6 @@
 from pydantic import BaseModel, AliasChoices, Field, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import SoundURL, make_sync
 
 
@@ -32,7 +32,7 @@ class SYYDEntry(BaseModel):
 syyd_entry_list_adapter = TypeAdapter(list[SYYDEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_syyd(query: str, /, *, http_session) -> list[SYYDEntry]:
     async with http_session.get(
         "https://sozluk.gov.tr/kilavuz",

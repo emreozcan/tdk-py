@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, SoundURL, assert_not_found
 
 
@@ -24,7 +24,7 @@ class SpellingEntry(BaseModel):
 spelling_entry_list_adapter = TypeAdapter(list[SpellingEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_spelling(
     query: str, /, *, http_session: ClientSession
 ) -> list[SpellingEntry]:

@@ -4,7 +4,7 @@ from typing import Literal
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, adapt_input_to_enum, assert_not_found
 
 
@@ -47,7 +47,7 @@ class NameEntry(BaseModel):
 name_list_adapter = TypeAdapter(list[NameEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_names(
     query: str,
     *,

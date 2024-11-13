@@ -2,7 +2,7 @@ from enum import Enum
 
 from pydantic import BaseModel, AliasChoices, Field, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, assert_not_found
 
 
@@ -32,7 +32,7 @@ class SayingEntry(BaseModel):
 saying_entry_adapter = TypeAdapter(list[SayingEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_saying(query: str, *, http_session) -> list[SayingEntry]:
     async with http_session.get(
         "https://sozluk.gov.tr/atasozu", params={"ara": query}

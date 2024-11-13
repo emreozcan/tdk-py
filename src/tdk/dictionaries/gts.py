@@ -5,7 +5,7 @@ from pydantic import TypeAdapter, BaseModel, Field, AliasChoices
 
 from tdk.enums import OriginLanguage
 from tdk.tools import lowercase, dictionary_order
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, assert_not_found, ValidatedProperty
 
 
@@ -108,7 +108,7 @@ class GTSEntry(BaseModel):
 entry_list_adapter = TypeAdapter(list[GTSEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def get_gts_index(*, http_session: ClientSession) -> list[str]:
     async with http_session.get(
         "https://sozluk.gov.tr/autocomplete.json"
@@ -123,7 +123,7 @@ async def get_gts_index(*, http_session: ClientSession) -> list[str]:
 def get_gts_index_sync(): ...
 
 
-@with_http_session
+@make_http_session_optional
 async def get_gts_circumflex_index(
     *, http_session: ClientSession
 ) -> dict[str, str]:
@@ -142,7 +142,7 @@ async def get_gts_circumflex_index(
 def get_gts_circumflex_index_sync(): ...
 
 
-@with_http_session
+@make_http_session_optional
 async def search_gts(query: str, /, *, http_session: ClientSession) -> list[GTSEntry]:
     query = lowercase(query, keep_nonletters=False)
     async with http_session.get(
@@ -159,7 +159,7 @@ async def search_gts(query: str, /, *, http_session: ClientSession) -> list[GTSE
 def search_gts_sync(): ...
 
 
-@with_http_session
+@make_http_session_optional
 async def search_gts_proverbs_and_phrases(
     query: str, /, *, http_session: ClientSession
 ) -> list[GTSEntry]:
@@ -178,7 +178,7 @@ async def search_gts_proverbs_and_phrases(
 def search_gts_proverbs_and_phrases_sync(): ...
 
 
-@with_http_session
+@make_http_session_optional
 async def get_gts_suggestions(
     query: str, /, *, http_session: ClientSession
 ) -> list[str]:

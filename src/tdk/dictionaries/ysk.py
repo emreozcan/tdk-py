@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, assert_not_found
 
 
@@ -26,7 +26,7 @@ loanword_entry_list_adapter = TypeAdapter(list[LoanwordEntry])
 
 
 # query: abone
-@with_http_session
+@make_http_session_optional
 async def search_loanwords(query: str, *, http_session: ClientSession) \
         -> list[LoanwordEntry]:
     async with http_session.get(

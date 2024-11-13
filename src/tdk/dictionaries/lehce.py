@@ -3,7 +3,7 @@ from enum import IntEnum
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, assert_not_found
 
 
@@ -106,7 +106,7 @@ class LehceEntry(BaseModel):
 lehce_entry_list_adapter = TypeAdapter(list[LehceEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_lehce(
     lehce: Lehce, query: str, *, http_session: ClientSession
 ) -> list[LehceEntry]:

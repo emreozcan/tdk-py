@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import StrOrNone, make_sync, assert_not_found
 
 
@@ -58,7 +58,7 @@ class DerlemeEntry(BaseModel):
 derleme_entry_list_adapter = TypeAdapter(list[DerlemeEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_derleme(
     query: str, /, *, http_session: ClientSession
 ) -> list[DerlemeEntry]:

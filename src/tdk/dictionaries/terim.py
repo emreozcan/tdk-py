@@ -4,7 +4,7 @@ from typing import NewType
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import IntOrNone, make_sync, StrOrNone, assert_not_found
 
 TermDictionaryName = NewType("TermDictionaryName", str)
@@ -30,7 +30,7 @@ class TermsDictionary(BaseModel):
     )
 
 
-@with_http_session
+@make_http_session_optional
 async def get_terms_dictionaries(
     *, http_session: ClientSession
 ) -> list[TermsDictionary]:
@@ -85,7 +85,7 @@ HTS = "Hemşirelik Terimleri Sözlüğü"
 UMS = "Uluslararası Metroloji Sözlüğü"
 
 
-@with_http_session
+@make_http_session_optional
 async def search_terms(
     dictionaries: Iterable[TermsDictionary | TermDictionaryName],
     query: str,

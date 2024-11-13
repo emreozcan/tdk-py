@@ -3,7 +3,7 @@ from typing import Annotated
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, BeforeValidator
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync
 from tdk.dictionaries.ysk import LoanwordEntry
 
@@ -85,7 +85,7 @@ class HomepageContent(BaseModel):
     )
 
 
-@with_http_session
+@make_http_session_optional
 async def get_homepage_content(
     *, http_session: ClientSession
 ) -> HomepageContent:

@@ -2,7 +2,7 @@ from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
 from tdk.tools import dictionary_order
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, StrOrNone, assert_not_found
 
 
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 
-@with_http_session
+@make_http_session_optional
 async def get_etms_index(*, http_session: ClientSession) -> list[str]:
     async with http_session.get(
             "https://sozluk.gov.tr/etmsAutoComp.json"
@@ -73,7 +73,7 @@ class ETMSEntry(BaseModel):
 etms_entry_list_adapter = TypeAdapter(list[ETMSEntry])
 
 
-@with_http_session
+@make_http_session_optional
 async def search_etms(
     query: str, /, *, http_session: ClientSession
 ) -> list[ETMSEntry]:

@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel
 
-from tdk.internal.http import with_http_session
+from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import SoundURL, make_sync, assert_not_found
 
 
@@ -27,7 +27,7 @@ class SKSEntry(BaseModel):
     search: str
 
 
-@with_http_session
+@make_http_session_optional
 async def search_sks(
     query: str, /, *, http_session: ClientSession
 ) -> list[SKSEntry]:
