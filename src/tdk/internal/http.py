@@ -1,13 +1,13 @@
 """
 This module provides helper functions for making HTTP requests.
 """
-
+from collections.abc import MutableMapping
 from functools import wraps
 from typing import Optional
 
-import aiohttp
+from aiohttp import ClientSession
 
-http_headers: dict[str, str] = {
+default_headers: dict[str, str] = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
     "Referer": "https://sozluk.gov.tr/",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -19,14 +19,26 @@ http_headers: dict[str, str] = {
 """Default headers for HTTP requests."""
 
 
-def session_maker(**kwargs) -> aiohttp.ClientSession:
-    """Create a <inv:#aiohttp.ClientSession> with some default headers.
+def session_maker(**kwargs) -> ClientSession:
+    """Create a [](aiohttp.ClientSession) with some default headers.
 
-    This is preferred over creating a base <inv:#aiohttp.ClientSession> because
+    This is preferred over creating a base [](aiohttp.ClientSession) because
     the TDK servers block requests that do not have headers.
+
+    :param kwargs:
+        Additional arguments to be passed to [](aiohttp.ClientSession).
+        :::{important}
+        If a `headers` argument is provided in `kwargs`,
+        it will be modified to include the mandatory headers.
+        Therefore it must be a [](collections.abc.MutableMapping).
+        :::
     """
-    kwargs["headers"] = {**http_headers, **kwargs.get("headers", {})}
-    return aiohttp.ClientSession(**kwargs)
+    if "headers" not in kwargs:
+        return ClientSession(headers=default_headers, **kwargs)
+    if not isinstance(kwargs["headers"], MutableMapping):
+        raise TypeError("headers must be a MutableMapping")
+    kwargs["headers"].update(default_headers)
+    return ClientSession(**kwargs)
 
 
 def make_http_session_optional(func):
@@ -46,6 +58,6 @@ def make_http_session_optional(func):
 
     # typing:
     wrapper.__annotations__ = func.__annotations__.copy()
-    wrapper.__annotations__["http_session"] = Optional[aiohttp.ClientSession]
+    wrapper.__annotations__["http_session"] = Optional[ClientSession]
 
     return wrapper
