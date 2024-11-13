@@ -1,3 +1,7 @@
+"""Türkçede Batı Kökenli Kelimeler Sözlüğü\\
+Words of Western Origin Dictionary
+"""
+
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
 from tdk.internal.http import make_http_session_optional

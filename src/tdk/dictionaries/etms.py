@@ -1,3 +1,7 @@
+"""Etimoloji Sözlüğü\\
+Etymology Dictionary
+"""
+
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 

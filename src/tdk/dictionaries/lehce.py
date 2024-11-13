@@ -1,3 +1,7 @@
+"""Türk Lehçeleri Sözlüğü\\
+Turkic Languages Dictionary
+"""
+
 from enum import IntEnum
 
 from aiohttp import ClientSession

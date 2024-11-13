@@ -1,3 +1,7 @@
+"""Yabancı Sözlere Karşılıklar Kılavuzu\\
+Equivalents for Foreign Words Guide
+"""
+
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 

@@ -7,10 +7,8 @@ Each submodule provides access to a different dictionary from the
 Turkish Language Association (TDK).
 
 If you do not care about niche dictionaries, you probably want the
-{py:mod}`tdk.gts` module, which provides access to the
-Güncel Türkçe Sözlük[^gts].
-
-[^gts]: Updated Turkish Dictionary
+{py:mod}`tdk.dictionaries.gts` module, which provides access to the
+Güncel Türkçe Sözlük (Updated Turkish Dictionary).
 
 Each function comes with a synchronous and an asynchronous version.
 An async function `foo` has a synchronous counterpart `foo_sync`.

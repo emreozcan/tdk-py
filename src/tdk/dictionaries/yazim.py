@@ -1,3 +1,9 @@
+"""Yazım Kılavuzu\\
+Spelling Guide
+
+Not accessible from TDK's website.
+"""
+
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 

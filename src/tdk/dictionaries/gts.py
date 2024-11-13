@@ -1,3 +1,7 @@
+"""Güncel Türkçe Sözlük\\
+Updated Turkish Dictionary
+"""
+
 from json import JSONDecodeError
 
 from aiohttp import ClientSession

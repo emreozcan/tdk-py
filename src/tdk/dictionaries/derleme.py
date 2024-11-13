@@ -1,3 +1,7 @@
+"""Derleme Sözlüğü (Türkiye Türkçesi Ağızları Sözlüğü)\\
+Compilation Dictionary (Turkish Dialects Dictionary)
+"""
+
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 

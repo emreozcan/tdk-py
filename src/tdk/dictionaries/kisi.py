@@ -1,3 +1,7 @@
+"""Kişi Adları Sözlüğü\\
+Person Name Dictionary
+"""
+
 from enum import IntEnum
 from typing import Literal
 

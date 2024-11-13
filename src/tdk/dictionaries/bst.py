@@ -1,3 +1,7 @@
+"""Bilim ve Sanat Terimleri Sözlüğü\\
+Science and Art Terms Dictionary
+"""
+
 from collections.abc import Iterable
 from typing import NewType
 

@@ -1,3 +1,7 @@
+"""Sıkça Yapılan Yanlışlar Kılavuzu\\
+Frequently Made Mistakes Guide
+"""
+
 from pydantic import BaseModel, AliasChoices, Field, TypeAdapter
 
 from tdk.internal.http import make_http_session_optional

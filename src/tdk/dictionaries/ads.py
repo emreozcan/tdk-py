@@ -1,3 +1,7 @@
+"""Atasözleri ve Deyimler Sözlüğü\\
+Proverbs and Phrases Dictionary
+"""
+
 from enum import Enum
 
 from pydantic import BaseModel, AliasChoices, Field, TypeAdapter

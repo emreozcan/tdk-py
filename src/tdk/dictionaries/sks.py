@@ -1,3 +1,7 @@
+"""Sıkça Karıştırılan Sözler Kılavuzu\\
+Frequently Confused Words Guide
+"""
+
 from aiohttp import ClientSession
 from pydantic import BaseModel
 
