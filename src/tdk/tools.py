@@ -95,7 +95,7 @@ _MEDLI_PATTERNS = (
 )
 """Look-up table for medli syllable patterns.
 
-Used by <project:#get_syllable_type> when determining if the syllable is medli.
+Used by [](get_syllable_type) when determining if the syllable is medli.
 """
 
 
@@ -105,11 +105,11 @@ def get_syllable_type(syllable: str, /) -> SyllableType:
     The type of the syllable is defined as follows,
     where `C` is a consonant, `V` is a short vowel, and `L` is a long vowel:
 
-    * If the syllable is of the form `LC`, `CLC`, `VCC`, or `CVCC`; it is
-      <project:#SyllableType.MEDLI>.
-    * If the syllable ends with a short vowel, it is
-      <project:#SyllableType.OPEN>.
-    * Otherwise, it is <project:#SyllableType.CLOSED>.
+    *   If the syllable is of the form `LC`, `CLC`, `VCC`, or `CVCC`; it is
+        [](SyllableType.MEDLI).
+    *   If the syllable ends with a short vowel, it is
+        [](SyllableType.OPEN).
+    *   Otherwise, it is [](SyllableType.CLOSED).
     """
     letters = lowercase(syllable, remove_hats=False)
     cv_map = tuple(get_letter_type(letter) for letter in letters)
@@ -125,15 +125,14 @@ def get_syllable_type(syllable: str, /) -> SyllableType:
 def get_letter_type(letter: str, /) -> _Ltr:
     """Determine the type of a letter.
 
-    * If the letter is a vowel without a circumflex, it is a
-      <project:#LetterType.SHORT_VOWEL>.
-    * If the letter is a vowel with a circumflex, it is a
-      <project:#LetterType.LONG_VOWEL>.
-    * If the letter is a consonant, it is a <project:#LetterType.CONSONANT>.
+    *   If the letter is a vowel without a circumflex, it is a
+        [](LetterType.SHORT_VOWEL).
+    *   If the letter is a vowel with a circumflex, it is a
+        [](LetterType.LONG_VOWEL).
+    *   If the letter is a consonant, it is a [](LetterType.CONSONANT).
 
     :raises ValueError: If the letter is not a valid letter in
-                        <project:#VOWELS>, <project:#LONG_VOWELS>,
-                        or <project:#CONSONANTS>.
+                        [](VOWELS), [](LONG_VOWELS), or [](CONSONANTS).
     """
     ch = lowercase(letter, remove_hats=False)
     if not ch:
@@ -161,7 +160,7 @@ def lowercase(
     :param text:
         The text to be lowercased.
     :param keep_nonletters:
-        If <inv:#True>,
+        If a truthy value,
         characters that are not in the Turkish alphabet will be kept.
         This includes whitespace and punctuation.
         ```pycon
@@ -173,12 +172,9 @@ def lowercase(
         "geçti bor'un pazarı (sür eşeğini niğde'ye)"
         ```
     :param remove_hats:
-        -   If a truthy value,
-            characters with circumflexes will be replaced with their
-            non-circumflexed counterparts.
-            (e.g. "â" will be replaced with "a".)
-        -   If a falsy value,
-            characters with circumflexes will be kept as is.
+        If a truthy value, characters with circumflexes will be replaced with
+        their non-circumflexed counterparts.
+        (e.g. "â" will be replaced with "a".)
         ```pycon
         >>> lowercase("İKAMETGÂH", remove_hats=True)
         "ikametgah"
@@ -186,7 +182,7 @@ def lowercase(
         "ikametgâh"
         ```
 
-    :returns: A lowercase string without any whitespace or punctuation.
+    :returns: A lowercase string.
     """
     if remove_hats is None:
         remove_hats = not keep_nonletters
@@ -287,7 +283,7 @@ def streaks(text: str, /, *, targets: str = CONSONANTS) -> list[int]:
 
 def max_streak(word: str, *, targets: str = CONSONANTS) -> int:
     """Find the maximum consecutive targets in word."""
-    return max(streaks(text=word, targets=targets))
+    return max(streaks(word, targets=targets))
 
 
 _T = TypeVar("_T")

@@ -32,6 +32,10 @@ def session_maker(**kwargs) -> ClientSession:
         it will be modified to include the mandatory headers.
         Therefore it must be a [](collections.abc.MutableMapping).
         :::
+
+    :raises TypeError:
+        if a `headers` argument is provided and it is not a
+        [](collections.abc.MutableMapping).
     """
     if "headers" not in kwargs:
         return ClientSession(headers=default_headers, **kwargs)

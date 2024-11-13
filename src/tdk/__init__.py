@@ -15,7 +15,7 @@ Güncel Türkçe Sözlük[^gts].
 Each function comes with a synchronous and an asynchronous version.
 An async function `foo` has a synchronous counterpart `foo_sync`.
 Each function can optionally take an `http_session` parameter to use
-an existing [](<inv:#aiohttp.ClientSession>) for the HTTP requests.
+an existing [](aiohttp.ClientSession) for the HTTP requests.
 If not provided, a new session is created and managed by the function using
 [](<#session_maker>).
 

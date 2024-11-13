@@ -22,11 +22,11 @@ __all__ = [
 class LetterType(Enum):
     """Letter types for Turkish alphabet."""
     SHORT_VOWEL = 0
-    """The letter is contained in <project:#VOWELS>."""
+    """The letter is contained in [](VOWELS)."""
     LONG_VOWEL = 1
-    """The letter is contained in <project:#LONG_VOWELS>."""
+    """The letter is contained in [](LONG_VOWELS)."""
     CONSONANT = 2
-    """The letter is contained in <project:#CONSONANTS>."""
+    """The letter is contained in [](CONSONANTS)."""
 
 
 class SyllableType(Enum):
@@ -117,10 +117,10 @@ class MeaningProperty(Enum):
 
     @staticmethod
     def get(arg: int | str) -> MeaningProperty:
-        """Get a <project:#MeaningProperty> from its ID, full or short name.
+        """Get a [](MeaningProperty) from its ID, full or short name.
 
         :param arg: The ID, full or short name of the property.
-        :returns: The property, as a <project:#MeaningProperty> enum member.
+        :returns: The property, as a [](MeaningProperty) enum member.
         """
         if isinstance(arg, dict):
             return _property_table[int(arg["ozellik_id"])]
@@ -136,7 +136,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `18`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"ünlem"`
     :param short_name: `"ünl."`
     :param number: `29`
@@ -150,7 +150,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `19`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"isim"`
     :param short_name: `"a."`
     :param number: `30`
@@ -164,7 +164,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `20`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"sıfat"`
     :param short_name: `"sf."`
     :param number: `31`
@@ -178,7 +178,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `21`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"-e"`
     :param short_name: `"-e"`
     :param number: `32`
@@ -192,7 +192,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `22`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"-i"`
     :param short_name: `"-i"`
     :param number: `33`
@@ -206,7 +206,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `23`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"nesnesiz"`
     :param short_name: `"nsz."`
     :param number: `34`
@@ -220,7 +220,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `24`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"zarf"`
     :param short_name: `"zf."`
     :param number: `35`
@@ -234,7 +234,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `25`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"-le"`
     :param short_name: `"-le"`
     :param number: `36`
@@ -248,7 +248,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `26`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"-den"`
     :param short_name: `"-den"`
     :param number: `37`
@@ -262,7 +262,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `27`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"edat"`
     :param short_name: `"e."`
     :param number: `38`
@@ -276,7 +276,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `28`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"bağlaç"`
     :param short_name: `"bağ."`
     :param number: `39`
@@ -290,7 +290,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `29`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"zamir"`
     :param short_name: `"zm."`
     :param number: `40`
@@ -304,7 +304,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `30`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"argo"`
     :param short_name: `"argo"`
     :param number: `41`
@@ -318,7 +318,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `31`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"eskimiş"`
     :param short_name: `"esk."`
     :param number: `42`
@@ -332,7 +332,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `32`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"mecaz"`
     :param short_name: `"mec."`
     :param number: `43`
@@ -346,7 +346,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `33`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"halk ağzında"`
     :param short_name: `"hlk."`
     :param number: `44`
@@ -360,7 +360,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `34`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"teklifsiz konuşmada"`
     :param short_name: `"tkz."`
     :param number: `45`
@@ -374,7 +374,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `35`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"alay yollu"`
     :param short_name: `"alay"`
     :param number: `46`
@@ -388,7 +388,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `36`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"kaba konuşmada"`
     :param short_name: `"kaba"`
     :param number: `47`
@@ -402,7 +402,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `37`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"şaka yollu"`
     :param short_name: `"şaka"`
     :param number: `48`
@@ -416,7 +416,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `38`
-    :param kind: [`TONE`](<project:#PropertyKind.TONE>)
+    :param kind: [`TONE`](PropertyKind.TONE)
     :param full_name: `"hakaret yollu"`
     :param short_name: `"hkr."`
     :param number: `49`
@@ -430,7 +430,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `39`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"müzik"`
     :param short_name: `"müz."`
     :param number: `88`
@@ -444,7 +444,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `40`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"spor"`
     :param short_name: `"sp."`
     :param number: `89`
@@ -458,7 +458,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `41`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"bitki bilimi"`
     :param short_name: `"bit. b."`
     :param number: `90`
@@ -472,7 +472,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `42`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"denizcilik"`
     :param short_name: `"den."`
     :param number: `91`
@@ -486,7 +486,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `43`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"tarih"`
     :param short_name: `"tar."`
     :param number: `92`
@@ -500,7 +500,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `44`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"gök bilimi"`
     :param short_name: `"gök b."`
     :param number: `93`
@@ -514,7 +514,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `45`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"coğrafya"`
     :param short_name: `"coğ."`
     :param number: `94`
@@ -528,7 +528,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `46`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"dil bilgisi"`
     :param short_name: `"db."`
     :param number: `95`
@@ -542,7 +542,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `47`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"ruh bilimi"`
     :param short_name: `"ruh b."`
     :param number: `96`
@@ -556,7 +556,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `48`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"kimya"`
     :param short_name: `"kim."`
     :param number: `97`
@@ -570,7 +570,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `49`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"anatomi"`
     :param short_name: `"anat."`
     :param number: `98`
@@ -584,7 +584,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `50`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"ticaret"`
     :param short_name: `"tic."`
     :param number: `99`
@@ -598,7 +598,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `51`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"hukuk"`
     :param short_name: `"huk."`
     :param number: `100`
@@ -612,7 +612,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `52`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"matematik"`
     :param short_name: `"mat."`
     :param number: `101`
@@ -626,7 +626,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `53`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"hayvan bilimi"`
     :param short_name: `"hay. b."`
     :param number: `102`
@@ -640,7 +640,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `54`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"edebiyat"`
     :param short_name: `"ed."`
     :param number: `103`
@@ -654,7 +654,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `55`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"sinema"`
     :param short_name: `"sin."`
     :param number: `104`
@@ -668,7 +668,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `56`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"biyoloji"`
     :param short_name: `"biy."`
     :param number: `105`
@@ -682,7 +682,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `57`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"felsefe"`
     :param short_name: `"fel."`
     :param number: `106`
@@ -696,7 +696,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `58`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"fizik"`
     :param short_name: `"fiz."`
     :param number: `108`
@@ -710,7 +710,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `59`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"tiyatro"`
     :param short_name: `"tiy."`
     :param number: `109`
@@ -724,7 +724,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `60`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"jeoloji"`
     :param short_name: `"jeol."`
     :param number: `110`
@@ -738,7 +738,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `61`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"teknik"`
     :param short_name: `"tek."`
     :param number: `112`
@@ -752,7 +752,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `62`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"toplum bilimi"`
     :param short_name: `"top. b."`
     :param number: `113`
@@ -766,7 +766,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `63`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"fizyoloji"`
     :param short_name: `"fizy."`
     :param number: `114`
@@ -780,7 +780,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `64`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"meteoroloji"`
     :param short_name: `"meteor."`
     :param number: `115`
@@ -794,7 +794,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `65`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"mantık"`
     :param short_name: `"man."`
     :param number: `116`
@@ -808,7 +808,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `66`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"ekonomi"`
     :param short_name: `"ekon."`
     :param number: `117`
@@ -822,7 +822,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `67`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"mimarlık"`
     :param short_name: `"mim."`
     :param number: `118`
@@ -836,7 +836,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `68`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"mineraloji"`
     :param short_name: `"min."`
     :param number: `119`
@@ -850,7 +850,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `69`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"eğitim bilimi"`
     :param short_name: `"eğt."`
     :param number: `120`
@@ -864,7 +864,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `73`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"askerlik"`
     :param short_name: `"ask."`
     :param number: `124`
@@ -878,7 +878,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `80`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"geometri"`
     :param short_name: `"geom."`
     :param number: `253`
@@ -892,7 +892,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `81`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"teknoloji"`
     :param short_name: `"tekno."`
     :param number: `264`
@@ -906,7 +906,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `82`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"yardımcı  fiil"`
     :param short_name: `"yar."`
     :param number: `271`
@@ -920,7 +920,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `83`
-    :param kind: [`PART_OF_SPEECH`](<project:#PropertyKind.PART_OF_SPEECH>)
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
     :param full_name: `"-de"`
     :param short_name: `"-de"`
     :param number: `274`
@@ -934,7 +934,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `84`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"dil bilimi"`
     :param short_name: `"dil b."`
     :param number: `289`
@@ -948,7 +948,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `85`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"tıp"`
     :param short_name: `"tıp"`
     :param number: `307`
@@ -962,7 +962,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `87`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"televizyon"`
     :param short_name: `"TV"`
     :param number: `325`
@@ -976,7 +976,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `88`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"din bilgisi"`
     :param short_name: `"din b."`
     :param number: `326`
@@ -990,7 +990,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `96`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"madencilik"`
     :param short_name: `"mdn."`
     :param number: `364`
@@ -1004,7 +1004,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `98`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"bilişim"`
     :param short_name: `"bl."`
     :param number: `368`
@@ -1018,7 +1018,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `99`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"mit."`
     :param short_name: `"mit."`
     :param number: `376`
@@ -1032,7 +1032,7 @@ class MeaningProperty(Enum):
     )
     """
     :param id: `105`
-    :param kind: [`FIELD`](<project:#PropertyKind.FIELD>)
+    :param kind: [`FIELD`](PropertyKind.FIELD)
     :param full_name: `"antropoloji"`
     :param short_name: `"ant."`
     :param number: `404`

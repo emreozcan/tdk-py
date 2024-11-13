@@ -21,7 +21,7 @@ def make_sync(func_to_be_cloned, /):
     synchronously.
 
     :::{important}
-    The wrapped function is not used.
+    The wrapped function is discarded and not used.
     :::
 
     :::{admonition} Example usage
@@ -54,10 +54,10 @@ def make_sync(func_to_be_cloned, /):
 
 
 def int_or_none_as_str(value: str, /) -> int | None:
-    """Convert a string to an integer or None.
+    """Convert a string to an [](int) or a [](None).
 
-    Empty strings are converted to <inv:#None>,
-    other strings are converted to type <inv:#int>.
+    Empty strings are converted to [](None),
+    other strings are converted to type [](int).
     """
     if not value:
         return None
@@ -65,14 +65,17 @@ def int_or_none_as_str(value: str, /) -> int | None:
 
 
 IntOrNone = Annotated[int | None, BeforeValidator(int_or_none_as_str)]
-"""Pydantic type hint for an integer or None."""
+"""[](pydantic.BeforeValidator) type hint for an integer or None.
+
+Works using [](int_or_none_as_str).
+"""
 
 
 def str_or_none_as_str(value: str, /) -> str | None:
-    """Convert a string to a string or None.
+    """Convert a string to a [](str) or [](None).
 
-    Empty strings are converted to <inv:#None>,
-    other strings are converted to type <inv:#str>.
+    Empty strings are converted to [](None),
+    other strings are converted to type [](str).
     """
     if not value:
         return None
@@ -80,7 +83,10 @@ def str_or_none_as_str(value: str, /) -> str | None:
 
 
 StrOrNone = Annotated[str | None, BeforeValidator(str_or_none_as_str)]
-"""Pydantic type hint for a string or None."""
+"""[](pydantic.BeforeValidator) type hint for a string or None.
+
+Works using [](str_or_none_as_str).
+"""
 
 
 def sound_url_validator(v: str, /) -> str:
@@ -95,7 +101,10 @@ def sound_url_validator(v: str, /) -> str:
 
 
 SoundURL = Annotated[str, AfterValidator(sound_url_validator)]
-"""Pydantic type hint for a sound URL."""
+"""[](pydantic.AfterValidator) type hint for a sound URL.
+
+Works using [](sound_url_validator).
+"""
 
 
 def image_url_validator(v: str, /) -> str:
@@ -110,11 +119,32 @@ def image_url_validator(v: str, /) -> str:
 
 
 ImageURL = Annotated[str, AfterValidator(image_url_validator)]
-"""Pydantic type hint for an image URL."""
+"""[](pydantic.AfterValidator) type hint for an image URL.
+
+Works using [](image_url_validator).
+"""
 
 
 def adapt_input_to_enum(input: Any, enum: Type[Enum]) -> Enum:
-    """Get an enum member from an enum instance, value or name."""
+    """Get an enum member from an enum instance, value or name.
+
+    ```pycon
+    >>> from enum import Enum
+    >>> class Color(Enum):
+    ...     RED = 1
+    ...     GREEN = 2
+    ...     BLUE = 3
+    ...
+    >>> adapt_input_to_enum(Color.RED, Color)
+    <Color.RED: 1>
+    >>> adapt_input_to_enum(2, Color)
+    <Color.GREEN: 2>
+    >>> adapt_input_to_enum("blue", Color)
+    <Color.BLUE: 3>
+    ```
+
+    :raises ValueError: If `input` is not found in `enum`.
+    """
     if isinstance(input, enum):
         return input
     for name, member in enum.__members__.items():
@@ -125,15 +155,18 @@ def adapt_input_to_enum(input: Any, enum: Type[Enum]) -> Enum:
     raise ValueError(f"Invalid input: {input!r}")
 
 
-NOT_FOUND = {"error": "Sonuç bulunamadı"}
-"""A NOT_FOUND response from the API."""
+NOT_FOUND: dict = {"error": "Sonuç bulunamadı"}
+"""The constant "not found" response of the API, decoded from JSON.
+
+The TDK APIs always return this response when the requested data is not found.
+"""
 
 
 def assert_not_found(data: Any, /):
-    """Assert that the data is a <project:#NOT_FOUND> response.
+    """Assert that the data is a [](NOT_FOUND) response.
 
     :raises TypeError: If the data is not a dict.
-    :raises ValueError: If the data is not a <project:#NOT_FOUND> response.
+    :raises ValueError: If the data is not a [](NOT_FOUND) response.
     """
     if not isinstance(data, dict):
         raise TypeError("Expected a dict")
@@ -144,9 +177,9 @@ def assert_not_found(data: Any, /):
 def validate_property(v: str | int | MeaningProperty, /):
     """Validate a meaning property.
 
-    If the input is a <project:#MeaningProperty> instance, it is returned as is.
-    Otherwise, <project:#MeaningProperty.get> is used to find the correct
-    <project:#MeaningProperty> instance, and it is returned.
+    If the input is a [](MeaningProperty) instance, it is returned as is.
+    Otherwise, [](MeaningProperty.get) is used to find the correct
+    [](MeaningProperty) instance, and it is returned.
     """
     if isinstance(v, MeaningProperty):
         return v
@@ -157,4 +190,7 @@ ValidatedProperty = Annotated[
     MeaningProperty,
     BeforeValidator(validate_property)
 ]
-"""Pydantic type hint for a validated meaning property."""
+"""[](pydantic.BeforeValidator) type hint for a validated meaning property.
+
+Works using [](validate_property).
+"""
