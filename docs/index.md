@@ -143,5 +143,6 @@ for i in set(annotated_dict):
 :maxdepth: 2
 :caption: Contents:
 
+dev_guide.md
 apidocs/index.rst
 ```
