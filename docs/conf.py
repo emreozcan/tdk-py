@@ -9,7 +9,7 @@ import dunamai
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'tdk-py'
-copyright = '2024, Emre Özcan'
+copyright = '2024-2025, Emre Özcan'
 author = 'Emre Özcan'
 release = dunamai.Version.from_git().serialize()
 
