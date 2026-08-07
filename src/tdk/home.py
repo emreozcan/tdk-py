@@ -76,7 +76,7 @@ class HomepageContent(BaseModel):
     rules: list[HomepageRule] = Field(
         default_factory=list, validation_alias=AliasChoices("rules", "kural")
     )
-    loanword: LoanwordEntry = Field(
+    loanword: list[LoanwordEntry] = Field(
         default_factory=list,
         validation_alias=AliasChoices("loanword", "yabanci"),
     )
