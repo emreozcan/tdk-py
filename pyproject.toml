@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Education",
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries",
@@ -30,7 +31,7 @@ classifiers = [
 include = ["LICENSE"]
 repository = "https://github.com/emreozcan/tdk-py"
 packages = [
-    { include = "tdk", from = "src", to = "tdk" },
+    { include = "tdk", from = "src" },
 ]
 
 [tool.poetry.dependencies]
