@@ -11,7 +11,6 @@ from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import make_sync, SoundURL
 
-
 __all__ = [
     "SpellingEntry",
     "search_spelling",

@@ -18,7 +18,7 @@ them, or use them in your API endpoints and generate beautiful schemas.
 
 ## Installation
 
-tdk-py is supported on Python 3.10+.
+tdk-py is supported on Python 3.11+.
 First, make sure you have a Python environment set up.
 
 :::{tab} poetry (recommended)

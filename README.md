@@ -23,11 +23,11 @@ them, or use them in your API endpoints and generate beautiful schemas.
 
 [Turkish dictionaries]: https://sozluk.gov.tr
 [TDK]: https://www.tdk.gov.tr
-[model_dump_json]: https://docs.pydantic.dev/2.9/api/base_model/#pydantic.BaseModel.model_dump_json
+[model_dump_json]: https://docs.pydantic.dev/2.14/api/base_model/#pydantic.BaseModel.model_dump_json
 
 ## Quick start
 
-tdk-py is supported on Python 3.10+.
+tdk-py is supported on Python 3.11+.
 First, make sure you have a Python environment set up.
 
 ```bash

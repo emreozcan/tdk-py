@@ -17,7 +17,6 @@ from pydantic import (
 from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import make_sync, adapt_input_to_enum, assert_not_found
 
-
 __all__ = [
     "NameSearchGender",
     "NameSearchField",
@@ -108,10 +107,7 @@ async def search_names(
     query: str,
     *,
     according_to: NameSearchField | Literal["name", "meaning"],
-    gender: (
-            NameSearchGender
-            | Literal["female", "male", "unisex", "either"]
-    ),
+    gender: NameSearchGender | Literal["female", "male", "unisex", "either"],
     http_session: ClientSession,
 ) -> list[NameEntry]:
     search_gender = adapt_input_to_enum(gender, NameSearchGender)

@@ -8,7 +8,6 @@ from pydantic import BaseModel, Field, AliasChoices
 from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import StrOrNone, make_sync, assert_not_found
 
-
 __all__ = [
     "LoanwordEntry",
     "search_loanwords",
@@ -36,8 +35,9 @@ class LoanwordEntry(BaseModel):
 
 # query: abone
 @make_http_session_optional
-async def search_loanwords(query: str, *, http_session: ClientSession) \
-        -> list[LoanwordEntry]:
+async def search_loanwords(
+    query: str, *, http_session: ClientSession
+) -> list[LoanwordEntry]:
     async with http_session.get(
         f"{API_BASE_URL}/ysk",
         params={"ara": query},

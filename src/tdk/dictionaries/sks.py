@@ -10,7 +10,6 @@ from pydantic import BaseModel
 from tdk.internal.http import make_http_session_optional
 from tdk.internal.utils import SoundURL, make_sync
 
-
 __all__ = [
     "SKSWord",
     "SKSEntry",

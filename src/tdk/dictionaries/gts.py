@@ -29,7 +29,6 @@ from tdk.internal.utils import (
     ValidatedProperty,
 )
 
-
 __all__ = [
     "GTSEntry",
     "GTSMeaning",
@@ -104,9 +103,7 @@ class GTSCompoundWord(BaseModel):
 def _parse_compound_words(value):
     if isinstance(value, str):
         return [
-            {"madde": word.strip()}
-            for word in value.split(",")
-            if word.strip()
+            {"madde": word.strip()} for word in value.split(",") if word.strip()
         ]
     return value
 
@@ -261,9 +258,7 @@ class GTSEntry(BaseModel):
     )
     proverbs: list[GTSProverb] = Field(
         default_factory=list,
-        validation_alias=AliasChoices(
-            "proverbs", "atasozleri", "atasozu"
-        ),
+        validation_alias=AliasChoices("proverbs", "atasozleri", "atasozu"),
     )
     compound_words: CompoundWordList = Field(
         default_factory=list,

@@ -35,10 +35,10 @@ def _next_vowel_index(text: str, cur: int) -> int:
 
 
 def _are_there_letters_between(
-        text: str, start: int, end: int, alphabet=ALPHABET
+    text: str, start: int, end: int, alphabet=ALPHABET
 ) -> bool:
     """Check if there are any letters between the start and end indices."""
-    return any(character in alphabet for character in text[start + 1: end])
+    return any(character in alphabet for character in text[start + 1 : end])
 
 
 def _previous_letter(text, end, stop_characters=f"{ALPHABET}{punctuation}"):
@@ -73,7 +73,7 @@ def hecele(text: str, /) -> list[str]:
             syllables.append(text[last_syllable_index:])
             break
         elif not _are_there_letters_between(
-                text, current_vowel_index, next_vowel_index
+            text, current_vowel_index, next_vowel_index
         ):  # There are two neighbor vowels (sa/at)
             syllable_stop_index = next_vowel_index
         else:
@@ -149,11 +149,11 @@ def get_letter_type(letter: str, /) -> _Ltr:
 
 
 def lowercase(
-        text: str,
-        /,
-        *,
-        keep_nonletters: bool = False,
-        remove_hats: bool = True,
+    text: str,
+    /,
+    *,
+    keep_nonletters: bool = False,
+    remove_hats: bool = True,
 ) -> str:
     """Remove all whitespace and punctuation from text and lowercase it.
 
@@ -210,8 +210,7 @@ def lowercase(
         return word_io.read()
 
 
-def dictionary_order(word: str, /) \
-        -> tuple[int, ...]:
+def dictionary_order(word: str, /) -> tuple[int, ...]:
     """Get a tuple of indices that can be used as orthographic order.
 
     :returns: A tuple of numbers suitable to be used as a dictionary order.

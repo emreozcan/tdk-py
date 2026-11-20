@@ -13,7 +13,6 @@ from tdk.internal.utils import (
     assert_not_found,
 )
 
-
 __all__ = [
     "DerlemeEntry",
     "search_derleme",

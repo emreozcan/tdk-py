@@ -1,6 +1,5 @@
 from tdk.dictionaries.gts import GTSEntry, _normalize_query
 
-
 NEW_STYLE_ENTRY = {
     "kac": 0,
     "madde": "örnek",
@@ -72,9 +71,7 @@ NEW_STYLE_ENTRY = {
             ],
         }
     ],
-    "birlesikKelimeler": [
-        {"madde_id": 3, "madde": "örnek birleşik"}
-    ],
+    "birlesikKelimeler": [{"madde_id": 3, "madde": "örnek birleşik"}],
     "atasozleri": [{"madde_id": 4, "madde": "örnek atasözü"}],
 }
 
@@ -149,10 +146,7 @@ def test_old_style_entry():
     assert entry.entry_normalized == "örnek"
     assert entry.meanings[0].order == 1
     assert entry.meanings[0].entry_id == entry.tdk_id
-    assert (
-        entry.meanings[0].examples[0].example
-        == "Örnek kullanım cümlesi."
-    )
+    assert entry.meanings[0].examples[0].example == "Örnek kullanım cümlesi."
     assert entry.proverbs[0].proverb == "örnek atasözü"
     assert [word.entry for word in entry.compound_words] == [
         "örnek birleşik",

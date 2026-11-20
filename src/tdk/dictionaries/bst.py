@@ -96,7 +96,7 @@ async def search_terms(
     dictionaries: Iterable[TermsDictionary | TermDictionaryName],
     query: str,
     *,
-    http_session: ClientSession
+    http_session: ClientSession,
 ) -> list[TermsEntry]:
     dictionary_names: tuple[str, ...] = tuple(
         d.name if isinstance(d, TermsDictionary) else d for d in dictionaries

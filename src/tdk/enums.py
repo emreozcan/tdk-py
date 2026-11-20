@@ -8,7 +8,6 @@ from enum import Enum, IntEnum
 
 from pydantic import BaseModel, Field, AliasChoices
 
-
 __all__ = [
     "LetterType",
     "SyllableType",
@@ -21,6 +20,7 @@ __all__ = [
 
 class LetterType(Enum):
     """Letter types for Turkish alphabet."""
+
     SHORT_VOWEL = 0
     """The letter is contained in [](VOWELS)."""
     LONG_VOWEL = 1
@@ -31,6 +31,7 @@ class LetterType(Enum):
 
 class SyllableType(Enum):
     """Syllable types according to aruz prosody rules."""
+
     OPEN = 0
     """The syllable ends with a vowel."""
     CLOSED = 1
@@ -88,6 +89,7 @@ class OriginLanguage(IntEnum):
 
 class PropertyKind(IntEnum):
     """Kinds of properties that can be assigned to a word meaning."""
+
     FIELD = 1
     """The property is a field of study."""
     PART_OF_SPEECH = 3
@@ -98,6 +100,7 @@ class PropertyKind(IntEnum):
 
 class PropertyData(BaseModel):
     """Data class for properties of word meanings."""
+
     id: int = Field(validation_alias=AliasChoices("id", "ozellik_id"))
     """The ID of the property in the TDK database."""
     kind: PropertyKind = Field(validation_alias=AliasChoices("kind", "tur"))

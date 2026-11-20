@@ -44,6 +44,7 @@ def make_sync(func_to_be_cloned, /):
     print(wait_sync())  # Hello, world!
     ```
     """
+
     def decorator(_unused_func):
         @wraps(func_to_be_cloned)
         def new_func(*args, **kwargs):
@@ -188,8 +189,7 @@ def validate_property(v: str | int | MeaningProperty, /):
 
 
 ValidatedProperty = Annotated[
-    MeaningProperty,
-    BeforeValidator(validate_property)
+    MeaningProperty, BeforeValidator(validate_property)
 ]
 """[](pydantic.BeforeValidator) type hint for a validated meaning property.
 

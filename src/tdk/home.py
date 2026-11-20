@@ -7,7 +7,6 @@ from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import make_sync
 from tdk.dictionaries.ysk import LoanwordEntry
 
-
 __all__ = [
     "HomepageMixup",
     "HomepageProverb",
@@ -92,17 +91,17 @@ class HomepageContent(BaseModel):
     counter: ValidatedCounter = Field(
         validation_alias=AliasChoices("sayac", "deger")
     )
-    mixups: Annotated[
-        list[HomepageMixup], BeforeValidator(_dicts_only)
-    ] = Field(
-        default_factory=list,
-        validation_alias=AliasChoices("mixups", "karistirma"),
+    mixups: Annotated[list[HomepageMixup], BeforeValidator(_dicts_only)] = (
+        Field(
+            default_factory=list,
+            validation_alias=AliasChoices("mixups", "karistirma"),
+        )
     )
-    proverbs: Annotated[
-        list[HomepageProverb], BeforeValidator(_dicts_only)
-    ] = Field(
-        default_factory=list,
-        validation_alias=AliasChoices("proverbs", "atasozu", "atasoz"),
+    proverbs: Annotated[list[HomepageProverb], BeforeValidator(_dicts_only)] = (
+        Field(
+            default_factory=list,
+            validation_alias=AliasChoices("proverbs", "atasozu", "atasoz"),
+        )
     )
     typos: Annotated[
         list[HomepageFrequentTypos], BeforeValidator(_dicts_only)
@@ -110,18 +109,14 @@ class HomepageContent(BaseModel):
         default_factory=list,
         validation_alias=AliasChoices("frequent_typos", "syyd"),
     )
-    rules: Annotated[
-        list[HomepageRule], BeforeValidator(_dicts_only)
-    ] = Field(
+    rules: Annotated[list[HomepageRule], BeforeValidator(_dicts_only)] = Field(
         default_factory=list, validation_alias=AliasChoices("rules", "kural")
     )
     loanword: ValidatedLoanwordList = Field(
         default_factory=list,
         validation_alias=AliasChoices("loanword", "yabanci"),
     )
-    words: Annotated[
-        list[HomepageWord], BeforeValidator(_dicts_only)
-    ] = Field(
+    words: Annotated[list[HomepageWord], BeforeValidator(_dicts_only)] = Field(
         default_factory=list, validation_alias=AliasChoices("words", "kelime")
     )
     trending_words: Annotated[

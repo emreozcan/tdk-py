@@ -12,9 +12,7 @@ def test_homepage_content_from_new_widget_response():
                     "dogru": "örnek doğru",
                 }
             ],
-            "atasoz": [
-                {"sozum": "örnek atasözü", "anlami": "örnek anlam"}
-            ],
+            "atasoz": [{"sozum": "örnek atasözü", "anlami": "örnek anlam"}],
             "syyd": [
                 {
                     "id": 2,
@@ -22,9 +20,7 @@ def test_homepage_content_from_new_widget_response():
                     "dogrukelime": "örnek doğru",
                 }
             ],
-            "kural": [
-                {"adi": "Örnek Kural", "url": "https://example.com"}
-            ],
+            "kural": [{"adi": "Örnek Kural", "url": "https://example.com"}],
             "yabanci": {
                 "karsid": 3,
                 "kkelime": "örnek yabancı sözcük",

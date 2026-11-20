@@ -8,33 +8,33 @@ import dunamai
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'tdk-py'
-copyright = '2024-2026, Emre Özcan'
-author = 'Emre Özcan'
+project = "tdk-py"
+copyright = "2024-2026, Emre Özcan"
+author = "Emre Özcan"
 release = dunamai.Version.from_git().serialize()
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.autodoc',
-    'myst_parser',
-    'sphinx_copybutton',
-    'autodoc2',
-    'sphinx_inline_tabs',
-    'sphinx_tippy',
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.autodoc",
+    "myst_parser",
+    "sphinx_copybutton",
+    "autodoc2",
+    "sphinx_inline_tabs",
+    "sphinx_tippy",
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
 
 # -- MystParser
 
 myst_enable_extensions = [
-    'attrs_block',
-    'colon_fence',
-    'fieldlist',
+    "attrs_block",
+    "colon_fence",
+    "fieldlist",
 ]
 myst_heading_anchors = 3
 
@@ -47,13 +47,13 @@ gettext_compact = False
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'furo'
-html_static_path = ['_static']
+html_theme = "furo"
+html_static_path = ["_static"]
 
 # -- Options for autodoc2
 
 autodoc2_packages = [
-    '../src/tdk',
+    "../src/tdk",
 ]
 autodoc2_render_plugin = "myst"
 autodoc2_module_all_regexes = [
@@ -68,7 +68,7 @@ autodoc2_replace_annotations = [
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html#configuration
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', None),
-    'pydantic': ('https://docs.pydantic.dev/2.9', None),
-    'aiohttp': ('https://docs.aiohttp.org/en/v3.10.10/', None),
+    "python": ("https://docs.python.org/3", None),
+    "pydantic": ("https://docs.pydantic.dev/2.14", None),
+    "aiohttp": ("https://docs.aiohttp.org/en/v3.14.5/", None),
 }

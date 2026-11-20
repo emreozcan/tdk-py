@@ -2,8 +2,16 @@ import pytest
 
 from tdk import alphabet
 from tdk.enums import LetterType, SyllableType
-from tdk.tools import hecele, lowercase, dictionary_order, counter, streaks, distinct, get_syllable_type, \
-    get_letter_type
+from tdk.tools import (
+    hecele,
+    lowercase,
+    dictionary_order,
+    counter,
+    streaks,
+    distinct,
+    get_syllable_type,
+    get_letter_type,
+)
 
 
 class TestHecele:
@@ -63,7 +71,9 @@ class TestLetterTypeGetter:
     def test_short_vowels(self):
         for short_vowel in alphabet.VOWELS:
             assert get_letter_type(short_vowel) == LetterType.SHORT_VOWEL
-            assert get_letter_type(short_vowel.upper()) == LetterType.SHORT_VOWEL
+            assert (
+                get_letter_type(short_vowel.upper()) == LetterType.SHORT_VOWEL
+            )
         assert get_letter_type("İ") == LetterType.SHORT_VOWEL
 
     def test_long_vowels(self):

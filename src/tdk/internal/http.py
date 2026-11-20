@@ -1,6 +1,7 @@
 """
 This module provides helper functions for making HTTP requests.
 """
+
 from collections.abc import MutableMapping
 from functools import wraps
 from typing import Optional
@@ -59,6 +60,7 @@ def make_http_session_optional(func):
     created by [](session_maker)
     to the wrapped function.
     """
+
     @wraps(func)
     async def wrapper(*args, **kwargs):
         if "http_session" in kwargs:

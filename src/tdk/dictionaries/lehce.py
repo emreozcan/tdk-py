@@ -10,7 +10,6 @@ from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import StrOrNone, make_sync, assert_not_found
 
-
 __all__ = [
     "Lehce",
     "LehceEntry",
