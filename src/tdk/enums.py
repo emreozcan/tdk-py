@@ -82,6 +82,8 @@ class OriginLanguage(IntEnum):
     SOGDIAN = 395
     SERBIAN = 486
     KOREAN = 420
+    SANSKRIT = 491
+    ANCIENT_GREEK = 492
 
 
 class PropertyKind(IntEnum):
@@ -108,7 +110,9 @@ class PropertyData(BaseModel):
         validation_alias=AliasChoices("short_name", "kisa_adi")
     )
     """The short name of the property."""
-    number: int = Field(validation_alias=AliasChoices("number", "ekno"))
+    number: int | None = Field(
+        default=None, validation_alias=AliasChoices("number", "ekno")
+    )
     """The additional number of the property in the TDK database (`ekno`)."""
 
 
@@ -294,6 +298,20 @@ class MeaningProperty(Enum):
     :param full_name: `"zamir"`
     :param short_name: `"zm."`
     :param number: `40`
+    """
+    PROPER_NOUN = PropertyData(
+        id=106,
+        kind=PropertyKind.PART_OF_SPEECH,
+        full_name="özel isim",
+        short_name="öz. a.",
+        number=None,
+    )
+    """
+    :param id: `106`
+    :param kind: [`PART_OF_SPEECH`](PropertyKind.PART_OF_SPEECH)
+    :param full_name: `"özel isim"`
+    :param short_name: `"öz. a."`
+    :param number: `None`
     """
     SLANG = PropertyData(
         id=30,
@@ -1036,6 +1054,20 @@ class MeaningProperty(Enum):
     :param full_name: `"antropoloji"`
     :param short_name: `"ant."`
     :param number: `404`
+    """
+    ARCHAEOLOGY = PropertyData(
+        id=70,
+        kind=PropertyKind.FIELD,
+        full_name="arkeoloji",
+        short_name="ark.",
+        number=None,
+    )
+    """
+    :param id: `70`
+    :param kind: [`FIELD`](PropertyKind.FIELD)
+    :param full_name: `"arkeoloji"`
+    :param short_name: `"ark."`
+    :param number: `None`
     """
     # endregion
 

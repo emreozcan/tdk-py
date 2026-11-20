@@ -12,6 +12,7 @@ from typing import Annotated, Any, Type
 from pydantic import BeforeValidator, AfterValidator
 
 from tdk.enums import MeaningProperty
+from tdk.internal.http import API_BASE_URL
 
 
 def make_sync(func_to_be_cloned, /):
@@ -93,10 +94,10 @@ def sound_url_validator(v: str, /) -> str:
     """Convert a sound code to a valid sound URL.
 
     Strings that do not start with `https://` are converted to
-    `https://sozluk.gov.tr/ses/{}.wav`.
+    `https://api.sozluk.gov.tr/ses/{}.wav`.
     """
     if not v.startswith("https://"):
-        return f"https://sozluk.gov.tr/ses/{v}.wav"
+        return f"{API_BASE_URL}/ses/{v}.wav"
     return v
 
 

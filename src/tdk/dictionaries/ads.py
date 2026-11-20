@@ -6,7 +6,7 @@ from enum import Enum
 
 from pydantic import BaseModel, AliasChoices, Field, TypeAdapter
 
-from tdk.internal.http import make_http_session_optional
+from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import make_sync, assert_not_found
 
 
@@ -39,9 +39,9 @@ saying_entry_adapter = TypeAdapter(list[SayingEntry])
 @make_http_session_optional
 async def search_saying(query: str, *, http_session) -> list[SayingEntry]:
     async with http_session.get(
-        "https://sozluk.gov.tr/atasozu", params={"ara": query}
+        f"{API_BASE_URL}/ads", params={"ara": query}
     ) as res:
-        res_data = await res.json(content_type="text/html; charset=utf-8")
+        res_data = await res.json()
         if isinstance(res_data, list):
             return saying_entry_adapter.validate_python(res_data)
         assert_not_found(res_data)

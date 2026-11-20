@@ -95,7 +95,8 @@ bar(5) Halter sporunda ağırlığı oluşturan kiloları birbirine bağlayan me
 
 ### Generating suggestions
 
-You can query suggestions for misspelt words or for other similar words.
+You can calculate suggestions locally using the index,
+or query the TDK's autocomplete API for words starting with a given prefix.
 
 ```python
 from difflib import get_close_matches
@@ -105,9 +106,9 @@ import tdk
 words = get_close_matches("feldispat", tdk.get_gts_index_sync())
 assert words == ['feldspat', 'ispat', 'fesat']
 
-# Use the TDK API: (sometimes errors out)
-words = tdk.get_gts_suggestions_sync("feldispat")
-assert words == ['feldspat', 'felekiyat', 'ispat']
+# Use the TDK API:
+words = tdk.get_gts_suggestions_sync("feldsp")
+assert words == ['feldspat']
 ```
 
 ### Performing complex analyses
@@ -131,11 +132,11 @@ for i in set(annotated_dict):
 ```{code-block}
 :caption: Output
 
-0 19
-1 15199
-2 73511
-3 3605
-4 68
+0 16
+1 14704
+2 62874
+3 3345
+4 73
 5 5
 ```
 

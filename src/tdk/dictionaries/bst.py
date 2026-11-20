@@ -8,7 +8,7 @@ from typing import NewType
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
-from tdk.internal.http import make_http_session_optional
+from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import IntOrNone, make_sync, StrOrNone, assert_not_found
 
 TermDictionaryName = NewType("TermDictionaryName", str)
@@ -38,9 +38,11 @@ class TermsDictionary(BaseModel):
 async def get_terms_dictionaries(
     *, http_session: ClientSession
 ) -> list[TermsDictionary]:
-    async with http_session.get("https://sozluk.gov.tr/terim?terim") as res:
+    async with http_session.get(
+        f"{API_BASE_URL}/bilim-sanat", params={"terim": ""}
+    ) as res:
         return TypeAdapter(list[TermsDictionary]).validate_python(
-            await res.json(content_type="text/html; charset=utf-8")
+            await res.json()
         )
 
 
@@ -96,57 +98,21 @@ async def search_terms(
     *,
     http_session: ClientSession
 ) -> list[TermsEntry]:
-    # Doesn't search pharmaceutics and nursing dictionaries.
     dictionary_names: tuple[str, ...] = tuple(
         d.name if isinstance(d, TermsDictionary) else d for d in dictionaries
     )
-    terms: list[TermsEntry] = []
-    if IETS in dictionary_names:
-        async with http_session.get(
-            "https://sozluk.gov.tr/eczacilik", params={"ara": query}
-        ) as res:
-            res_data = await res.json(content_type="text/html; charset=utf-8")
-            if isinstance(res_data, list):
-                for term in res_data:
-                    term["dictionary_name"] = IETS
-                terms.extend(term_list_adapter.validate_python(res_data))
-            else:
-                assert_not_found(res_data)
-    if HTS in dictionary_names:
-        async with http_session.get(
-            "https://sozluk.gov.tr/hemsirelik", params={"ara": query}
-        ) as res:
-            res_data = await res.json(content_type="text/html; charset=utf-8")
-            if isinstance(res_data, list):
-                for term in res_data:
-                    term["dictionary_name"] = HTS
-                terms.extend(term_list_adapter.validate_python(res_data))
-            else:
-                assert_not_found(res_data)
-    if UMS in dictionary_names:
-        async with http_session.get(
-            "https://sozluk.gov.tr/metroloji", params={"ara": query}
-        ) as res:
-            res_data = await res.json(content_type="text/html; charset=utf-8")
-            if isinstance(res_data, list):
-                for term in res_data:
-                    term["dictionary_name"] = UMS
-                terms.extend(term_list_adapter.validate_python(res_data))
-            else:
-                assert_not_found(res_data)
     async with http_session.get(
-        "https://sozluk.gov.tr/terim",
+        f"{API_BASE_URL}/bilim-sanat",
         params={
             "eser_ad": "@".join(dictionary_names),
             "ara": query,
         },
     ) as res:
-        res_data = await res.json(content_type="text/html; charset=utf-8")
+        res_data = await res.json()
         if isinstance(res_data, list):
-            terms.extend(term_list_adapter.validate_python(res_data))
-        else:
-            assert_not_found(res_data)
-    return term_list_adapter.validate_python(terms)
+            return term_list_adapter.validate_python(res_data)
+        assert_not_found(res_data)
+        return []
 
 
 @make_sync(search_terms)

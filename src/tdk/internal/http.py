@@ -7,9 +7,15 @@ from typing import Optional
 
 from aiohttp import ClientSession
 
+SITE_BASE_URL = "https://sozluk.gov.tr"
+"""Base URL of the TDK dictionary website."""
+
+API_BASE_URL = "https://api.sozluk.gov.tr"
+"""Base URL of the API used by the TDK dictionary website."""
+
 default_headers: dict[str, str] = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
-    "Referer": "https://sozluk.gov.tr/",
+    "Referer": f"{SITE_BASE_URL}/",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/99.0.4844.51 "

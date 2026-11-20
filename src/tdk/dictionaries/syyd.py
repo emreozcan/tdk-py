@@ -1,5 +1,7 @@
 """Sıkça Yapılan Yanlışlar Kılavuzu\\
 Frequently Made Mistakes Guide
+
+TDK no longer publishes this guide on its website.
 """
 
 from pydantic import BaseModel, AliasChoices, Field, TypeAdapter
@@ -38,15 +40,9 @@ syyd_entry_list_adapter = TypeAdapter(list[SYYDEntry])
 
 @make_http_session_optional
 async def search_syyd(query: str, /, *, http_session) -> list[SYYDEntry]:
-    async with http_session.get(
-        "https://sozluk.gov.tr/kilavuz",
-        params={"prm": "syyd", "ara": query},
-    ) as res:
-        res_data = await res.json(content_type="text/html; charset=utf-8")
-        if isinstance(res_data, list):
-            return syyd_entry_list_adapter.validate_python(res_data)
-        assert res_data == {"error": "Sonuç bulunamadı"}
-        return []
+    raise RuntimeError(
+        "TDK no longer publishes the Frequently Made Mistakes Guide."
+    )
 
 
 @make_sync(search_syyd)

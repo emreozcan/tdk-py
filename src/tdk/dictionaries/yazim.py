@@ -1,14 +1,15 @@
 """Yazım Kılavuzu\\
 Spelling Guide
 
-Not accessible from TDK's website.
+TDK now publishes this guide as a static website
+at https://yazim.tdk.gov.tr without a search API.
 """
 
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, TypeAdapter
 
 from tdk.internal.http import make_http_session_optional
-from tdk.internal.utils import make_sync, SoundURL, assert_not_found
+from tdk.internal.utils import make_sync, SoundURL
 
 
 __all__ = [
@@ -34,15 +35,10 @@ spelling_entry_list_adapter = TypeAdapter(list[SpellingEntry])
 async def search_spelling(
     query: str, /, *, http_session: ClientSession
 ) -> list[SpellingEntry]:
-    async with http_session.get(
-        "https://sozluk.gov.tr/yazim",
-        params={"ara": query},
-    ) as res:
-        res_data = await res.json(content_type="text/html; charset=utf-8")
-        if not isinstance(res_data, list):
-            assert_not_found(res_data)
-            return []
-        return spelling_entry_list_adapter.validate_python(res_data)
+    raise RuntimeError(
+        "TDK no longer publishes a search API for the Spelling Guide. "
+        "The guide is available at https://yazim.tdk.gov.tr."
+    )
 
 
 @make_sync(search_spelling)

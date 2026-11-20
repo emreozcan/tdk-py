@@ -3,7 +3,7 @@ from typing import Annotated
 from aiohttp import ClientSession
 from pydantic import BaseModel, Field, AliasChoices, BeforeValidator
 
-from tdk.internal.http import make_http_session_optional
+from tdk.internal.http import API_BASE_URL, make_http_session_optional
 from tdk.internal.utils import make_sync
 from tdk.dictionaries.ysk import LoanwordEntry
 
@@ -14,6 +14,7 @@ __all__ = [
     "HomepageFrequentTypos",
     "HomepageRule",
     "HomepageWord",
+    "HomepageTrendingWord",
     "HomepageContent",
     "get_homepage_content",
     "get_homepage_content_sync",
@@ -27,8 +28,12 @@ class HomepageMixup(BaseModel):
 
 
 class HomepageProverb(BaseModel):
-    proverb: str = Field(validation_alias=AliasChoices("proverb", "atasozu"))
-    meaning: str = Field(validation_alias=AliasChoices("meaning", "anlam"))
+    proverb: str = Field(
+        validation_alias=AliasChoices("proverb", "atasozu", "sozum")
+    )
+    meaning: str = Field(
+        validation_alias=AliasChoices("meaning", "anlam", "anlami")
+    )
 
 
 class HomepageFrequentTypos(BaseModel):
@@ -51,9 +56,35 @@ class HomepageWord(BaseModel):
     meaning: str = Field(validation_alias=AliasChoices("meaning", "anlam"))
 
 
+class HomepageTrendingWord(HomepageWord):
+    type: str | None = Field(default=None, validation_alias="type")
+
+
 ValidatedCounter = Annotated[
     tuple[int, ...],
     BeforeValidator(lambda v: tuple(map(int, v[0]["deger"].split(".")))),
+]
+
+
+def _dicts_only(value):
+    """Drop non-dict items that the old API occasionally returned."""
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, dict)]
+    return value
+
+
+def _as_loanword_list(value):
+    """Wrap the single loanword object returned by the API in a list."""
+    if isinstance(value, dict):
+        return [value] if value else []
+    if value is None:
+        return []
+    return value
+
+
+ValidatedLoanwordList = Annotated[
+    list[LoanwordEntry],
+    BeforeValidator(_as_loanword_list),
 ]
 
 
@@ -61,27 +92,43 @@ class HomepageContent(BaseModel):
     counter: ValidatedCounter = Field(
         validation_alias=AliasChoices("sayac", "deger")
     )
-    mixups: list[HomepageMixup] = Field(
+    mixups: Annotated[
+        list[HomepageMixup], BeforeValidator(_dicts_only)
+    ] = Field(
         default_factory=list,
         validation_alias=AliasChoices("mixups", "karistirma"),
     )
-    proverbs: list[HomepageProverb] = Field(
+    proverbs: Annotated[
+        list[HomepageProverb], BeforeValidator(_dicts_only)
+    ] = Field(
         default_factory=list,
-        validation_alias=AliasChoices("proverbs", "atasozu"),
+        validation_alias=AliasChoices("proverbs", "atasozu", "atasoz"),
     )
-    typos: list[HomepageFrequentTypos] = Field(
+    typos: Annotated[
+        list[HomepageFrequentTypos], BeforeValidator(_dicts_only)
+    ] = Field(
         default_factory=list,
         validation_alias=AliasChoices("frequent_typos", "syyd"),
     )
-    rules: list[HomepageRule] = Field(
+    rules: Annotated[
+        list[HomepageRule], BeforeValidator(_dicts_only)
+    ] = Field(
         default_factory=list, validation_alias=AliasChoices("rules", "kural")
     )
-    loanword: list[LoanwordEntry] = Field(
+    loanword: ValidatedLoanwordList = Field(
         default_factory=list,
         validation_alias=AliasChoices("loanword", "yabanci"),
     )
-    words: list[HomepageWord] = Field(
+    words: Annotated[
+        list[HomepageWord], BeforeValidator(_dicts_only)
+    ] = Field(
         default_factory=list, validation_alias=AliasChoices("words", "kelime")
+    )
+    trending_words: Annotated[
+        list[HomepageTrendingWord], BeforeValidator(_dicts_only)
+    ] = Field(
+        default_factory=list,
+        validation_alias=AliasChoices("trending_words", "gundem"),
     )
 
 
@@ -89,10 +136,8 @@ class HomepageContent(BaseModel):
 async def get_homepage_content(
     *, http_session: ClientSession
 ) -> HomepageContent:
-    async with http_session.get("https://sozluk.gov.tr/icerik") as response:
-        return HomepageContent.model_validate(
-            await response.json(content_type="text/html; charset=utf-8")
-        )
+    async with http_session.get(f"{API_BASE_URL}/home-widget") as response:
+        return HomepageContent.model_validate(await response.json())
 
 
 @make_sync(get_homepage_content)
